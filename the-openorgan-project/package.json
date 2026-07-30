@@ -1,0 +1,29 @@
+{
+  "name": "the-openorgan-project",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "check": "node scripts/check-project.mjs && node scripts/check-imports.mjs",
+    "test:smoke": "node scripts/smoke.mjs",
+    "migrate:data": "node scripts/migrate-private-notes.mjs",
+    "import:boston": "node scripts/import-ohs-boston.mjs"
+  },
+  "dependencies": {
+    "firebase": "12.16.0",
+    "firebase-admin": "14.2.0",
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "resend": "6.18.0"
+  },
+  "devDependencies": {
+    "playwright": "1.62.0"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

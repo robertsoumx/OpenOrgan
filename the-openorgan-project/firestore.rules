@@ -1,0 +1,137 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function userPath(uid) { return /databases/$(database)/documents/users/$(uid); }
+    function profilePath(uid) { return /databases/$(database)/documents/profiles/$(uid); }
+    function isRole(role) { return signedIn() && exists(userPath(request.auth.uid)) && get(userPath(request.auth.uid)).data.role == role; }
+    function verifiedOrganization(uid) { return exists(userPath(uid)) && get(userPath(uid)).data.role == 'organization' && get(userPath(uid)).data.verificationStatus == 'verified'; }
+    function organPath(id) { return /databases/$(database)/documents/organs/$(id); }
+    function eventPath(id) { return /databases/$(database)/documents/events/$(id); }
+    function reservationPath(id) { return /databases/$(database)/documents/reservations/$(id); }
+    function trustPath(uid) { return /databases/$(database)/documents/trustProfiles/$(uid); }
+    function modificationPath(id) { return /databases/$(database)/documents/reservationModifications/$(id); }
+    function reservationParticipant(data) { return signedIn() && (data.userId == request.auth.uid || data.organizationOwnerId == request.auth.uid); }
+    function validRating(value) { return value is int && value >= 1 && value <= 5; }
+    function validLocation(value) { return value is map && value.placeId is string && value.placeId.size() > 0 && value.name is string && value.formattedAddress is string && value.latitude is number && value.longitude is number; }
+    function validPricing(value) { return value is map && value.model in ['free','recommended_donation','fixed_fee'] && value.amountCents is int && value.amountCents >= 0 && value.currency == 'USD' && value.paymentMethods is list && value.instructions is string; }
+    function organPublicShape(data) {
+      return data.ownerId is string && data.name is string && data.organizationName is string && data.status in ['draft','active'] && data.listingOwnership in ['claimed','unclaimed'] && data.claimStatus in ['available','pending','claimed'] && data.bookingEnabled is bool && validLocation(data.location) && validPricing(data.pricing) && !data.keys().hasAny(['internalAccessNotes']);
+    }
+    function eventPublicShape(data) { return data.ownerId is string && data.title is string && data.organizationName is string && data.status in ['draft','active'] && data.registrationPolicy in ['none','optional','required'] && validLocation(data.location) && data.startDateTime is timestamp && data.endDateTime is timestamp && data.startDateTime < data.endDateTime; }
+
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid && request.resource.data.uid == uid && request.resource.data.role in ['organist','organization'] && ((request.resource.data.role == 'organist' && request.resource.data.verificationStatus == 'not_applicable') || (request.resource.data.role == 'organization' && request.resource.data.verificationStatus == 'unverified'));
+      allow update: if signedIn() && request.auth.uid == uid && request.resource.data.uid == resource.data.uid && request.resource.data.role == resource.data.role && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt']);
+      allow delete: if false;
+    }
+
+    match /profiles/{uid} {
+      allow read: if true;
+      allow create: if signedIn() && request.auth.uid == uid && request.resource.data.userId == uid && request.resource.data.profileType in ['organist','organization'] && getAfter(userPath(uid)).data.role == request.resource.data.profileType;
+      allow update: if signedIn() && request.auth.uid == uid && request.resource.data.userId == resource.data.userId && request.resource.data.profileType == resource.data.profileType;
+      allow delete: if false;
+    }
+
+    match /publicContacts/{uid} {
+      allow read: if signedIn() && (resource.data.visible == true || request.auth.uid == uid);
+      allow create: if signedIn() && request.auth.uid == uid && request.resource.data.userId == uid && request.resource.data.visible is bool && request.resource.data.email is string;
+      allow update: if signedIn() && request.auth.uid == uid && request.resource.data.userId == resource.data.userId && request.resource.data.visible is bool && request.resource.data.email is string;
+      allow delete: if false;
+    }
+
+    match /trustProfiles/{uid} {
+      allow read: if signedIn();
+      allow create: if
+        (signedIn() && request.auth.uid == uid && request.resource.data.userId == uid && request.resource.data.completedSessions == 0)
+        ||
+        (signedIn() && request.resource.data.userId == uid && request.resource.data.completedSessions == 1 && request.resource.data.lastCompletedReservationId is string &&
+          get(reservationPath(request.resource.data.lastCompletedReservationId)).data.status == 'approved' &&
+          getAfter(reservationPath(request.resource.data.lastCompletedReservationId)).data.status == 'completed' &&
+          get(reservationPath(request.resource.data.lastCompletedReservationId)).data.userId == uid &&
+          reservationParticipant(get(reservationPath(request.resource.data.lastCompletedReservationId)).data));
+      allow update: if signedIn() && request.resource.data.userId == resource.data.userId && request.resource.data.completedSessions == resource.data.completedSessions + 1 && request.resource.data.lastCompletedReservationId is string &&
+        get(reservationPath(request.resource.data.lastCompletedReservationId)).data.status == 'approved' &&
+        getAfter(reservationPath(request.resource.data.lastCompletedReservationId)).data.status == 'completed' &&
+        get(reservationPath(request.resource.data.lastCompletedReservationId)).data.userId == uid &&
+        reservationParticipant(get(reservationPath(request.resource.data.lastCompletedReservationId)).data);
+      allow delete: if false;
+    }
+
+    match /organs/{organId} {
+      allow read: if resource.data.status == 'active' || (signedIn() && resource.data.ownerId == request.auth.uid);
+      allow create: if isRole('organization') && request.resource.data.ownerId == request.auth.uid && request.resource.data.listingOwnership == 'claimed' && request.resource.data.claimStatus == 'claimed' && organPublicShape(request.resource.data) && (request.resource.data.status == 'draft' || verifiedOrganization(request.auth.uid)) && (!request.resource.data.bookingEnabled || (request.resource.data.status == 'active' && verifiedOrganization(request.auth.uid)));
+      allow update: if signedIn() && resource.data.ownerId == request.auth.uid && request.resource.data.ownerId == resource.data.ownerId && request.resource.data.listingOwnership == resource.data.listingOwnership && request.resource.data.claimStatus == resource.data.claimStatus && organPublicShape(request.resource.data) && (request.resource.data.status == 'draft' || verifiedOrganization(request.auth.uid)) && (!request.resource.data.bookingEnabled || (request.resource.data.status == 'active' && request.resource.data.listingOwnership == 'claimed' && verifiedOrganization(request.auth.uid)));
+      allow delete: if signedIn() && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /organPrivate/{organId} {
+      allow read: if signedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.ownerId == request.auth.uid && getAfter(organPath(organId)).data.ownerId == request.auth.uid;
+      allow update: if signedIn() && resource.data.ownerId == request.auth.uid && request.resource.data.ownerId == resource.data.ownerId;
+      allow delete: if signedIn() && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /events/{eventId} {
+      allow read: if resource.data.status == 'active' || (signedIn() && resource.data.ownerId == request.auth.uid);
+      allow create: if isRole('organization') && request.resource.data.ownerId == request.auth.uid && eventPublicShape(request.resource.data) && (request.resource.data.status == 'draft' || verifiedOrganization(request.auth.uid));
+      allow update: if signedIn() && resource.data.ownerId == request.auth.uid && request.resource.data.ownerId == resource.data.ownerId && eventPublicShape(request.resource.data) && (request.resource.data.status == 'draft' || verifiedOrganization(request.auth.uid));
+      allow delete: if signedIn() && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /reservations/{reservationId} {
+      allow read: if reservationParticipant(resource.data);
+      allow create: if isRole('organist') && !request.resource.data.keys().hasAny(['userEmail','organizationEmail']) && request.resource.data.userId == request.auth.uid && request.resource.data.status == 'pending' && request.resource.data.startDateTime is timestamp && request.resource.data.endDateTime is timestamp && request.resource.data.startDateTime > request.time && request.resource.data.startDateTime < request.resource.data.endDateTime && request.resource.data.purpose is string && request.resource.data.organId is string && exists(organPath(request.resource.data.organId)) && get(organPath(request.resource.data.organId)).data.status == 'active' && get(organPath(request.resource.data.organId)).data.listingOwnership == 'claimed' && get(organPath(request.resource.data.organId)).data.bookingEnabled == true && request.resource.data.organizationOwnerId == get(organPath(request.resource.data.organId)).data.ownerId && request.resource.data.organName == get(organPath(request.resource.data.organId)).data.name && request.resource.data.organizationName == get(organPath(request.resource.data.organId)).data.organizationName && request.resource.data.pricingSnapshot == get(organPath(request.resource.data.organId)).data.pricing && verifiedOrganization(request.resource.data.organizationOwnerId);
+      allow update: if reservationParticipant(resource.data) && request.resource.data.userId == resource.data.userId && request.resource.data.organId == resource.data.organId && request.resource.data.organizationOwnerId == resource.data.organizationOwnerId && request.resource.data.pricingSnapshot == resource.data.pricingSnapshot && (
+        (request.auth.uid == resource.data.organizationOwnerId && resource.data.status in ['pending','approved','rejected'] && request.resource.data.status in ['approved','rejected'] && request.resource.data.decidedBy == request.auth.uid && request.resource.data.decisionNote is string && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','decisionNote','decidedBy','decidedAt','updatedAt']))
+        || (request.auth.uid == resource.data.organizationOwnerId && request.resource.data.status == resource.data.status && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['decisionNote','updatedAt']))
+        || (request.auth.uid == resource.data.userId && resource.data.status in ['pending','approved'] && request.resource.data.status == 'cancelled' && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','cancelledBy','updatedAt']))
+        || (resource.data.status == 'approved' && request.resource.data.status == 'completed' && request.resource.data.completedBy == request.auth.uid && request.time >= resource.data.endDateTime && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','completedBy','completedAt','updatedAt']) && existsAfter(trustPath(resource.data.userId)) && getAfter(trustPath(resource.data.userId)).data.lastCompletedReservationId == reservationId)
+        || (request.resource.data.status == resource.data.status && request.resource.data.lastApprovedModificationId is string && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['date','startTime','endTime','startDateTime','endDateTime','purpose','lastApprovedModificationId','updatedAt']) && existsAfter(modificationPath(request.resource.data.lastApprovedModificationId)) && getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.status == 'approved' && getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.recipientId == request.auth.uid && getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.reservationId == reservationId && request.resource.data.date == getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.proposedDate && request.resource.data.startTime == getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.proposedStartTime && request.resource.data.endTime == getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.proposedEndTime && request.resource.data.startDateTime == getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.proposedStartDateTime && request.resource.data.endDateTime == getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.proposedEndDateTime && request.resource.data.purpose == getAfter(modificationPath(request.resource.data.lastApprovedModificationId)).data.proposedPurpose)
+      );
+      allow delete: if false;
+    }
+
+    match /reservationModifications/{modificationId} {
+      allow read: if signedIn() && exists(reservationPath(resource.data.reservationId)) && reservationParticipant(get(reservationPath(resource.data.reservationId)).data);
+      allow create: if signedIn() && request.resource.data.senderId == request.auth.uid && request.resource.data.recipientId is string && request.resource.data.status == 'pending' && request.resource.data.proposedDate is string && request.resource.data.proposedStartTime is string && request.resource.data.proposedEndTime is string && request.resource.data.proposedPurpose is string && request.resource.data.note is string && request.resource.data.proposedStartDateTime is timestamp && request.resource.data.proposedEndDateTime is timestamp && request.resource.data.proposedStartDateTime > request.time && request.resource.data.proposedStartDateTime < request.resource.data.proposedEndDateTime && exists(reservationPath(request.resource.data.reservationId)) && reservationParticipant(get(reservationPath(request.resource.data.reservationId)).data) && get(reservationPath(request.resource.data.reservationId)).data.status in ['pending','approved','rejected'] && ((request.resource.data.senderId == get(reservationPath(request.resource.data.reservationId)).data.userId && request.resource.data.recipientId == get(reservationPath(request.resource.data.reservationId)).data.organizationOwnerId) || (request.resource.data.senderId == get(reservationPath(request.resource.data.reservationId)).data.organizationOwnerId && request.resource.data.recipientId == get(reservationPath(request.resource.data.reservationId)).data.userId));
+      allow update: if signedIn() && resource.data.status == 'pending' && resource.data.recipientId == request.auth.uid && request.resource.data.status in ['approved','rejected'] && request.resource.data.reservationId == resource.data.reservationId && request.resource.data.senderId == resource.data.senderId && request.resource.data.recipientId == resource.data.recipientId && request.resource.data.proposedStartDateTime == resource.data.proposedStartDateTime && request.resource.data.proposedEndDateTime == resource.data.proposedEndDateTime && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','decidedBy','decidedAt','updatedAt']) && request.resource.data.decidedBy == request.auth.uid;
+      allow delete: if false;
+    }
+
+    match /organReviews/{reservationId} {
+      allow read: if true;
+      allow create: if isRole('organist') && !exists(/databases/$(database)/documents/organReviews/$(reservationId)) && exists(reservationPath(reservationId)) && get(reservationPath(reservationId)).data.status == 'completed' && get(reservationPath(reservationId)).data.userId == request.auth.uid && request.resource.data.reservationId == reservationId && request.resource.data.organId == get(reservationPath(reservationId)).data.organId && request.resource.data.authorId == request.auth.uid && request.resource.data.verified == true && validRating(request.resource.data.rating) && request.resource.data.comment is string && request.resource.data.comment.size() <= 2000;
+      allow update, delete: if false;
+    }
+
+    match /userReviews/{reservationId} {
+      allow read: if signedIn();
+      allow create: if isRole('organization') && !exists(/databases/$(database)/documents/userReviews/$(reservationId)) && exists(reservationPath(reservationId)) && get(reservationPath(reservationId)).data.status == 'completed' && get(reservationPath(reservationId)).data.organizationOwnerId == request.auth.uid && request.resource.data.reservationId == reservationId && request.resource.data.userId == get(reservationPath(reservationId)).data.userId && request.resource.data.organizationOwnerId == request.auth.uid && request.resource.data.verified == true && validRating(request.resource.data.rating) && request.resource.data.wouldHostAgain is bool && request.resource.data.comment is string && request.resource.data.comment.size() <= 2000;
+      allow update, delete: if false;
+    }
+
+    match /questions/{questionId} {
+      allow read: if resource.data.status == 'answered' || (signedIn() && (resource.data.askerId == request.auth.uid || resource.data.ownerId == request.auth.uid));
+      allow create: if isRole('organist') && request.resource.data.askerId == request.auth.uid && request.resource.data.ownerId is string && request.resource.data.targetType in ['organ','event'] && request.resource.data.status == 'open' && request.resource.data.answer == '' && request.resource.data.question is string && request.resource.data.question.size() >= 5 && ((request.resource.data.targetType == 'organ' && exists(organPath(request.resource.data.targetId)) && get(organPath(request.resource.data.targetId)).data.status == 'active' && get(organPath(request.resource.data.targetId)).data.listingOwnership == 'claimed' && request.resource.data.ownerId == get(organPath(request.resource.data.targetId)).data.ownerId) || (request.resource.data.targetType == 'event' && exists(eventPath(request.resource.data.targetId)) && get(eventPath(request.resource.data.targetId)).data.status == 'active' && request.resource.data.ownerId == get(eventPath(request.resource.data.targetId)).data.ownerId));
+      allow update: if signedIn() && ((resource.data.ownerId == request.auth.uid && request.resource.data.status in ['open','answered'] && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['answer','status','readByAsker','answeredAt','updatedAt'])) || (resource.data.askerId == request.auth.uid && resource.data.status == 'answered' && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readByAsker','updatedAt'])));
+      allow delete: if false;
+    }
+
+    match /eventSignups/{signupId} {
+      allow read: if signedIn() && (resource.data.userId == request.auth.uid || resource.data.eventOwnerId == request.auth.uid);
+      allow create: if isRole('organist') && request.resource.data.userId == request.auth.uid && signupId == request.resource.data.eventId + '_' + request.auth.uid && exists(eventPath(request.resource.data.eventId)) && get(eventPath(request.resource.data.eventId)).data.status == 'active' && get(eventPath(request.resource.data.eventId)).data.registrationPolicy in ['optional','required'] && request.resource.data.eventOwnerId == get(eventPath(request.resource.data.eventId)).data.ownerId && get(eventPath(request.resource.data.eventId)).data.endDateTime > request.time;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+      allow update: if false;
+    }
+
+    match /claimRequests/{claimId} {
+      allow read: if signedIn() && resource.data.organizationId == request.auth.uid;
+      allow create: if isRole('organization') && verifiedOrganization(request.auth.uid) && request.resource.data.organizationId == request.auth.uid && request.resource.data.status == 'pending' && exists(organPath(request.resource.data.organId)) && get(organPath(request.resource.data.organId)).data.listingOwnership == 'unclaimed' && get(organPath(request.resource.data.organId)).data.claimStatus == 'available';
+      allow update, delete: if false;
+    }
+
+    match /verificationRequests/{uid} { allow read, write: if false; }
+  }
+}

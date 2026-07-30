@@ -1,0 +1,18 @@
+runConfig:
+  minInstances: 0
+  maxInstances: 10
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
+
+env:
+  - variable: NEXT_PUBLIC_SITE_URL
+    value: https://openorgan.org
+  - variable: VERIFICATION_FROM_EMAIL
+    value: "The OpenOrgan Project <verify@openorgan.org>"
+  - variable: GOOGLE_MAPS_SERVER_API_KEY
+    secret: GOOGLE_MAPS_SERVER_API_KEY
+  - variable: RESEND_API_KEY
+    secret: RESEND_API_KEY
+  - variable: OPENORGAN_ADMIN_UIDS
+    secret: OPENORGAN_ADMIN_UIDS

@@ -1,0 +1,4 @@
+import OrganDetailClient from "@/components/OrganDetailClient";
+import { getPublicDocument } from "@/lib/server-data";
+export async function generateMetadata({params}){const{id}=await params;const organ=await getPublicDocument("organs",id);const place=organ?.location?.city?` in ${organ.location.city}`:"";return{title:organ?`${organ.name||"Pipe Organ"}${place}`:"Pipe Organ Listing",description:organ?.description?.slice(0,155)||`View pipe organ details, practice access, location, pricing, and reviews${place}.`,alternates:{canonical:`/organs/${id}`},openGraph:{title:organ?.name||"Pipe Organ Listing",description:organ?.description||"Pipe organ listing through The OpenOrgan Project.",type:"website",images:organ?.imageUrl?[organ.imageUrl]:["/openorgan-logo.svg"]}};}
+export default async function OrganPage({params}){const{id}=await params;const organ=await getPublicDocument("organs",id);return <OrganDetailClient id={id} initialOrgan={organ}/>;}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">The OpenOrgan Project</title>
+  <rect width="128" height="128" rx="4" fill="#8f1d2c"/>
+  <rect x="22" y="28" width="15" height="62" fill="#fff8ec"/>
+  <rect x="44" y="18" width="15" height="72" fill="#fff8ec"/>
+  <rect x="67" y="34" width="15" height="56" fill="#fff8ec"/>
+  <rect x="90" y="23" width="15" height="67" fill="#fff8ec"/>
+  <path d="M17 91h94v8H17zM25 103h78v7H25z" fill="#e9b44c"/>
+</svg>
