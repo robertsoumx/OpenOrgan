@@ -10,11 +10,15 @@ function chunks(values, size) {
   return output;
 }
 
+function responseError(message, status) {
+  return Response.json({ message, userFacing: true }, { status });
+}
+
 export async function POST(request) {
   try {
     const key = process.env.GOOGLE_MAPS_SERVER_API_KEY;
     if (!key) {
-      return Response.json({ error: "Google Routes is not configured." }, { status: 503 });
+      return responseError("Distance ranking is temporarily unavailable.", 503);
     }
 
     const body = await request.json();
@@ -25,10 +29,7 @@ export async function POST(request) {
       : [];
 
     if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || !requested.length) {
-      return Response.json(
-        { error: "A valid origin and at least one destination are required." },
-        { status: 400 }
-      );
+      return responseError("A valid location and at least one organ are required.", 400);
     }
 
     const activeOrgans = await getActivePublicDocuments("organs", 500);
@@ -38,12 +39,9 @@ export async function POST(request) {
         .map((organ) => [organ.id, organ.location.placeId])
     );
 
-    const destinations = requested.filter(
-      (item) => allowed.get(item.id) === item.placeId
-    );
-
+    const destinations = requested.filter((item) => allowed.get(item.id) === item.placeId);
     if (!destinations.length) {
-      return Response.json({ error: "No valid public organ destinations were supplied." }, { status: 400 });
+      return responseError("No public organ locations were available for distance ranking.", 400);
     }
 
     const results = [];
@@ -58,13 +56,9 @@ export async function POST(request) {
             "X-Goog-FieldMask": "originIndex,destinationIndex,status,condition,distanceMeters,duration"
           },
           body: JSON.stringify({
-            origins: [
-              {
-                waypoint: {
-                  location: { latLng: { latitude, longitude } }
-                }
-              }
-            ],
+            origins: [{
+              waypoint: { location: { latLng: { latitude, longitude } } }
+            }],
             destinations: group.map((item) => ({ waypoint: { placeId: item.placeId } })),
             travelMode: "DRIVE",
             routingPreference: "TRAFFIC_UNAWARE"
@@ -73,7 +67,8 @@ export async function POST(request) {
       );
 
       if (!response.ok) {
-        throw new Error(`Google Routes returned ${response.status}.`);
+        console.error("Google Routes request failed", response.status);
+        return responseError("Distance ranking is temporarily unavailable.", 503);
       }
 
       const matrix = await response.json();
@@ -91,9 +86,6 @@ export async function POST(request) {
     return Response.json({ results });
   } catch (error) {
     console.error(error);
-    return Response.json(
-      { error: error?.message || "Unable to calculate routes." },
-      { status: 500 }
-    );
+    return responseError("Distance ranking is temporarily unavailable.", 500);
   }
 }

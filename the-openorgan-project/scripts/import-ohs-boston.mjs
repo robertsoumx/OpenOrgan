@@ -3,6 +3,9 @@ import path from "node:path";
 import { chromium } from "playwright";
 import { applicationDefault, cert, getApps, initializeApp } from "firebase-admin/app";
 import { FieldValue, getFirestore } from "firebase-admin/firestore";
+import nextEnv from "@next/env";
+const { loadEnvConfig } = nextEnv;
+loadEnvConfig(process.cwd());
 
 const COMMIT = process.argv.includes("--commit");
 const CENTER = { latitude: 42.3601, longitude: -71.0589 };
@@ -194,7 +197,7 @@ async function googlePlace(text) {
     },
     body: JSON.stringify({
       textQuery: text,
-      locationBias: { circle: { center: CENTER, radius: 60000 } },
+      locationBias: { circle: { center: CENTER, radius: 50000 } },
       maxResultCount: 3
     })
   });

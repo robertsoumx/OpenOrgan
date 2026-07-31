@@ -1,4 +1,5 @@
 "use client";
+import { toUserMessage } from "@/lib/user-error";
 import { useEffect, useRef, useState } from "react";
 import { loadGoogleMaps } from "@/lib/google-maps-client";
 const DEFAULT_CENTER = { lat: 42.3601, lng: -71.0589 };
@@ -32,10 +33,10 @@ export default function PlacePicker({ value, onChange, label = "Location" }) {
             const components = place.addressComponents || [];
             onChangeRef.current?.({ placeId: place.id, name: place.displayName || "", formattedAddress: place.formattedAddress || "", googleMapsUri: place.googleMapsURI || "", latitude: place.location.lat(), longitude: place.location.lng(), city: part(components, "locality") || part(components, "postal_town") || part(components, "administrative_area_level_2"), region: part(components, "administrative_area_level_1", true), postalCode: part(components, "postal_code"), country: part(components, "country") });
             setMessage("");
-          } catch (error) { setMessage(error.message || "Unable to select this place."); }
+          } catch (error) { setMessage(toUserMessage(error, "Unable to select this place.")); }
         };
         autocomplete.addEventListener("gmp-select", handler); searchNode.current.appendChild(autocomplete);
-      } catch (error) { if (!cancelled) setMessage(error.message || "Unable to load Google Maps."); }
+      } catch (error) { if (!cancelled) setMessage(toUserMessage(error, "Unable to load Google Maps.")); }
     }
     initialize();
     return () => { cancelled = true; if (autocomplete && handler) autocomplete.removeEventListener("gmp-select", handler); if (markerRef.current) markerRef.current.map = null; markerRef.current = null; };

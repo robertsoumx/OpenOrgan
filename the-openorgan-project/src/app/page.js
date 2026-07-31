@@ -1,4 +1,11 @@
-import Link from "next/link";
-import Logo from "@/components/Logo";
+import RoleAwareHome from "@/components/RoleAwareHome";
 import HomeHighlights from "@/components/HomeHighlights";
-export default function HomePage() { return <><section className="hero"><div className="container hero-grid"><div className="hero-copy"><span className="eyebrow">Beginning in Greater Boston</span><h1>Find an organ. Share an instrument.</h1><p>Practice access, organ events, and trusted local connections.</p><div className="hero-actions"><Link className="button" href="/search">Find Organs</Link><Link className="button-secondary" href="/register">Join the Project</Link></div></div><div className="hero-logo-panel"><Logo /><p>Open access, one instrument at a time.</p></div></div></section><section className="section"><div className="container grid-3"><article className="feature-card"><span>01</span><h2>Find</h2><p>Browse claimed and clearly marked reference listings on a live map.</p></article><article className="feature-card"><span>02</span><h2>Request</h2><p>Ask for practice time and agree on details directly with the host.</p></article><article className="feature-card"><span>03</span><h2>Promote</h2><p>Publish concerts, workshops, services, and other organ events.</p></article></div></section><HomeHighlights /></>; }
+
+export default function HomePage() {
+  return (
+    <>
+      <RoleAwareHome />
+      <HomeHighlights />
+    </>
+  );
+}
