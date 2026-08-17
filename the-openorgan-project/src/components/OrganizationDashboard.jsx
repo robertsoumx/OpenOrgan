@@ -141,9 +141,9 @@ function Console() {
   }
 
   const verificationText = {
-    unverified: "Domain email verification has not started.",
+    unverified: "Email verification has not started.",
     code_sent: "A verification code has been sent.",
-    pending_manual: "Domain email confirmed. Waiting for manual review.",
+    pending_manual: "Email confirmed. Waiting for manual review.",
     verified: "Your organization is verified and may publish.",
     rejected: "Verification was not approved. Review the administrator note."
   }[account?.verificationStatus] || account?.verificationStatus;
@@ -228,7 +228,7 @@ function Console() {
             )}
 
             <div className="stack">
-              {organs.map((organ) => (
+              {organs.length ? organs.map((organ) => (
                 <article className="card flex-between" key={organ.id}>
                   <div>
                     {organ.listingOwnership === "unclaimed" && <strong className="unclaimed-badge">UNCLAIMED LISTING</strong>}
@@ -241,7 +241,13 @@ function Console() {
                     <button className="button-danger" onClick={() => removeDocument("organs", organ.id, "organ")}>Delete</button>
                   </div>
                 </article>
-              ))}
+              )) : !creatingOrgan ? (
+                <div className="empty-state">
+                  <h2>No organs yet</h2>
+                  <p>Add an instrument when you are ready to create your first listing.</p>
+                  <button className="button" onClick={() => { setCreatingOrgan(true); setEditingOrgan(null); }}>Add Organ</button>
+                </div>
+              ) : null}
             </div>
           </div>
         )}
@@ -269,7 +275,7 @@ function Console() {
             )}
 
             <div className="stack">
-              {events.map((event) => (
+              {events.length ? events.map((event) => (
                 <article className="card flex-between" key={event.id}>
                   <div>
                     <h3>{event.title}</h3>
@@ -281,7 +287,13 @@ function Console() {
                     <button className="button-danger" onClick={() => removeDocument("events", event.id, "event")}>Delete</button>
                   </div>
                 </article>
-              ))}
+              )) : !creatingEvent ? (
+                <div className="empty-state">
+                  <h2>No events yet</h2>
+                  <p>Create a concert, service, workshop, or other public event when you are ready.</p>
+                  <button className="button" onClick={() => { setCreatingEvent(true); setEditingEvent(null); }}>Add Event</button>
+                </div>
+              ) : null}
             </div>
           </div>
         )}

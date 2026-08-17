@@ -1,12 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase-client";
 import OrganCard from "@/components/OrganCard";
 import { toDate } from "@/lib/format";
 import { apiMessage, toUserMessage, userError } from "@/lib/user-error";
+import { trackEvent } from "@/lib/analytics-client";
 
 const SearchMap = dynamic(() => import("@/components/SearchMap"), {
   ssr: false,
@@ -27,9 +28,7 @@ function recommendationScore(organ, hasRoutes) {
     ? 1 - Math.min(organ.routeDistanceMeters / 80467.2, 1)
     : null;
 
-  if (distance == null) {
-    return rating * 0.643 + cost * 0.286 + reliability * 0.071;
-  }
+  if (distance == null) return rating * 0.643 + cost * 0.286 + reliability * 0.071;
   return rating * 0.45 + distance * 0.3 + cost * 0.2 + reliability * 0.05;
 }
 
@@ -38,18 +37,24 @@ export default function SearchExperience() {
   const [loading, setLoading] = useState(true);
   const [notice, setNotice] = useState({ type: "", text: "" });
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("recommended");
+  const [sort, setSort] = useState("distance");
   const [limit, setLimit] = useState(5);
   const [selectedId, setSelectedId] = useState("");
   const [view, setView] = useState("list");
   const [routing, setRouting] = useState(false);
+  const [locationPhase, setLocationPhase] = useState("idle");
+  const [userLocation, setUserLocation] = useState(null);
+  const automaticLocationAttempted = useRef(false);
 
   const selectFromMap = useCallback((id) => {
     setSelectedId(id);
-    document.getElementById(`organ-card-${id}`)?.scrollIntoView({
-      behavior: "smooth",
-      block: "center"
+    trackEvent("directory_map_select", {
+      feature: "organ_directory",
+      action: "select_marker",
+      targetType: "organ",
+      targetId: id
     });
+    document.getElementById(`organ-card-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, []);
 
   useEffect(() => {
@@ -85,60 +90,73 @@ export default function SearchExperience() {
         }));
       })
       .catch((error) => {
-        setNotice({
-          type: "error",
-          text: toUserMessage(error, "We could not load the organ directory. Try again.")
-        });
+        setNotice({ type: "error", text: toUserMessage(error, "We could not load the organ directory. Try again.") });
       })
       .finally(() => setLoading(false));
   }, []);
 
-  async function loadRoutes() {
+  const requestLocation = useCallback((automatic = false) => {
     if (!navigator.geolocation) {
-      setNotice({ type: "error", text: "This browser cannot share a location for distance ranking." });
+      setLocationPhase("unavailable");
+      setSort("recommended");
+      trackEvent("directory_location", {
+        feature: "organ_directory",
+        action: automatic ? "automatic" : "manual",
+        outcome: "unsupported",
+        locationStatus: "unavailable"
+      });
+      if (!automatic) setNotice({ type: "error", text: "This browser cannot share a location for distance ranking." });
       return;
     }
 
     setRouting(true);
-    setNotice({ type: "", text: "" });
+    setLocationPhase("requesting");
+    if (!automatic) setNotice({ type: "", text: "" });
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
+        const origin = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+        setUserLocation({ lat: origin.latitude, lng: origin.longitude });
+
         try {
           const destinations = organs
             .filter((organ) => organ.location?.placeId)
             .map((organ) => ({ id: organ.id, placeId: organ.location.placeId }));
 
+          if (!destinations.length) throw userError("No mapped organ locations are available yet.");
+
           const response = await fetch("/api/routes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              origin: {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              },
-              destinations
-            })
+            body: JSON.stringify({ origin, destinations })
           });
           const data = await response.json().catch(() => ({}));
-          if (!response.ok) {
-            throw userError(apiMessage(data, response.status, "We could not calculate route distances."));
-          }
+          if (!response.ok) throw userError(apiMessage(data, response.status, "We could not calculate route distances."));
 
           const results = new Map(data.results.map((result) => [result.id, result]));
-          setOrgans((current) => current.map((organ) => ({
-            ...organ,
-            ...results.get(organ.id)
-          })));
-          setSort((current) => current === "recommended" ? current : "distance");
-          setNotice({
-            type: "success",
-            text: "Distance ranking is ready. Results use Google driving routes."
+          setOrgans((current) => current.map((organ) => ({ ...organ, ...results.get(organ.id) })));
+          setSort("distance");
+          setLocationPhase("ready");
+          setNotice({ type: "", text: "" });
+          trackEvent("directory_location", {
+            feature: "organ_directory",
+            action: automatic ? "automatic" : "manual",
+            outcome: "success",
+            locationStatus: "ready",
+            resultCount: data.results?.length || 0
           });
         } catch (error) {
+          setLocationPhase("route-error");
+          setSort("recommended");
           setNotice({
             type: "error",
-            text: toUserMessage(error, "We could not calculate route distances. Try again.")
+            text: toUserMessage(error, "We found your location but could not calculate routes. Showing recommended organs instead.")
+          });
+          trackEvent("directory_location", {
+            feature: "organ_directory",
+            action: automatic ? "automatic" : "manual",
+            outcome: "route_error",
+            locationStatus: "route-error"
           });
         } finally {
           setRouting(false);
@@ -147,16 +165,57 @@ export default function SearchExperience() {
       (error) => {
         setRouting(false);
         const denied = error?.code === 1;
+        setLocationPhase(denied ? "denied" : "unavailable");
+        setSort("recommended");
         setNotice({
-          type: "error",
+          type: "info",
           text: denied
-            ? "Location access was not allowed. You can still browse by rating, price, or recommendation."
-            : "Your location could not be read. Try again or use another ranking option."
+            ? "Location access is off. Showing recommended organs instead. You can enable location at any time."
+            : "Your location could not be read. Showing recommended organs instead."
+        });
+        trackEvent("directory_location", {
+          feature: "organ_directory",
+          action: automatic ? "automatic" : "manual",
+          outcome: denied ? "denied" : "unavailable",
+          locationStatus: denied ? "denied" : "unavailable"
         });
       },
-      { timeout: 10000, maximumAge: 300000 }
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
     );
-  }
+  }, [organs]);
+
+  useEffect(() => {
+    if (loading || !organs.length || automaticLocationAttempted.current) return;
+    automaticLocationAttempted.current = true;
+
+    let cancelled = false;
+    async function startAutomaticLocation() {
+      try {
+        if (navigator.permissions?.query) {
+          const permission = await navigator.permissions.query({ name: "geolocation" });
+          if (cancelled) return;
+          if (permission.state === "denied") {
+            setLocationPhase("denied");
+            setSort("recommended");
+            setNotice({ type: "info", text: "Location access is off. Showing recommended organs instead." });
+            trackEvent("directory_location", {
+              feature: "organ_directory",
+              action: "automatic",
+              outcome: "already_denied",
+              locationStatus: "denied"
+            });
+            return;
+          }
+        }
+      } catch {
+        // Safari and some browsers do not expose geolocation through Permissions API.
+      }
+      if (!cancelled) requestLocation(true);
+    }
+
+    startAutomaticLocation();
+    return () => { cancelled = true; };
+  }, [loading, organs.length, requestLocation]);
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -177,12 +236,8 @@ export default function SearchExperience() {
     });
 
     items.sort((a, b) => {
-      if (sort === "newest") {
-        return (toDate(b.createdAt)?.getTime() || 0) - (toDate(a.createdAt)?.getTime() || 0);
-      }
-      if (sort === "distance") {
-        return (a.routeDistanceMeters ?? Infinity) - (b.routeDistanceMeters ?? Infinity);
-      }
+      if (sort === "newest") return (toDate(b.createdAt)?.getTime() || 0) - (toDate(a.createdAt)?.getTime() || 0);
+      if (sort === "distance") return (a.routeDistanceMeters ?? Infinity) - (b.routeDistanceMeters ?? Infinity);
       if (sort === "rating") return (b.ratingAverage || 0) - (a.ratingAverage || 0);
       if (sort === "price") return price(a) - price(b);
       return recommendationScore(b, hasRoutes) - recommendationScore(a, hasRoutes);
@@ -197,19 +252,41 @@ export default function SearchExperience() {
   );
 
   const hasRoutes = organs.some((organ) => Number.isFinite(organ.routeDistanceMeters));
+  const findingNearest = !loading && organs.length > 0 && locationPhase === "requesting" && !hasRoutes;
+  const locationButtonNeeded = ["denied", "unavailable", "route-error"].includes(locationPhase);
+
+  function changeSort(value) {
+    setSort(value);
+    trackEvent("directory_sort", { feature: "organ_directory", sort: value, resultCount: filtered.length });
+  }
+
+  function changeLimit(value) {
+    const next = value === "all" ? "all" : Number(value);
+    setLimit(next);
+    trackEvent("directory_limit", { feature: "organ_directory", limit: String(next), resultCount: filtered.length });
+  }
+
+  function finishSearch() {
+    if (!search.trim()) return;
+    trackEvent("directory_search", {
+      feature: "organ_directory",
+      queryLength: search.trim().length,
+      resultCount: filtered.length
+    });
+  }
 
   return (
     <div className="search-layout">
       <section className={`search-list-panel ${view === "map" ? "mobile-hidden" : ""}`}>
-        <div className="page-header compact">
-          <span className="eyebrow">Greater Boston first</span>
+        <div className="page-header compact directory-heading">
+          <span className="eyebrow">Greater Boston church organs</span>
           <h1>Find organs</h1>
-          <p>Claimed practice listings and clearly marked public reference listings.</p>
+          <p>Church organs sourced from the Pipe Organ Database, plus claimed practice listings from participating organizations.</p>
         </div>
 
         <div className="mobile-view-toggle">
-          <button className="button" onClick={() => setView("list")}>List</button>
-          <button className="button-secondary" onClick={() => setView("map")}>Map</button>
+          <button className="button" onClick={() => { setView("list"); trackEvent("directory_view", { feature: "organ_directory", action: "list" }); }}>List</button>
+          <button className="button-secondary" onClick={() => { setView("map"); trackEvent("directory_view", { feature: "organ_directory", action: "map" }); }}>Map</button>
         </div>
 
         <div className="search-toolbar search-toolbar-extended">
@@ -218,60 +295,51 @@ export default function SearchExperience() {
             placeholder="Church, city, builder..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
+            onBlur={finishSearch}
+            onKeyDown={(event) => { if (event.key === "Enter") finishSearch(); }}
           />
 
-          <select aria-label="Order organs" value={sort} onChange={(event) => setSort(event.target.value)}>
-            <option value="recommended">Recommended</option>
+          <select aria-label="Order organs" value={sort} onChange={(event) => changeSort(event.target.value)}>
             <option value="distance">Nearest by route</option>
+            <option value="recommended">Recommended</option>
             <option value="rating">Highest rated</option>
             <option value="price">Lowest cost</option>
             <option value="newest">Newest listing</option>
           </select>
 
-          <select
-            aria-label="Number of organs to show"
-            value={limit}
-            onChange={(event) => setLimit(event.target.value === "all" ? "all" : Number(event.target.value))}
-          >
-            {LIMIT_OPTIONS.map((value) => (
-              <option key={value} value={value}>Show {value}</option>
-            ))}
+          <select aria-label="Number of organs to show" value={limit} onChange={(event) => changeLimit(event.target.value)}>
+            {LIMIT_OPTIONS.map((value) => <option key={value} value={value}>Show {value}</option>)}
             <option value="all">Show all</option>
           </select>
         </div>
 
         <div className="search-status-row">
-          <button className="button-secondary" onClick={loadRoutes} disabled={routing || !organs.length}>
-            {routing ? "Checking Routes..." : hasRoutes ? "Refresh My Distance" : "Use My Location"}
-          </button>
-          <span className="muted small">
-            Showing {displayed.length} of {filtered.length} matching organ{filtered.length === 1 ? "" : "s"}.
+          <span className="directory-location-status" aria-live="polite">
+            <span className={`location-dot ${locationPhase}`} aria-hidden="true" />
+            {findingNearest
+              ? "Finding the nearest church organs…"
+              : hasRoutes
+                ? "Using your current location"
+                : "Location-based ranking unavailable"}
           </span>
+
+          {locationButtonNeeded && (
+            <button className="button-ghost location-retry" onClick={() => requestLocation(false)} disabled={routing}>
+              {routing ? "Checking…" : "Enable location"}
+            </button>
+          )}
+
+          <span className="muted small">Showing {displayed.length} of {filtered.length} matching organ{filtered.length === 1 ? "" : "s"}.</span>
         </div>
 
-        {sort === "distance" && !hasRoutes && (
-          <div className="message info">
-            Select <strong>Use My Location</strong> to order results by Google route distance.
-          </div>
-        )}
+        {notice.text && <div className={`message ${notice.type}`} role={notice.type === "error" ? "alert" : "status"}>{notice.text}</div>}
 
-        {notice.text && (
-          <div className={`message ${notice.type}`} role={notice.type === "error" ? "alert" : "status"}>
-            {notice.text}
-          </div>
-        )}
-
-        {loading ? (
-          <div className="skeleton" />
+        {loading || findingNearest ? (
+          <div className="stack search-results"><div className="skeleton" /><div className="skeleton short" /></div>
         ) : displayed.length ? (
           <div className="stack search-results">
             {displayed.map((organ) => (
-              <OrganCard
-                key={organ.id}
-                organ={organ}
-                selected={selectedId === organ.id}
-                onHover={setSelectedId}
-              />
+              <OrganCard key={organ.id} organ={organ} selected={selectedId === organ.id} onHover={setSelectedId} />
             ))}
           </div>
         ) : (
@@ -284,7 +352,7 @@ export default function SearchExperience() {
           <button className="button-secondary" onClick={() => setView("list")}>List</button>
           <button className="button" onClick={() => setView("map")}>Map</button>
         </div>
-        <SearchMap organs={displayed} selectedId={selectedId} onSelect={selectFromMap} />
+        <SearchMap organs={displayed} selectedId={selectedId} onSelect={selectFromMap} userLocation={userLocation} />
       </aside>
     </div>
   );

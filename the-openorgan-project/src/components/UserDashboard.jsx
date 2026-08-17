@@ -99,13 +99,14 @@ function Dashboard() {
   }
 
   const unread = questions.filter((item) => item.status === "answered" && !item.readByAsker).length;
+  const firstName = String(profile?.displayName || user.displayName || "Organist").trim().split(/\s+/)[0] || "Organist";
 
   return (
     <section className="section">
       <div className="container">
         <div className="page-header">
           <span className="eyebrow">Organist dashboard</span>
-          <h1>Hello, {profile?.displayName || user.displayName || "organist"}</h1>
+          <h1>Hello, {firstName}</h1>
           <p>Manage practice requests, questions, events, and your trust profile.</p>
           <div className="form-actions">
             <Link className="button-secondary" href="/profile">Edit Profile</Link>

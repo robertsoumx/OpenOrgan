@@ -1,56 +1,81 @@
-import Logo from "@/components/Logo";
+import Link from "next/link";
 
 export const metadata = {
   title: "About",
-  description: "About the mission behind The OpenOrgan Project."
+  description: "The mission behind The OpenOrgan Project: connecting organists with churches and organizations that share instruments and events.",
+  alternates: { canonical: "/about" }
 };
+
+const principles = [
+  {
+    className: "about-principle-crimson",
+    number: "01",
+    title: "Open doors",
+    body: "Hosts control access. Organists get a clear way to ask.",
+    href: "/search"
+  },
+  {
+    className: "about-principle-pink",
+    number: "02",
+    title: "Local first",
+    body: "Build a useful Greater Boston network before expanding.",
+    href: "/search"
+  },
+  {
+    className: "about-principle-wine",
+    number: "03",
+    title: "Earn trust",
+    body: "Completed sessions build useful history on both sides.",
+    href: "/register"
+  }
+];
 
 export default function AboutPage() {
   return (
     <section className="section about-page">
       <div className="container about-shell">
-        <div className="about-hero-grid">
-          <div className="about-logo-panel interactive-panel">
-            <Logo />
-            <span className="eyebrow">About the mission</span>
-          </div>
-
+        <div className="about-stage">
           <div className="about-intro">
-            <h1>More access. More music.</h1>
+            <span className="eyebrow">The mission</span>
+            <h1>Access instruments. Promote events.</h1>
             <p className="lead">
               The OpenOrgan Project is an open-source mission aiming to connecting organists with churches, schools, and organizations wanting to promote events and provide practice access to their instruments.
             </p>
+            <div className="about-tags" aria-label="Project focus">
+              <Link href="/search">Practice</Link>
+              <Link href="/events">Events</Link>
+              <Link href="/register">Community</Link>
+            </div>
+          </div>
+
+          <div className="about-signal" aria-hidden="true">
+            <span className="about-signal-bar about-signal-one" />
+            <span className="about-signal-bar about-signal-two" />
+            <span className="about-signal-bar about-signal-three" />
+            <span className="about-signal-bar about-signal-four" />
           </div>
         </div>
 
-        <div className="about-principles grid-3">
-          <article className="card interactive-card">
-            <span className="about-number">01</span>
-            <h2>Practice</h2>
-            <p>Organizations decide when, how, and under what terms their instruments can be requested.</p>
-          </article>
-
-          <article className="card interactive-card">
-            <span className="about-number">02</span>
-            <h2>Events</h2>
-            <p>Concerts, services, workshops, and community programs have a clear public home.</p>
-          </article>
-
-          <article className="card interactive-card">
-            <span className="about-number">03</span>
-            <h2>Trust</h2>
-            <p>Completed sessions create verified, useful history for organists and host organizations.</p>
-          </article>
+        <div className="about-principles">
+          {principles.map((item) => (
+            <Link
+              className={`about-principle ${item.className}`}
+              href={item.href}
+              key={item.number}
+            >
+              <span>{item.number}</span>
+              <h2>{item.title}</h2>
+              <p>{item.body}</p>
+            </Link>
+          ))}
         </div>
 
-        <div className="about-band interactive-panel">
+        <div className="about-band">
           <div>
-            <span className="eyebrow">Starting locally</span>
-            <h2>Build a useful Greater Boston network first.</h2>
+            <span className="eyebrow">Open source · community led</span>
+            <h2>One useful local network.</h2>
           </div>
-          <p>
-            The directory combines claimed practice listings, public reference listings, community events, and a path for institutions to verify and take ownership of their information.
-          </p>
+          <p>Claimed listings, church-organ references, events, and verified access in one place.</p>
         </div>
       </div>
     </section>

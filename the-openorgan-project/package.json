@@ -10,10 +10,10 @@
     "check": "node scripts/check-project.mjs && node scripts/check-imports.mjs",
     "test:smoke": "node scripts/smoke.mjs",
     "migrate:data": "node scripts/migrate-private-notes.mjs",
-    "import:boston": "node scripts/import-ohs-boston.mjs"
+    "import:boston": "node scripts/import-ohs-boston.mjs",
+    "analytics:export": "node scripts/export-analytics.mjs"
   },
   "dependencies": {
-    "@next/env": "^16.2.12",
     "firebase": "12.16.0",
     "firebase-admin": "14.2.0",
     "next": "16.2.12",

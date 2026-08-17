@@ -132,6 +132,8 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    match /analyticsEvents/{eventId} { allow read, write: if false; }
+
     match /verificationRequests/{uid} { allow read, write: if false; }
   }
 }

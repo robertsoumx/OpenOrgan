@@ -30,6 +30,14 @@ const organizationLinks = [
   ["/profile", "Organization Profile"]
 ];
 
+const adminLinks = [
+  ["/admin/verifications", "Verifications"],
+  ["/admin/claims", "Claims"],
+  ["/search", "Organ Directory"],
+  ["/events", "Events"],
+  ["/profile", "Profile"]
+];
+
 function isActive(pathname, href) {
   if (href === "/") return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -37,14 +45,17 @@ function isActive(pathname, href) {
 
 export default function SiteNavbar() {
   const pathname = usePathname();
-  const { user, account, loading } = useAuth();
+  const { user, account, isAdmin, loading } = useAuth();
   const [notifications, setNotifications] = useState(0);
 
   useEffect(() => {
     setNotifications(0);
-    if (!db || !user?.uid || !account?.role) return undefined;
+
+    // Admin navigation does not need normal role-specific Q&A badges.
+    if (isAdmin || !db || !user?.uid || !account?.role) return undefined;
 
     const field = account.role === "organization" ? "ownerId" : "askerId";
+
     return onSnapshot(
       query(collection(db, "questions"), where(field, "==", user.uid)),
       (snapshot) => {
@@ -58,15 +69,18 @@ export default function SiteNavbar() {
       },
       () => setNotifications(0)
     );
-  }, [account?.role, user?.uid]);
+  }, [account?.role, isAdmin, user?.uid]);
 
   const links = !user || !account?.role
     ? publicLinks
-    : account.role === "organization"
-      ? organizationLinks
-      : organistLinks;
+    : isAdmin
+      ? adminLinks
+      : account.role === "organization"
+        ? organizationLinks
+        : organistLinks;
 
-  const notificationHref = account?.role === "organization" ? "/organization" : "/dashboard";
+  const notificationHref =
+    account?.role === "organization" ? "/organization" : "/dashboard";
 
   return (
     <header className="site-header">
@@ -77,10 +91,17 @@ export default function SiteNavbar() {
 
         <nav aria-label="Primary navigation">
           {links.map(([href, label]) => (
-            <Link className={isActive(pathname, href) ? "active" : ""} key={href} href={href}>
+            <Link
+              className={isActive(pathname, href) ? "active" : ""}
+              key={href}
+              href={href}
+            >
               {label}
-              {href === notificationHref && notifications > 0 && (
-                <span className="nav-notification" aria-label={`${notifications} new item${notifications === 1 ? "" : "s"}`}>
+              {!isAdmin && href === notificationHref && notifications > 0 && (
+                <span
+                  className="nav-notification"
+                  aria-label={`${notifications} new item${notifications === 1 ? "" : "s"}`}
+                >
                   {notifications > 9 ? "9+" : notifications}
                 </span>
               )}
@@ -88,7 +109,9 @@ export default function SiteNavbar() {
           ))}
 
           {!loading && user ? (
-            <button className="nav-button" onClick={() => signOut(auth)}>Sign Out</button>
+            <button className="nav-button" onClick={() => signOut(auth)}>
+              Sign Out
+            </button>
           ) : !loading ? (
             <>
               <Link href="/login">Sign In</Link>

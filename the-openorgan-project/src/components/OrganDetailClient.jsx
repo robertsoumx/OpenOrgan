@@ -12,6 +12,31 @@ import ProfileSummary from "@/components/ProfileSummary";
 import StarRating from "@/components/StarRating";
 import { formatPricing } from "@/lib/format";
 
+function OrganSpecs({ organ }) {
+  const manuals = organ.manuals
+    ? `${organ.manuals}${organ.stops ? ` · ${organ.stops} stops` : ""}`
+    : organ.stops
+      ? `${organ.stops} stops`
+      : "Not listed";
+
+  return (
+    <dl className="organ-spec-grid">
+      <div className="organ-spec">
+        <dt>Builder</dt>
+        <dd>{organ.builder || "Not listed"}</dd>
+      </div>
+      <div className="organ-spec">
+        <dt>Year</dt>
+        <dd>{organ.year || "Not listed"}</dd>
+      </div>
+      <div className="organ-spec">
+        <dt>Manuals</dt>
+        <dd>{manuals}</dd>
+      </div>
+    </dl>
+  );
+}
+
 export default function OrganDetailClient({ id, initialOrgan = null }) {
   const { user, account, loading: authLoading } = useAuth();
   const [organ, setOrgan] = useState(initialOrgan);
@@ -78,48 +103,28 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
   const ownsListing = Boolean(user?.uid && organ.ownerId === user.uid);
   const canRequest = !authLoading && (!user || organistAccount);
   const canClaim = !user || organizationAccount;
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Place",
-    name: organ.name,
-    description: organ.description,
-    address: organ.location?.formattedAddress,
-    geo: organ.location?.latitude
-      ? {
-          "@type": "GeoCoordinates",
-          latitude: organ.location.latitude,
-          longitude: organ.location.longitude
-        }
-      : undefined
-  };
+  const claimHref = user ? `/claim/${id}` : `/login?next=/claim/${id}`;
 
   return (
     <section className="section">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="container detail-grid">
         <div className="stack-lg">
           {organ.imageUrl && <img className="detail-image" src={organ.imageUrl} alt="" />}
 
-          <div>
-            {unclaimed && <strong className="unclaimed-badge large">UNCLAIMED LISTING</strong>}
+          <header className="detail-title-block">
+            {unclaimed && <strong className="unclaimed-badge large detail-unclaimed-badge">UNCLAIMED LISTING</strong>}
             <span className="eyebrow">{organ.location?.city || "Pipe organ"}</span>
             <h1>{organ.name}</h1>
-            <p className="lead">{organ.organizationName}</p>
-          </div>
+            {organ.organizationName && <p className="lead">{organ.organizationName}</p>}
+          </header>
 
           {unclaimed && (
             <article className="unclaimed-notice">
               <h2>Public reference listing</h2>
               <p>
-                This organ was added from a public source and has not been claimed by its organization.
-                Practice requests, payments, reviews, and Q&amp;A are disabled until ownership is verified.
+                This church organ was added from the Pipe Organ Database and has not been claimed by its organization.
+                Practice requests, payments, reviews, and Q&amp;A remain disabled until ownership is verified.
               </p>
-              {canClaim && (
-                <Link className="button button-on-dark" href={user ? `/claim/${id}` : `/login?next=/claim/${id}`}>
-                  Claim this listing
-                </Link>
-              )}
               {organ.source?.url && (
                 <p className="small">
                   Source: <a href={organ.source.url} target="_blank" rel="noreferrer">Pipe Organ Database</a>
@@ -128,51 +133,59 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
             </article>
           )}
 
-          <article className="card stack">
-            <div className="grid-3">
-              <div><span className="small muted">Builder</span><strong>{organ.builder || "Not listed"}</strong></div>
-              <div><span className="small muted">Year</span><strong>{organ.year || "Not listed"}</strong></div>
-              <div>
-                <span className="small muted">Size</span>
-                <strong>
-                  {organ.manuals ? `${organ.manuals} manuals` : "Not listed"}
-                  {organ.stops ? ` · ${organ.stops} stops` : ""}
-                </strong>
-              </div>
-            </div>
-            <p>{organ.description}</p>
+          <article className="card stack organ-detail-facts-card">
+            <OrganSpecs organ={organ} />
+            {organ.description && <p>{organ.description}</p>}
             {organ.publicAccessNotes && (
               <div className="message"><strong>Public access notes:</strong> {organ.publicAccessNotes}</div>
             )}
-            <div className="pricing-banner">
-              <strong>{formatPricing(organ.pricing)}</strong>
-              {organ.pricing?.instructions && <span>{organ.pricing.instructions}</span>}
-            </div>
+            {!unclaimed && (
+              <div className="pricing-banner">
+                <strong>{formatPricing(organ.pricing)}</strong>
+                {organ.pricing?.instructions && <span>{organ.pricing.instructions}</span>}
+              </div>
+            )}
           </article>
 
           <LocationPanel location={organ.location} />
 
-          <section className="card stack-lg">
-            <div>
-              <span className="eyebrow">Verified sessions</span>
-              <h2>
-                {reviews.length
-                  ? `${average.toFixed(1)} / 5 from ${reviews.length} review${reviews.length === 1 ? "" : "s"}`
-                  : "No reviews yet"}
-              </h2>
-            </div>
-            {reviews.map((review) => (
-              <article className="review-card" key={review.id}>
-                <StarRating value={review.rating} readOnly />
-                <p>{review.comment || "No written comment."}</p>
-              </article>
-            ))}
-          </section>
+          {!unclaimed && (
+            <section className="card stack-lg">
+              <div>
+                <span className="eyebrow">Verified sessions</span>
+                <h2>
+                  {reviews.length
+                    ? `${average.toFixed(1)} / 5 from ${reviews.length} review${reviews.length === 1 ? "" : "s"}`
+                    : "No reviews yet"}
+                </h2>
+              </div>
+              {reviews.map((review) => (
+                <article className="review-card" key={review.id}>
+                  <StarRating value={review.rating} readOnly />
+                  <p>{review.comment || "No written comment."}</p>
+                </article>
+              ))}
+            </section>
+          )}
 
           <QuestionsSection targetType="organ" targetId={id} ownerId={organ.ownerId} enabled={!unclaimed} />
         </div>
 
         <aside className="detail-sidebar stack-lg">
+          {unclaimed && (
+            <article className="card unclaimed-sidebar-card">
+              <span className="eyebrow">Unclaimed church organ</span>
+              <h2>{organ.name}</h2>
+              <p className="muted">{organ.location?.formattedAddress || organ.location?.city || "Greater Boston"}</p>
+              <OrganSpecs organ={organ} />
+              {canClaim && (
+                <Link className="button claim-listing-button" href={claimHref}>
+                  Claim this listing
+                </Link>
+              )}
+            </article>
+          )}
+
           {!unclaimed && (
             <article className="card">
               <span className="eyebrow">Managed by</span>

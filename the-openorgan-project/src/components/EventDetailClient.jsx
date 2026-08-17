@@ -9,7 +9,7 @@ import { useAuth } from "@/components/AuthProvider";
 import LocationPanel from "@/components/LocationPanel";
 import QuestionsSection from "@/components/QuestionsSection";
 import ProfileSummary from "@/components/ProfileSummary";
-import { formatDateTime, toDate } from "@/lib/format";
+import { formatDateTime } from "@/lib/format";
 
 export default function EventDetailClient({ id, initialEvent = null }) {
   const { user, account, profile, loading: authLoading } = useAuth();
@@ -96,24 +96,8 @@ export default function EventDetailClient({ id, initialEvent = null }) {
   const ownsEvent = Boolean(user?.uid && event.ownerId === user.uid);
   const canSignUp = !authLoading && (!user || organistAccount);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    name: event.title,
-    startDate: toDate(event.startDateTime)?.toISOString(),
-    endDate: toDate(event.endDateTime)?.toISOString(),
-    description: event.description,
-    location: {
-      "@type": "Place",
-      name: event.location?.name,
-      address: event.location?.formattedAddress
-    },
-    organizer: { "@type": "Organization", name: event.organizationName }
-  };
-
   return (
     <section className="section">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="container detail-grid">
         <div className="stack-lg">
           {event.imageUrl && <img className="detail-image" src={event.imageUrl} alt="" />}
