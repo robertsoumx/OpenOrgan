@@ -32,9 +32,9 @@ function recommendationScore(organ, hasRoutes) {
   return rating * 0.45 + distance * 0.3 + cost * 0.2 + reliability * 0.05;
 }
 
-export default function SearchExperience() {
-  const [organs, setOrgans] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function SearchExperience({ initialOrgans = [] }) {
+  const [organs, setOrgans] = useState(initialOrgans);
+  const [loading, setLoading] = useState(!initialOrgans.length);
   const [notice, setNotice] = useState({ type: "", text: "" });
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("distance");
@@ -60,13 +60,13 @@ export default function SearchExperience() {
   useEffect(() => {
     if (!db) {
       setLoading(false);
-      setNotice({ type: "error", text: "The organ directory is temporarily unavailable." });
+      if (!initialOrgans.length) setNotice({ type: "error", text: "The organ directory is temporarily unavailable." });
       return;
     }
 
     Promise.all([
       getDocs(query(collection(db, "organs"), where("status", "==", "active"))),
-      getDocs(collection(db, "organReviews"))
+      getDocs(collection(db, "organReviews")).catch(() => ({ docs: [] }))
     ])
       .then(([organSnapshot, reviewSnapshot]) => {
         const grouped = new Map();

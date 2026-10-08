@@ -6,10 +6,10 @@ import { useAuth } from "@/components/AuthProvider";
 const views = {
   visitor: {
     eyebrow: "Greater Boston",
-    title: "Find an organ. Promote events.",
-    description: "Practice access, local events, and trusted connections.",
+    title: "Extraordinary sound. Open doors.",
+    description: "Discover Boston’s church organs, find your next recital, and connect with hosts for practice access.",
     primary: ["/search", "Explore organs"],
-    secondary: ["/register", "Join the project"],
+    secondary: ["/events", "Explore events"],
     features: [
       ["Find", "Nearby church organs", "/search"],
       ["Request", "Practice access", "/register"],
@@ -51,7 +51,6 @@ export default function RoleAwareHome() {
       : "organist";
   const view = views[key];
 
-  const trustHref = !user ? "/register" : account?.role === "organization" ? "/profile" : "/profile";
 
   return (
     <>
@@ -65,23 +64,19 @@ export default function RoleAwareHome() {
               <Link className="button" href={view.primary[0]}>{view.primary[1]}</Link>
               <Link className="button-secondary" href={view.secondary[0]}>{view.secondary[1]}</Link>
             </div>
+            <span className="hero-note">Reference listings document instruments. Practice access is enabled only by participating hosts.</span>
           </div>
 
-          <div className="hero-visual" aria-label="OpenOrgan shortcuts">
-            <div className="hero-pipes" aria-hidden="true">
-              <span /><span /><span /><span />
-            </div>
-            <nav className="hero-shortcuts" aria-label="Project shortcuts">
-              <Link className="button-secondary hero-shortcut" href="/search">
-                <span>Practice</span><span aria-hidden="true">→</span>
-              </Link>
-              <Link className="button-secondary hero-shortcut" href="/events">
-                <span>Events</span><span aria-hidden="true">→</span>
-              </Link>
-              <Link className="button-secondary hero-shortcut" href={trustHref}>
-                <span>Trust</span><span aria-hidden="true">→</span>
-              </Link>
-            </nav>
+          <div className="hero-art">
+            <div className="hero-art-topline"><span>Music with a place</span><span>Greater Boston</span></div>
+            <svg viewBox="0 0 500 390" role="img" aria-label="Stylized pipe organ illustration">
+              <circle cx="390" cy="92" r="66" fill="#cf91a5"/><path d="M15 300L460 130V360H15Z" fill="#245460"/>
+              <path d="M78 338V146Q78 42 250 42Q422 42 422 146V338" fill="none" stroke="#728c85" strokeWidth="2"/>
+              {[115,151,187,223,259,295,331,367].map((x,i) => <g key={x}><rect x={x} y={90 + Math.abs(3.5-i)*28} width="22" height={235-Math.abs(3.5-i)*28} fill={i%2 ? "#ecd094" : "#f8e4b8"}/><path d={`M${x+5} ${140+Math.abs(3.5-i)*28}h12v10h-12z`} fill="#8e7454"/></g>)}
+              <path d="M100 329H399V340H100Z" fill="#cf91a5"/><path d="M93 347H406" stroke="#ecd094" strokeWidth="2"/>
+              <path d="M25 82h33M41 65v33" stroke="#ecd094" strokeWidth="2"/>
+            </svg>
+            <div className="hero-art-caption"><strong>Hear it. Play it.</strong><Link href="/search">Explore the instruments</Link></div>
           </div>
         </div>
       </section>
@@ -99,7 +94,7 @@ export default function RoleAwareHome() {
                 <h2>{title}</h2>
                 <p>{description}</p>
               </div>
-              <span className="feature-arrow" aria-hidden="true">↗</span>
+              <svg className="feature-arrow" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
             </Link>
           ))}
         </div>

@@ -112,11 +112,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <a className="skip-link" href="#main-content">Skip to content</a>
         <StructuredSiteData />
         <Providers>
           <SiteNavbar />
           <ConfigNotice />
-          <main>{children}</main>
+          <main id="main-content">{children}</main>
           <SiteFooter />
         </Providers>
       </body>

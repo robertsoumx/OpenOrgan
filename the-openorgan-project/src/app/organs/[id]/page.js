@@ -1,6 +1,7 @@
 import OrganDetailClient from "@/components/OrganDetailClient";
 import { getPublicDocument } from "@/lib/server-data";
 import { siteUrl } from "@/lib/config";
+import { notFound } from "next/navigation";
 
 function clean(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
@@ -10,8 +11,8 @@ function organDescription(organ) {
   if (!organ) return "View pipe organ details through The OpenOrgan Project.";
   const place = [organ.location?.city, organ.location?.region].filter(Boolean).join(", ");
   const facts = [
-    organ.builder ? `built by ${organ.builder}` : "",
-    organ.year ? `dating from ${organ.year}` : "",
+    organ.builder ? `${organ.listingOwnership === "unclaimed" ? "source record by" : "built by"} ${organ.builder}` : "",
+    organ.year ? `${organ.listingOwnership === "unclaimed" ? "source record dated" : "dating from"} ${organ.year}` : "",
     organ.manuals ? `${organ.manuals} manuals` : "",
     organ.stops ? `${organ.stops} stops` : ""
   ].filter(Boolean).join(", ");
@@ -60,6 +61,7 @@ export async function generateMetadata({ params }) {
 export default async function OrganPage({ params }) {
   const { id } = await params;
   const organ = await getPublicDocument("organs", id);
+  if (!organ) notFound();
 
   const structuredData = organ ? {
     "@context": "https://schema.org",

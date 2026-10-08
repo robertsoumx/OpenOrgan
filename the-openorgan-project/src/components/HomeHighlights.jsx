@@ -1,52 +1,6 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/lib/firebase-client";
-import { toDate } from "@/lib/format";
-
-export default function HomeHighlights() {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    if (!db) return;
-    getDocs(query(collection(db, "events"), where("status", "==", "active")))
-      .then((snap) => setEvents(
-        snap.docs
-          .map((item) => ({ id: item.id, ...item.data() }))
-          .sort((a, b) => (toDate(b.createdAt)?.getTime() || 0) - (toDate(a.createdAt)?.getTime() || 0))
-          .slice(0, 3)
-      ))
-      .catch(() => {});
-  }, []);
-
-  return (
-    <section className="section home-events">
-      <div className="container">
-        <div className="flex-between home-events-heading">
-          <div>
-            <span className="eyebrow">Recently posted</span>
-            <h2>Events</h2>
-          </div>
-          <Link className="text-link" href="/events">See all</Link>
-        </div>
-
-        <div className="grid-3">
-          {events.length ? events.map((event) => (
-            <Link className="card event-card" key={event.id} href={`/events/${event.id}`}>
-              <span className="badge">{event.type || "Event"}</span>
-              <h3>{event.title}</h3>
-              <p>{event.organizationName}</p>
-            </Link>
-          )) : (
-            <div className="empty-state home-empty-state">
-              <h3>No events posted yet</h3>
-              <p>Published concerts and programs will appear here.</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-  );
+import EventCard from "@/components/EventCard";
+export default function HomeHighlights({ events = [] }) {
+  const upcoming = events.filter(e => new Date(e.startDateTime) >= new Date()).slice(0, 3);
+  return <section className="section home-events"><div className="container"><div className="flex-between home-events-heading"><div><span className="eyebrow">A seat worth taking</span><h2>Coming up in Boston</h2><p>Real performances. Remarkable instruments.</p></div><Link className="text-link" href="/events">Explore the calendar</Link></div><div className="grid-3">{upcoming.length ? upcoming.map(event => <EventCard key={event.id} event={event} />) : <div className="empty-state"><h3>New dates are on their way</h3><p>Explore the calendar for recently held events.</p></div>}</div></div></section>;
 }

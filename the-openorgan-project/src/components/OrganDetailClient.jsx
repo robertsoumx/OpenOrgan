@@ -22,11 +22,11 @@ function OrganSpecs({ organ }) {
   return (
     <dl className="organ-spec-grid">
       <div className="organ-spec">
-        <dt>Builder</dt>
+        <dt>{organ.listingOwnership === "unclaimed" ? "Source record builder" : "Builder"}</dt>
         <dd>{organ.builder || "Not listed"}</dd>
       </div>
       <div className="organ-spec">
-        <dt>Year</dt>
+        <dt>{organ.listingOwnership === "unclaimed" ? "Source record year" : "Year"}</dt>
         <dd>{organ.year || "Not listed"}</dd>
       </div>
       <div className="organ-spec">
@@ -53,7 +53,7 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
 
     getDoc(doc(db, "organs", id))
       .then((snapshot) => setOrgan(snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null))
-      .catch(() => setOrgan(null))
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -125,11 +125,12 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
                 This church organ was added from the Pipe Organ Database and has not been claimed by its organization.
                 Practice requests, payments, reviews, and Q&amp;A remain disabled until ownership is verified.
               </p>
-              {organ.source?.url && (
+              {(organ.sourceUrl || organ.source?.instrumentUrl || organ.source?.url) && (
                 <p className="small">
-                  Source: <a href={organ.source.url} target="_blank" rel="noreferrer">Pipe Organ Database</a>
+                  Source: <a href={organ.sourceUrl || organ.source?.instrumentUrl || organ.source?.url} target="_blank" rel="noreferrer">Pipe Organ Database</a>
                 </p>
               )}
+              {organ.importMeta?.verifiedAt && <p className="small">Source checked {new Date(organ.importMeta.verifiedAt).toLocaleDateString("en-US", { timeZone: "America/New_York" })}. Condition is reported by the database; practice access requires host approval.</p>}
             </article>
           )}
 
