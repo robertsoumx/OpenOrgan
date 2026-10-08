@@ -70,7 +70,7 @@ export default function SearchMap({ organs, selectedId, onSelect, userLocation }
             organ.listingOwnership === "unclaimed" ? "unclaimed" : "",
             selectedId === organ.id ? "selected" : ""
           ].filter(Boolean).join(" ");
-          content.textContent = organ.ratingCount ? `${organ.ratingAverage.toFixed(1)}★` : "●";
+          content.textContent = organ.ratingCount ? `${Number(organ.ratingAverage || 0).toFixed(1)}/5` : "Organ";
           content.setAttribute("aria-label", `Select ${organ.organizationName || organ.name}`);
           content.addEventListener("click", () => onSelect(organ.id));
 

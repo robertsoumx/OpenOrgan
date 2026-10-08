@@ -1,5 +1,6 @@
 import { getActivePublicDocuments } from "@/lib/server-data";
 import { siteUrl } from "@/lib/config";
+import { getEventFeed } from "@/lib/events-server";
 
 export const revalidate = 3600;
 
@@ -22,7 +23,7 @@ function publicEntry(path, item, priority, frequency = "weekly") {
 export default async function sitemap() {
   const [organs, events] = await Promise.all([
     getActivePublicDocuments("organs", 5000),
-    getActivePublicDocuments("events", 5000)
+    getEventFeed().then(feed => feed.events)
   ]);
 
   const staticPages = [

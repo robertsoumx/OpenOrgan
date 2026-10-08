@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
-import { chromium } from "playwright";
+import { discoverPodLocations, churchLocation, currentInstrument, selectInstrument, metric, placeMatchesSource } from "../src/lib/organ-import-core.mjs";
 import {
   applicationDefault,
   cert,
@@ -13,4292 +13,1016 @@ import {
   getFirestore,
 } from "firebase-admin/firestore";
 
+/*
+ * The OpenOrgan Project — Greater Boston church-organ importer
+ *
+ * Design goals:
+ *   1. One OpenOrgan listing per Pipe Organ Database LOCATION (church), never per historical instrument record.
+ *   2. Choose ONE canonical instrument for each church. Other builders/opuses at the same church are omitted.
+ *   3. Prefer a playable/main/larger instrument over a small chapel or historical duplicate.
+ *   4. Use the Pipe Organ Database JSON API for detail work; Playwright is used only to discover location IDs.
+ *   5. Fetch OHS JSON concurrently and batch Google Routes checks, making the importer much faster than
+ *      visiting every location/instrument page in a browser.
+ *   6. Import church locations only.
+ *   7. Use Google Places only to resolve a usable full address / Place ID / coordinates.
+ *
+ * Usage:
+ *   npm run import:boston
+ *   npm run import:boston -- --commit
+ *   npm run import:boston -- --commit --rebuild
+ *   npm run import:boston -- --max=20
+ *   npm run import:boston -- --cities=Boston,Cambridge,Somerville
+ */
+
 const POD_WEB = "https://pipeorgandatabase.org";
 const POD_API = "https://api.pipeorgandatabase.org";
-
-const PLACES_URL =
-  "https://places.googleapis.com/v1/places:searchText";
-
-const ROUTES_URL =
-  "https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix";
-
-const BOSTON = {
-  latitude: 42.3601,
-  longitude: -71.0589,
-};
-
+const GOOGLE_PLACES_URL = "https://places.googleapis.com/v1/places:searchText";
+const GOOGLE_ROUTE_MATRIX_URL = "https://routes.googleapis.com/distanceMatrix/v2:computeRouteMatrix";
+const BOSTON_CENTER = { latitude: 42.3601, longitude: -71.0589 };
+const DEFAULT_RADIUS_MILES = 25;
 const METERS_PER_MILE = 1609.344;
-const DEFAULT_RADIUS = 100;
-const MIN_REBUILD = 5;
+const MIN_SAFE_REBUILD_COUNT = 5;
+const GOOGLE_PLACES_BIAS_RADIUS_METERS = 50_000;
 
-const OUT_DIR =
-  path.resolve("import-output");
+const DEFAULT_CITIES = [
+  "Boston",
+  "Cambridge",
+  "Somerville",
+  "Brookline",
+  "Newton",
+  "Watertown",
+  "Belmont",
+  "Arlington",
+  "Medford",
+  "Malden",
+  "Everett",
+  "Chelsea",
+  "Revere",
+  "Winthrop",
+  "Quincy",
+  "Milton",
+  "Braintree",
+  "Weymouth",
+  "Dedham",
+  "Needham",
+  "Wellesley",
+  "Weston",
+  "Waltham",
+  "Lexington",
+  "Concord",
+  "Lincoln",
+  "Bedford",
+  "Burlington",
+  "Winchester",
+  "Stoneham",
+  "Melrose",
+  "Wakefield",
+  "Saugus",
+  "Lynn",
+  "Nahant",
+  "Swampscott",
+  "Marblehead",
+  "Salem",
+  "Peabody",
+  "Danvers",
+  "Canton",
+  "Norwood",
+  "Westwood",
+  "Dover",
+  "Hingham",
+  "Hull",
+  "Natick",
+];
 
-const CHURCH_TYPE_RE =
-  /baptist|catholic|episcopal|anglican|lutheran|methodist|presbyterian|congregational|unitarian|universalist|nondenominational|non-denominational|disciples\s+of\s+christ|christian\s+science|orthodox|pentecostal|adventist|mennonite|moravian|brethren|latter-day|mormon|friends|quaker|salvation\s+army|swedenborgian|church/i;
+const CHURCH_TYPE_RE = /\bchurch\b|baptist|catholic|roman\s+catholic|episcopal|anglican|lutheran|methodist|presbyterian|congregational|unitarian|universalist|nondenominational|non-denominational|disciples\s+of\s+christ|christian\s+science|christian|evangelical|protestant|reformed|orthodox|pentecostal|assembl(?:y|ies)\s+of\s+god|adventist|seventh-day|mennonite|moravian|brethren|church\s+of\s+christ|church\s+of\s+god|church\s+of\s+jesus\s+christ|latter-day|mormon|friends|quaker|salvation\s+army|swedenborgian|religious\s+institution/i;
 
-const CHURCH_NAME_RE =
-  /\bchurch\b|\bcathedral\b|\bparish\b|\bbasilica\b|\babbey\b|\bmeeting\s*house\b|\bcongregation\b/i;
+const CHURCH_NAME_RE = /\b(?:church|cathedral|chapel|parish|basilica|abbey|meeting\s*house|congregation)\b/i;
+const NON_PLAYABLE_RE = /\b(?:not\s+extant|not\s+playable|destroyed|dismantled|removed|no\s+longer\s+extant|extinct)\b/i;
+const PLAYABLE_RE = /\b(?:extant\s+and\s+playable|playable|extant)\b/i;
+const MAIN_ROOM_RE = /\b(?:main|sanctuary|nave|chancel|gallery)\b/i;
+const SECONDARY_ROOM_RE = /\b(?:chapel|crypt|practice|choir\s+room)\b/i;
 
-const NON_PLAYABLE_RE =
-  /not\s+extant|not\s+playable|destroyed|dismantled|removed|no\s+longer\s+extant|extinct/i;
+await loadEnvFiles();
 
-const PLAYABLE_RE =
-  /extant\s+and\s+playable|playable|extant/i;
+const args = parseArgs(process.argv.slice(2));
+const COMMIT = args.has("commit");
+const REBUILD = args.has("rebuild");
+const SOURCE_ONLY = args.has("source-only");
+if (SOURCE_ONLY && (COMMIT || REBUILD)) throw new Error("--source-only cannot write or rebuild Firestore");
+if (REBUILD && (args.has("max") || args.has("cities"))) throw new Error("Rebuild requires complete default regional coverage; use a dry run for limited imports");
+const MAX = positiveInteger(args.get("max"));
+const RADIUS_MILES = positiveNumber(args.get("radius")) || DEFAULT_RADIUS_MILES;
+const CITIES = args.get("cities")
+  ? args.get("cities").split(",").map((value) => value.trim()).filter(Boolean)
+  : DEFAULT_CITIES;
 
-const MAIN_ROOM_RE =
-  /main|sanctuary|nave|chancel|gallery/i;
-
-const SECONDARY_ROOM_RE =
-  /chapel|crypt|practice|choir\s+room/i;
-
-
-/* ==========================================================================
-   STARTUP
-   ========================================================================== */
-
-await loadEnv();
-
-await fs.mkdir(
-  OUT_DIR,
-  { recursive: true }
-);
-
-const args =
-  parseArgs(
-    process.argv.slice(2)
-  );
-
-const COMMIT =
-  args.has("commit");
-
-const REBUILD =
-  args.has("rebuild");
-
-const MAX =
-  positiveInt(
-    args.get("max")
-  );
-
-const RADIUS =
-  positiveNumber(
-    args.get("radius")
-  ) || DEFAULT_RADIUS;
-
-const GOOGLE_KEY =
-  process.env
-    .GOOGLE_MAPS_SERVER_API_KEY
-    ?.trim();
-
-if (!GOOGLE_KEY) {
-  throw new Error(
-    "GOOGLE_MAPS_SERVER_API_KEY is missing from .env.local."
-  );
+const GOOGLE_KEY = process.env.GOOGLE_MAPS_SERVER_API_KEY?.trim();
+if (!GOOGLE_KEY && !SOURCE_ONLY) {
+  throw new Error("GOOGLE_MAPS_SERVER_API_KEY is missing. Put the server-side key in .env.local.");
 }
 
+const OUTPUT_DIR = path.resolve("import-output");
+await fs.mkdir(OUTPUT_DIR, { recursive: true });
+
+const startedAt = performance.now();
 const rejected = [];
-const started = performance.now();
 
-console.log(
-  "\nThe OpenOrgan Project — Greater Boston church-organ importer\n"
-);
+console.log("\nThe OpenOrgan Project — fast Greater Boston church-organ import\n");
+console.log(`Mode: ${COMMIT ? "COMMIT" : "DRY RUN"}${REBUILD ? " + REBUILD" : ""}`);
+console.log(`Launch radius: ${RADIUS_MILES} route miles from central Boston`);
+console.log(`Search municipalities: ${CITIES.length}`);
+console.log("Deduplication: ONE listing per Pipe Organ Database church/location\n");
 
-console.log(
-  `Mode: ${
-    COMMIT
-      ? "COMMIT"
-      : "DRY RUN"
-  }${
-    REBUILD
-      ? " + REBUILD"
-      : ""
-  }`
-);
+if (!SOURCE_ONLY) await assertGooglePlacesReady();
 
-console.log(
-  "Source: Pipe Organ Database / Organ Historical Society"
-);
-
-console.log(
-  `Launch radius: ${RADIUS} route miles from central Boston`
-);
-
-console.log(
-  "Deduplication: ONE canonical organ per physical church\n"
-);
-
-await placesPreflight();
-
-
-/* ==========================================================================
-   1. DISCOVER MASSACHUSETTS LOCATIONS
-   ========================================================================== */
-
-const t1 = performance.now();
-
-const sourceLocations =
-  await discoverMassachusettsLocations();
-
-const churches =
-  sourceLocations.filter(
-    isChurchLocation
-  );
-
-for (const location of sourceLocations) {
-  if (
-    !isChurchLocation(location)
-  ) {
-    reject(
-      location.id,
-      "non_church_location",
-      location.sourceType ||
-        location.name
-    );
-  }
+const discoveryStart = performance.now();
+const discoveredLocations = await discoverLocations(CITIES);
+const churchCandidates = discoveredLocations.filter(isChurchDiscovery);
+const nonChurchCandidates = discoveredLocations.filter((entry) => !isChurchDiscovery(entry));
+for (const entry of nonChurchCandidates) {
+  reject(entry.id, "non_church_location", entry.sourceType || entry.name || "unknown source type");
 }
 
-const candidates =
-  MAX
-    ? churches.slice(0, MAX)
-    : churches;
-
+const limitedChurchCandidates = MAX ? churchCandidates.slice(0, MAX) : churchCandidates;
 console.log(
-  `Discovered ${sourceLocations.length} Massachusetts source locations; ` +
-  `${churches.length} are churches (${elapsed(t1)}).`
+  `\nDiscovered ${discoveredLocations.length} unique source locations; ` +
+  `${churchCandidates.length} are church locations by the Pipe Organ Database directory ` +
+  `(${formatDuration(discoveryStart)}).`
 );
+printSourceTypeSummary(discoveredLocations);
+await writeJson("source-locations.json", discoveredLocations);
+if (MAX) console.log(`Debug limit active: processing first ${limitedChurchCandidates.length} church locations.`);
 
-printTypeSummary(
-  sourceLocations
-);
-
-await writeJson(
-  "source-locations.json",
-  sourceLocations
-);
-
-if (MAX) {
-  console.log(
-    `Debug limit: processing ${candidates.length} church locations.`
-  );
-}
-
-
-/* ==========================================================================
-   2. GOOGLE PLACES + PHYSICAL CHURCH DEDUPLICATION
-   ========================================================================== */
-
-const t2 = performance.now();
-
-const resolved =
-  (
-    await mapLimit(
-      candidates,
-      12,
-      async (src) => {
-        try {
-          const place =
-            await googlePlace(
-              `${src.name}, ${
-                src.address ||
-                "Massachusetts"
-              }`
-            );
-
-          if (
-            !place?.id ||
-            !place?.location
-          ) {
-            throw new Error(
-              "No Google Place match"
-            );
-          }
-
-          const address =
-            googleAddress(
-              place.addressComponents ||
-                []
-            );
-
-          if (
-            address.region &&
-            address.region !== "MA"
-          ) {
-            throw new Error(
-              `Google matched ${address.region}, not MA`
-            );
-          }
-
-          return {
-            ...src,
-            place,
-          };
-        } catch (error) {
-          reject(
-            src.id,
-            "google_place_failed",
-            error.message
-          );
-
-          return null;
-        }
-      }
-    )
-  ).filter(Boolean);
-
-const byPlace =
-  new Map();
-
-for (const item of resolved) {
-  const group =
-    byPlace.get(
-      item.place.id
-    ) || {
-      place: item.place,
-      sources: [],
+const locationStart = performance.now();
+const locationResults = await mapConcurrent(limitedChurchCandidates, 24, async (entry) => {
+  try {
+    const location = await fetchPodJson(`/locations/${entry.id}`);
+    // Keep the source directory metadata alongside the API result. The API's location-type
+    // representation has changed before, while the public directory's Type label is stable.
+    return {
+      location,
+      discovery: entry,
     };
-
-  group.sources.push(item);
-
-  byPlace.set(
-    item.place.id,
-    group
-  );
-}
-
-const placeGroups =
-  [...byPlace.values()];
-
-for (const group of placeGroups) {
-  for (
-    const duplicate
-    of group.sources.slice(1)
-  ) {
-    reject(
-      duplicate.id,
-      "duplicate_physical_church",
-      `Same Google Place as source location ${group.sources[0].id}`
-    );
+  } catch (error) {
+    reject(entry.id, "location_api_failed", error.message);
+    return null;
   }
-}
+});
 
+const churchLocations = locationResults
+  .filter(Boolean)
+  .map(({ location, discovery }) => {
+    // If the detail API omits a human-readable name, preserve the public directory name.
+    if (!extractName(location) && discovery?.name && location && typeof location === "object") {
+      location.__openOrganSourceName = discovery.name;
+    }
+    if (location && typeof location === "object") {
+      location.__openOrganSourceType = discovery?.sourceType || "";
+    }
+    return location;
+  });
 console.log(
-  `Resolved ${resolved.length}/${candidates.length} church locations; ` +
-  `${placeGroups.length} unique physical churches (${elapsed(t2)}).`
+  `Loaded ${churchLocations.length}/${limitedChurchCandidates.length} church location records ` +
+  `(${formatDuration(locationStart)}).`
 );
 
-
-/* ==========================================================================
-   3. ROUTE-DISTANCE FILTER
-   ========================================================================== */
-
-const t3 = performance.now();
-
-const routedGroups =
-  await routeGroups(
-    placeGroups
-  );
-
-const nearbyGroups =
-  routedGroups.filter(
-    (group) => {
-      if (
-        !Number.isFinite(
-          group.distanceMeters
-        )
-      ) {
-        for (
-          const src
-          of group.sources
-        ) {
-          reject(
-            src.id,
-            "route_not_found",
-            group.place
-              .formattedAddress ||
-              ""
-          );
-        }
-
-        return false;
-      }
-
-      if (
-        group.distanceMeters >
-        RADIUS *
-          METERS_PER_MILE
-      ) {
-        for (
-          const src
-          of group.sources
-        ) {
-          reject(
-            src.id,
-            "outside_launch_radius",
-            `${
-              (
-                group.distanceMeters /
-                METERS_PER_MILE
-              ).toFixed(1)
-            } miles`
-          );
-        }
-
-        return false;
-      }
-
-      return true;
-    }
-  );
-
-console.log(
-  `Route-filtered in batches: ${nearbyGroups.length} physical churches ` +
-  `within ${RADIUS} miles (${elapsed(t3)}).`
-);
-
-
-/* ==========================================================================
-   4. LOAD PIPE ORGAN DATABASE DETAILS
-   ========================================================================== */
-
-const t4 =
-  performance.now();
-
-const sourceIds =
-  [
-    ...new Set(
-      nearbyGroups.flatMap(
-        (group) =>
-          group.sources.map(
-            (src) =>
-              String(src.id)
-          )
-      )
-    ),
-  ];
-
-const locationMap =
-  new Map();
-
-await mapLimit(
-  sourceIds,
-  24,
-  async (id) => {
-    try {
-      locationMap.set(
-        id,
-        await podJson(
-          `/locations/${id}`
-        )
-      );
-    } catch (error) {
-      reject(
-        id,
-        "location_api_failed",
-        error.message
-      );
-    }
+const instrumentStart = performance.now();
+const instrumentStubMap = new Map();
+for (const location of churchLocations) {
+  const locationId = extractId(location);
+  const stubs = extractInstrumentStubs(location).filter(currentInstrument);
+  if (!stubs.length) {
+    reject(locationId, "no_instruments_at_location", extractName(location));
+    continue;
   }
-);
-
-const stubsByLocation =
-  new Map();
-
-for (const id of sourceIds) {
-  const stubs =
-    instrumentStubs(
-      locationMap.get(id)
-    );
-
-  if (stubs.length) {
-    stubsByLocation.set(
-      id,
-      stubs
-    );
-  } else {
-    reject(
-      id,
-      "no_instruments_at_location",
-      ""
-    );
-  }
+  instrumentStubMap.set(String(locationId), stubs);
 }
 
-const instrumentIds =
-  [
-    ...new Set(
-      [
-        ...stubsByLocation.values(),
-      ].flatMap(
-        (items) =>
-          items
-            .map(idOf)
-            .filter(Boolean)
-            .map(String)
-      )
-    ),
-  ];
+const instrumentIds = [...new Set(
+  [...instrumentStubMap.values()].flatMap((stubs) => stubs.map(extractId).filter(Boolean).map(String))
+)];
 
-const instrumentMap =
-  new Map();
-
-await mapLimit(
-  instrumentIds,
-  32,
-  async (id) => {
-    try {
-      instrumentMap.set(
-        id,
-        await podJson(
-          `/instruments/${id}`
-        )
-      );
-    } catch {
-      // One broken historical
-      // record should not reject
-      // the whole church.
-    }
+const instrumentMap = new Map();
+await mapConcurrent(instrumentIds, 32, async (instrumentId) => {
+  try {
+    const instrument = await fetchPodJson(`/instruments/${instrumentId}`);
+    instrumentMap.set(String(instrumentId), instrument);
+  } catch (error) {
+    reject(instrumentId, "instrument_api_failed", error.message);
   }
-);
+});
+console.log(`Fetched ${instrumentMap.size}/${instrumentIds.length} instrument records concurrently (${formatDuration(instrumentStart)}).`);
 
+const canonicalStart = performance.now();
+const canonicalChurches = [];
+for (const location of churchLocations) {
+  const locationId = String(extractId(location));
+  const stubs = instrumentStubMap.get(locationId) || [];
+  const instruments = stubs
+    .map((stub) => instrumentMap.get(String(extractId(stub))) || stub)
+    .filter(Boolean)
+    .filter(currentInstrument);
 
-/* ==========================================================================
-   5. RESOLVE BUILDER NAMES
-   ========================================================================== */
-
-const builderIds =
-  [
-    ...new Set(
-      [
-        ...instrumentMap.values(),
-      ]
-        .filter(
-          (instrument) =>
-            !builderOf(instrument)
-        )
-        .flatMap(
-          builderIdsOf
-        )
-    ),
-  ];
-
-const builderMap =
-  new Map();
-
-await mapLimit(
-  builderIds,
-  16,
-  async (id) => {
-    try {
-      const builder =
-        await podJson(
-          `/builders/${id}`
-        );
-
-      const name =
-        text(
-          first(
-            builder?.name,
-            builder?.companyName,
-            builder?.title
-          )
-        );
-
-      if (name) {
-        builderMap.set(
-          String(id),
-          name
-        );
-      }
-    } catch {
-      // Naming fallbacks remain
-      // available.
-    }
-  }
-);
-
-for (
-  const instrument
-  of instrumentMap.values()
-) {
-  if (
-    !builderOf(instrument)
-  ) {
-    const name =
-      builderIdsOf(
-        instrument
-      )
-        .map(
-          (id) =>
-            builderMap.get(
-              String(id)
-            )
-        )
-        .find(Boolean);
-
-    if (name) {
-      instrument.__openOrganBuilderName =
-        name;
-    }
-  }
-}
-
-console.log(
-  `Loaded ${locationMap.size}/${sourceIds.length} location records and ` +
-  `${instrumentMap.size}/${instrumentIds.length} instrument records ` +
-  `(${elapsed(t4)}).`
-);
-
-
-/* ==========================================================================
-   6. PICK ONE CANONICAL ORGAN PER PHYSICAL CHURCH
-   ========================================================================== */
-
-const accepted = [];
-
-for (
-  const group
-  of nearbyGroups
-) {
-  const options = [];
-
-  for (
-    const src
-    of group.sources
-  ) {
-    const stubs =
-      stubsByLocation.get(
-        String(src.id)
-      ) || [];
-
-    for (
-      const stub
-      of stubs
-    ) {
-      const instrument =
-        instrumentMap.get(
-          String(
-            idOf(stub)
-          )
-        ) || stub;
-
-      if (
-        !isUnplayable(
-          instrument
-        )
-      ) {
-        options.push({
-          src,
-          instrument,
-        });
-      }
-    }
-  }
-
-  if (!options.length) {
-    reject(
-      group.sources[0]?.id,
-      "no_usable_instrument",
-      group.sources[0]?.name ||
-        ""
-    );
-
+  if (!instruments.length) {
+    reject(locationId, "no_usable_instrument", extractName(location));
     continue;
   }
 
-  options.sort(
-    (a, b) =>
-      instrumentScore(
-        b.instrument
-      ) -
-      instrumentScore(
-        a.instrument
-      )
-  );
-
-  const best =
-    options[0];
-
-  accepted.push(
-    buildRecord(
-      group,
-      best.src,
-      best.instrument
-    )
-  );
+  const canonicalInstrument = chooseCanonicalInstrument(instruments);
+  canonicalChurches.push({ location, instrument: canonicalInstrument });
 }
-
-accepted.sort(
-  (a, b) =>
-    a.importMeta
-      .routeDistanceMeters -
-    b.importMeta
-      .routeDistanceMeters
-);
-
-
-/* ==========================================================================
-   7. OUTPUT DRY-RUN FILES
-   ========================================================================== */
-
-await writeJson(
-  "accepted.json",
-  accepted
-);
-
-await writeJson(
-  "rejected.json",
-  rejected
-);
-
-await writeJson(
-  "run-summary.json",
-  {
-    generatedAt:
-      new Date().toISOString(),
-
-    mode:
-      COMMIT
-        ? "commit"
-        : "dry-run",
-
-    rebuild:
-      REBUILD,
-
-    sourceLocations:
-      sourceLocations.length,
-
-    churchLocations:
-      churches.length,
-
-    physicalChurchesResolved:
-      placeGroups.length,
-
-    nearbyPhysicalChurches:
-      nearbyGroups.length,
-
-    instrumentsFetched:
-      instrumentMap.size,
-
-    accepted:
-      accepted.length,
-
-    rejected:
-      rejected.length,
-
-    radiusMiles:
-      RADIUS,
-  }
-);
-
-printRejections();
-
-console.log(
-  `\nAccepted ${accepted.length} unique church organs.`
-);
-
-console.log(
-  `Dry-run files: ${path.join(
-    OUT_DIR,
-    "accepted.json"
-  )}`
-);
-
-if (!COMMIT) {
-  console.log(
-    "No Firestore writes were made. Review accepted.json, then run with --commit."
-  );
-
-  console.log(
-    `Total runtime: ${elapsed(
-      started
-    )}\n`
-  );
-
+console.log(`Collapsed ${churchLocations.length} church locations to ${canonicalChurches.length} current playable organs (${formatDuration(canonicalStart)}).`);
+if (SOURCE_ONLY) {
+  const candidates = canonicalChurches.map(({location,instrument}) => ({ sourceLocationId:String(location.id), sourceInstrumentId:String(instrument.id), name:extractName(location), builder:extractBuilderName(instrument), year:extractYear(instrument), manuals:metric(instrument,"manuals"), stops:metric(instrument,"stops"), ranks:metric(instrument,"ranks"), sourceAddress:buildSourceAddress(location), sourceUrl:`${POD_WEB}/instruments/${instrument.id}`, sourceCheckedAt:new Date().toISOString(), addressValidation:"pending_google_places_and_routes" }));
+  await writeJson("source-candidates.json", candidates);
+  await writeJson("rejected.json", rejected);
+  await writeJson("source-run-summary.json", {generatedAt:new Date().toISOString(), municipalities:CITIES.length, sourceLocations:discoveredLocations.length, churchLocations:churchLocations.length, currentPlayableCandidates:candidates.length, apiFailures:rejected.filter(x=>/_api_failed/.test(x.reason)).length, productionWrites:0});
+  console.log(`Source audit saved: ${candidates.length} candidates; address/route verification pending. No production writes.`);
   process.exit(0);
 }
 
-
-/* ==========================================================================
-   8. FIRESTORE COMMIT / REBUILD
-   ========================================================================== */
-
-if (
-  REBUILD &&
-  accepted.length <
-    MIN_REBUILD
-) {
-  throw new Error(
-    `Safety stop: only ${accepted.length} accepted listings; refusing destructive rebuild.`
-  );
-}
-
-const db =
-  await adminDb();
-
-const existing =
-  await db
-    .collection("organs")
-    .get();
-
-const claimedPlaceIds =
-  new Set();
-
-const oldImportRefs = [];
-
-for (
-  const doc
-  of existing.docs
-) {
-  const data =
-    doc.data();
-
-  const placeId =
-    data?.location?.placeId ||
-    "";
-
-  if (
-    data.listingOwnership ===
-      "claimed" &&
-    placeId
-  ) {
-    claimedPlaceIds.add(
-      placeId
-    );
-  }
-
-  if (
-    data.listingOwnership ===
-      "unclaimed" &&
-    isPodRecord(data)
-  ) {
-    oldImportRefs.push(
-      doc.ref
-    );
-  }
-}
-
-const toWrite =
-  accepted.filter(
-    (record) =>
-      !claimedPlaceIds.has(
-        record.location.placeId
-      )
-  );
-
-/*
- * Write first.
- *
- * This is intentionally safer than
- * deleting the old import before the
- * replacement has been written.
- */
-await writeBatches(
-  db,
-  toWrite
-);
-
-console.log(
-  `Committed ${toWrite.length} unique church listings.`
-);
-
-if (REBUILD) {
-  const newIds =
-    new Set(
-      toWrite.map(
-        (record) =>
-          record.id
-      )
-    );
-
-  const staleRefs =
-    oldImportRefs.filter(
-      (ref) =>
-        !newIds.has(
-          ref.id
-        )
-    );
-
-  await deleteBatches(
-    db,
-    staleRefs
-  );
-
-  console.log(
-    `Removed ${staleRefs.length} stale previous unclaimed Pipe Organ Database imports.`
-  );
-}
-
-if (
-  toWrite.length !==
-  accepted.length
-) {
-  console.log(
-    `Preserved ${
-      accepted.length -
-      toWrite.length
-    } already-claimed physical churches.`
-  );
-}
-
-console.log(
-  `Total runtime: ${elapsed(
-    started
-  )}\n`
-);
-
-
-/* ==========================================================================
-   PIPE ORGAN DATABASE DISCOVERY
-
-   IMPORTANT:
-   There is NO interaction with:
-   - Search Parameters
-   - input fields
-   - buttons
-   - DOM visibility
-   - city loops
-
-   We talk directly to the POD API.
-
-   The browser is used only as a fallback
-   to observe the API URL if /locations
-   does not directly return the index.
-   ========================================================================== */
-
-async function discoverMassachusettsLocations() {
-  let seed;
-
-  /*
-   * First try the normal REST index
-   * endpoint directly.
-   */
-  try {
-    const url =
-      `${POD_API}/locations`;
-
-    const json =
-      await requestJson(
-        url,
-        {
-          timeoutMs: 15000,
-        }
-      );
-
-    if (
-      looksLikeLocationList(
-        json
-      )
-    ) {
-      seed = {
-        url,
-        json,
-      };
-    }
-  } catch {
-    // Fall through to passive
-    // network discovery.
-  }
-
-  /*
-   * If the index URL needs parameters,
-   * observe the request made by POD.
-   *
-   * No UI elements are touched.
-   */
-  if (!seed) {
-    seed =
-      await probeLocationListRequest();
-  }
-
-  console.log(
-    `POD locations API: ${
-      new URL(
-        seed.url
-      ).pathname
-    }`
-  );
-
-  /*
-   * Automatically determine which
-   * query parameter the current API
-   * uses for State/Province.
-   */
-  const filtered =
-    await detectStateFilteredSeed(
-      seed
-    );
-
-  if (filtered) {
-    console.log(
-      `POD Massachusetts API filter detected: ${filtered.filterKey}=MA`
-    );
-
-    const rows =
-      await fetchAllPages(
-        filtered.url,
-        filtered.json
-      );
-
-    return normalizeLocations(
-      rows
-    ).filter(
-      isMassachusettsLocation
-    );
-  }
-
-  /*
-   * Absolute fallback:
-   *
-   * If the source API does not expose
-   * a recognizable state query
-   * parameter, paginate its index and
-   * filter Massachusetts locally.
-   *
-   * Slower, but does not depend on the
-   * frontend at all.
-   */
-  console.log(
-    "POD state-filter parameter was not exposed; paginating the locations API and filtering MA locally."
-  );
-
-  const rows =
-    await fetchAllPages(
-      seed.url,
-      seed.json
-    );
-
-  return normalizeLocations(
-    rows
-  ).filter(
-    isMassachusettsLocation
-  );
-}
-
-
-/* ==========================================================================
-   PASSIVE API DISCOVERY FALLBACK
-   ========================================================================== */
-
-async function probeLocationListRequest() {
-  const browser =
-    await chromium.launch({
-      headless: true,
-    });
-
-  const page =
-    await browser.newPage();
+const placesStart = performance.now();
+const resolvedRaw = (await mapConcurrent(canonicalChurches, 10, async ({ location, instrument }) => {
+  const locationId = String(extractId(location));
+  const sourceAddress = buildSourceAddress(location);
+  const placeQuery = [extractName(location), sourceAddress].filter(Boolean).join(", ");
 
   try {
-    const found =
-      new Promise(
-        (
-          resolve,
-          rejectPromise
-        ) => {
-          const timer =
-            setTimeout(
-              () =>
-                rejectPromise(
-                  new Error(
-                    "Timed out waiting for Pipe Organ Database locations API request."
-                  )
-                ),
-              20000
-            );
-
-          page.on(
-            "response",
-            async (
-              response
-            ) => {
-              try {
-                const url =
-                  response.url();
-
-                if (
-                  !url.startsWith(
-                    POD_API
-                  ) ||
-                  !url.includes(
-                    "/locations"
-                  )
-                ) {
-                  return;
-                }
-
-                const json =
-                  await response.json();
-
-                if (
-                  !looksLikeLocationList(
-                    json
-                  )
-                ) {
-                  return;
-                }
-
-                clearTimeout(
-                  timer
-                );
-
-                resolve({
-                  url,
-                  json,
-                });
-              } catch {
-                // Ignore unrelated API
-                // responses.
-              }
-            }
-          );
-        }
-      );
-
-    await page.goto(
-      `${POD_WEB}/locations`,
-      {
-        waitUntil:
-          "domcontentloaded",
-
-        timeout:
-          30000,
-      }
-    );
-
-    return await found;
-  } finally {
-    await browser.close();
-  }
-}
-
-
-/* ==========================================================================
-   AUTOMATIC MASSACHUSETTS FILTER DETECTION
-   ========================================================================== */
-
-async function detectStateFilteredSeed(
-  seed
-) {
-  const base =
-    new URL(
-      seed.url
-    );
-
-  const existingKeys =
-    [
-      ...base.searchParams.keys(),
-    ];
-
-  /*
-   * Existing query keys are tested first.
-   * That lets this automatically follow
-   * future source parameter changes if the
-   * request already exposes them.
-   */
-  const stateKeys =
-    unique([
-      ...existingKeys.filter(
-        (key) =>
-          /state|province/i.test(
-            key
-          )
-      ),
-
-      "stateProvinceCode",
-      "stateProvince",
-      "state_province_code",
-      "state_province",
-      "stateCode",
-      "state_code",
-      "state",
-      "provinceCode",
-      "province_code",
-      "province",
-
-      "filter[stateProvinceCode]",
-      "filters[stateProvinceCode]",
-      "filter[state]",
-      "filters[state]",
-      "search[stateProvinceCode]",
-      "search[state]",
-      "where[stateProvinceCode]",
-      "where[state]",
-    ]);
-
-  const countryKeys =
-    existingKeys.filter(
-      (key) =>
-        /country/i.test(
-          key
-        )
-    );
-
-  const baseTotal =
-    totalOf(
-      seed.json
-    );
-
-  for (
-    const filterKey
-    of stateKeys
-  ) {
-    const url =
-      new URL(
-        seed.url
-      );
-
-    resetPagination(
-      url
-    );
-
-    url.searchParams.set(
-      filterKey,
-      "MA"
-    );
-
-    for (
-      const key
-      of countryKeys
-    ) {
-      url.searchParams.set(
-        key,
-        "US"
-      );
+    const googlePlace = await resolveGooglePlace(placeQuery);
+    if (!placeMatchesSource(location, googlePlace)) {
+      reject(locationId, "google_place_unverified", placeQuery);
+      return null;
     }
-
-    try {
-      const json =
-        await requestJson(
-          url.toString(),
-          {
-            timeoutMs:
-              12000,
-
-            retries: 1,
-          }
-        );
-
-      const rows =
-        listRows(
-          json
-        );
-
-      if (!rows.length) {
-        continue;
-      }
-
-      const maCount =
-        rows.filter(
-          isMassachusettsRaw
-        ).length;
-
-      const ratio =
-        maCount /
-        rows.length;
-
-      const total =
-        totalOf(json);
-
-      /*
-       * Do not accept a parameter simply
-       * because the API ignored it and
-       * happened to return one MA record.
-       */
-      const genuinelyFiltered =
-        ratio >= 0.7 &&
-        (
-          baseTotal == null ||
-          total == null ||
-          total < baseTotal ||
-          ratio === 1
-        );
-
-      if (
-        genuinelyFiltered
-      ) {
-        return {
-          url:
-            url.toString(),
-
-          json,
-
-          filterKey,
-        };
-      }
-    } catch {
-      // Try the next parameter
-      // spelling.
-    }
-  }
-
-  return null;
-}
-
-
-/* ==========================================================================
-   GENERIC POD PAGINATION
-   ========================================================================== */
-
-async function fetchAllPages(
-  firstUrl,
-  firstJson
-) {
-  const firstRows =
-    listRows(
-      firstJson
-    );
-
-  const total =
-    totalOf(
-      firstJson
-    );
-
-  const currentPage =
-    currentPageOf(
-      firstJson
-    ) || 1;
-
-  const declaredLastPage =
-    lastPageOf(
-      firstJson
-    );
-
-  /*
-   * If the API gives total but not
-   * last_page, infer the number of pages
-   * from the first page size.
-   */
-  const inferredLastPage =
-    !declaredLastPage &&
-    total &&
-    firstRows.length &&
-    total >
-      firstRows.length
-      ? Math.ceil(
-          total /
-          firstRows.length
-        )
-      : null;
-
-  const lastPage =
-    declaredLastPage ||
-    inferredLastPage;
-
-  const pageKey =
-    paginationKey(
-      firstUrl
-    );
-
-  /*
-   * Known page count:
-   * fetch remaining pages concurrently.
-   */
-  if (
-    lastPage &&
-    lastPage >
-      currentPage
-  ) {
-    const pages = [];
-
-    for (
-      let page =
-        currentPage + 1;
-      page <= lastPage;
-      page += 1
-    ) {
-      pages.push(page);
-    }
-
-    const rest =
-      await mapLimit(
-        pages,
-        16,
-        async (page) => {
-          const url =
-            new URL(
-              firstUrl
-            );
-
-          url.searchParams.set(
-            pageKey,
-            String(page)
-          );
-
-          const json =
-            await requestJson(
-              url.toString(),
-              {
-                timeoutMs:
-                  15000,
-              }
-            );
-
-          return listRows(
-            json
-          );
-        }
-      );
-
-    return dedupeRawLocations([
-      ...firstRows,
-      ...rest.flat(),
-    ]);
-  }
-
-  /*
-   * Unknown page count:
-   * follow next-page URLs if present.
-   *
-   * If the API does not give a next URL,
-   * increment ?page= until a page is empty
-   * or repeats the previous data.
-   */
-  let rows =
-    [...firstRows];
-
-  let json =
-    firstJson;
-
-  let url =
-    firstUrl;
-
-  const seen =
-    new Set([
-      url,
-    ]);
-
-  for (
-    let guard = 0;
-    guard < 10000;
-    guard += 1
-  ) {
-    let next =
-      nextUrlOf(
-        json,
-        url
-      );
-
-    if (!next) {
-      const candidate =
-        new URL(
-          firstUrl
-        );
-
-      candidate.searchParams.set(
-        pageKey,
-        String(
-          currentPage +
-          guard +
-          1
-        )
-      );
-
-      next =
-        candidate.toString();
-    }
-
-    if (
-      seen.has(next)
-    ) {
-      break;
-    }
-
-    seen.add(next);
-
-    const nextJson =
-      await requestJson(
-        next,
-        {
-          timeoutMs:
-            15000,
-        }
-      );
-
-    const pageRows =
-      listRows(
-        nextJson
-      );
-
-    if (
-      !pageRows.length
-    ) {
-      break;
-    }
-
-    const before =
-      dedupeRawLocations(
-        rows
-      ).length;
-
-    rows.push(
-      ...pageRows
-    );
-
-    const after =
-      dedupeRawLocations(
-        rows
-      ).length;
-
-    /*
-     * API ignored page parameter and
-     * returned the same page again.
-     */
-    if (
-      after === before
-    ) {
-      break;
-    }
-
-    if (
-      total &&
-      after >= total
-    ) {
-      break;
-    }
-
-    json =
-      nextJson;
-
-    url =
-      next;
-
-    if (
-      !total &&
-      pageRows.length <
-        firstRows.length
-    ) {
-      break;
-    }
-  }
-
-  return dedupeRawLocations(
-    rows
-  );
-}
-
-
-/* ==========================================================================
-   POD RESPONSE PARSING
-   ========================================================================== */
-
-function looksLikeLocationList(
-  json
-) {
-  const rows =
-    listRows(
-      json
-    );
-
-  if (!rows.length) {
-    return false;
-  }
-
-  return rows
-    .slice(0, 10)
-    .some(
-      (row) =>
-        idOf(row) != null &&
-        locationNameOf(
-          row
-        )
-    );
-}
-
-function listRows(
-  json
-) {
-  if (
-    Array.isArray(json)
-  ) {
-    return json;
-  }
-
-  const directKeys = [
-    "data",
-    "results",
-    "items",
-    "locations",
-    "rows",
-    "records",
-  ];
-
-  for (
-    const key
-    of directKeys
-  ) {
-    if (
-      Array.isArray(
-        json?.[key]
-      )
-    ) {
-      return json[key];
-    }
-  }
-
-  /*
-   * Handle common nested pagination
-   * response structures such as:
-   *
-   * { data: { data: [...] } }
-   */
-  for (
-    const key
-    of directKeys
-  ) {
-    const nested =
-      json?.[key];
-
-    if (
-      nested &&
-      typeof nested ===
-        "object"
-    ) {
-      for (
-        const nestedKey
-        of directKeys
-      ) {
-        if (
-          Array.isArray(
-            nested?.[
-              nestedKey
-            ]
-          )
-        ) {
-          return nested[
-            nestedKey
-          ];
-        }
-      }
-    }
-  }
-
-  return [];
-}
-
-function totalOf(
-  json
-) {
-  const n =
-    Number(
-      first(
-        json?.total,
-        json?.meta?.total,
-        json?.pagination?.total,
-        json?.data?.total,
-        json?.count
-      )
-    );
-
-  return Number.isFinite(n)
-    ? n
-    : null;
-}
-
-function currentPageOf(
-  json
-) {
-  const n =
-    Number(
-      first(
-        json?.current_page,
-        json?.currentPage,
-        json?.meta
-          ?.current_page,
-        json?.meta
-          ?.currentPage,
-        json?.pagination?.page,
-        json?.data
-          ?.current_page
-      )
-    );
-
-  return Number.isFinite(n)
-    ? n
-    : null;
-}
-
-function lastPageOf(
-  json
-) {
-  const n =
-    Number(
-      first(
-        json?.last_page,
-        json?.lastPage,
-        json?.meta
-          ?.last_page,
-        json?.meta
-          ?.lastPage,
-        json?.pagination
-          ?.lastPage,
-        json?.pagination
-          ?.pages,
-        json?.data
-          ?.last_page
-      )
-    );
-
-  return Number.isFinite(n)
-    ? n
-    : null;
-}
-
-function nextUrlOf(
-  json,
-  currentUrl
-) {
-  const next =
-    first(
-      json?.next_page_url,
-      json?.nextPageUrl,
-      json?.links?.next,
-      json?.pagination
-        ?.next,
-      json?.data
-        ?.next_page_url
-    );
-
-  if (
-    typeof next ===
-      "string" &&
-    next
-  ) {
-    return new URL(
-      next,
-      currentUrl
-    ).toString();
-  }
-
-  return null;
-}
-
-function paginationKey(
-  urlString
-) {
-  const url =
-    new URL(
-      urlString
-    );
-
-  const keys =
-    [
-      ...url.searchParams.keys(),
-    ];
-
-  return (
-    keys.find(
-      (key) =>
-        /^page$/i.test(
-          key
-        )
-    ) ||
-    keys.find(
-      (key) =>
-        /page/i.test(
-          key
-        )
-    ) ||
-    "page"
-  );
-}
-
-function resetPagination(
-  url
-) {
-  for (
-    const key
-    of [
-      ...url.searchParams.keys(),
-    ]
-  ) {
-    if (
-      /page/i.test(key)
-    ) {
-      url.searchParams.set(
-        key,
-        "1"
-      );
-    }
-
-    if (
-      /offset|skip/i.test(
-        key
-      )
-    ) {
-      url.searchParams.set(
-        key,
-        "0"
-      );
-    }
-  }
-}
-
-function dedupeRawLocations(
-  rows
-) {
-  const map =
-    new Map();
-
-  for (
-    const row
-    of rows
-  ) {
-    const id =
-      idOf(row);
-
-    if (
-      id != null
-    ) {
-      map.set(
-        String(id),
-        row
-      );
-    }
-  }
-
-  return [
-    ...map.values(),
-  ];
-}
-
-
-/* ==========================================================================
-   LOCATION NORMALIZATION
-   ========================================================================== */
-
-function normalizeLocations(
-  rows
-) {
-  return dedupeRawLocations(
-    rows
-  ).map(
-    (row) => ({
-      id:
-        String(
-          idOf(row)
-        ),
-
-      name:
-        locationNameOf(
-          row
-        ),
-
-      sourceType:
-        locationTypeOf(
-          row
-        ),
-
-      address:
-        locationAddressOf(
-          row
-        ),
-
-      raw: row,
-    })
-  );
-}
-
-function locationNameOf(
-  row
-) {
-  return text(
-    first(
-      row?.name,
-      row?.locationName,
-      row?.displayName
-        ?.text,
-      row?.title,
-      row?.venueName
-    )
-  );
-}
-
-function locationTypeOf(
-  row
-) {
-  const direct =
-    text(
-      first(
-        row?.locationType
-          ?.name,
-
-        row?.locationTypeName,
-
-        row?.type
-          ?.name,
-
-        row?.typeName,
-
-        row?.location_type
-          ?.name
-      )
-    );
-
-  if (
-    direct &&
-    !/^\d+$/.test(
-      direct
-    )
-  ) {
-    return direct;
-  }
-
-  let found = "";
-
-  walk(
-    row,
-    (
-      key,
-      value
-    ) => {
-      if (
-        found ||
-        !/type/i.test(
-          key
-        ) ||
-        /id/i.test(
-          key
-        )
-      ) {
-        return;
-      }
-
-      const candidate =
-        text(value);
-
-      if (
-        candidate &&
-        !/^\d+$/.test(
-          candidate
-        )
-      ) {
-        found =
-          candidate;
-      }
-    },
-    0,
-    3
-  );
-
-  return found;
-}
-
-function locationAddressOf(
-  row
-) {
-  const direct =
-    text(
-      first(
-        row?.formattedAddress,
-
-        row?.address
-          ?.formattedAddress,
-
-        row?.address,
-
-        row?.streetAddress,
-
-        row?.street
-      )
-    );
-
-  const city =
-    text(
-      first(
-        row?.city?.name,
-        row?.city,
-        row?.locality
-      )
-    );
-
-  const state =
-    stateCodeOf(
-      row
-    );
-
-  const country =
-    text(
-      first(
-        row?.countryCode,
-
-        row?.country?.code,
-
-        row?.country
-      )
-    );
-
-  return unique([
-    direct,
-    city,
-    state,
-    country,
-  ])
-    .filter(Boolean)
-    .join(", ");
-}
-
-function stateCodeOf(
-  row
-) {
-  const direct =
-    text(
-      first(
-        row?.stateProvinceCode,
-
-        row?.stateCode,
-
-        row?.state?.code,
-
-        row?.state
-          ?.abbreviation,
-
-        row?.provinceCode,
-
-        row?.regionCode
-      )
-    );
-
-  if (direct) {
-    return direct;
-  }
-
-  let found = "";
-
-  walk(
-    row,
-    (
-      key,
-      value
-    ) => {
-      if (
-        found ||
-        !/state|province|region/i.test(
-          key
-        ) ||
-        /id/i.test(
-          key
-        )
-      ) {
-        return;
-      }
-
-      const candidate =
-        text(value);
-
-      if (
-        /^(MA|Massachusetts)$/i.test(
-          candidate
-        )
-      ) {
-        found =
-          candidate;
-      }
-    },
-    0,
-    3
-  );
-
-  return found;
-}
-
-function isMassachusettsRaw(
-  row
-) {
-  const state =
-    stateCodeOf(
-      row
-    );
-
-  if (
-    /^(MA|Massachusetts)$/i.test(
-      state
-    )
-  ) {
-    return true;
-  }
-
-  return (
-    /(?:^|,|\s)MA(?:,|\s|$)|Massachusetts/i
-      .test(
-        locationAddressOf(
-          row
-        )
-      )
-  );
-}
-
-function isMassachusettsLocation(
-  location
-) {
-  return (
-    isMassachusettsRaw(
-      location.raw
-    ) ||
-    /(?:^|,|\s)MA(?:,|\s|$)|Massachusetts/i
-      .test(
-        location.address
-      )
-  );
-}
-
-function isChurchLocation(
-  location
-) {
-  /*
-   * Prefer POD's own location type.
-   *
-   * Only fall back to the name when the
-   * source gave no usable type at all.
-   */
-  if (
-    location.sourceType
-  ) {
-    return CHURCH_TYPE_RE.test(
-      location.sourceType
-    );
-  }
-
-  return CHURCH_NAME_RE.test(
-    location.name
-  );
-}
-
-
-/* ==========================================================================
-   GOOGLE PLACES
-   ========================================================================== */
-
-async function placesPreflight() {
-  const place =
-    await googlePlace(
-      "Trinity Church, 206 Clarendon St, Boston, MA"
-    );
-
-  if (!place?.id) {
-    throw new Error(
-      "Google Places preflight returned no place."
-    );
-  }
-
-  console.log(
-    "Google Places preflight: OK.\n"
-  );
-}
-
-async function googlePlace(
-  textQuery
-) {
-  const json =
-    await requestJson(
-      PLACES_URL,
-      {
-        method:
-          "POST",
-
-        headers: {
-          "Content-Type":
-            "application/json",
-
-          "X-Goog-Api-Key":
-            GOOGLE_KEY,
-
-          "X-Goog-FieldMask":
-            "places.id,places.displayName,places.formattedAddress,places.location,places.addressComponents",
-        },
-
-        body:
-          JSON.stringify({
-            textQuery,
-
-            pageSize: 1,
-
-            regionCode:
-              "US",
-
-            locationBias: {
-              circle: {
-                center:
-                  BOSTON,
-
-                radius:
-                  50000,
-              },
-            },
-          }),
-      }
-    );
-
-  return (
-    json?.places?.[0] ||
-    null
-  );
-}
-
-
-/* ==========================================================================
-   GOOGLE ROUTES
-   ========================================================================== */
-
-async function routeGroups(
-  groups
-) {
-  const output =
-    groups.map(
-      (group) => ({
-        ...group,
-
-        distanceMeters:
-          null,
-      })
-    );
-
-  for (
-    let start = 0;
-    start < output.length;
-    start += 49
-  ) {
-    const chunk =
-      output.slice(
-        start,
-        start + 49
-      );
-
-    const response =
-      await requestJsonStream(
-        ROUTES_URL,
-        {
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-
-            "X-Goog-Api-Key":
-              GOOGLE_KEY,
-
-            "X-Goog-FieldMask":
-              "originIndex,destinationIndex,distanceMeters,condition,status",
-          },
-
-          body:
-            JSON.stringify({
-              origins: [
-                {
-                  waypoint: {
-                    location: {
-                      latLng:
-                        BOSTON,
-                    },
-                  },
-                },
-              ],
-
-              destinations:
-                chunk.map(
-                  (group) => ({
-                    waypoint: {
-                      placeId:
-                        group.place.id,
-                    },
-                  })
-                ),
-
-              travelMode:
-                "DRIVE",
-            }),
-
-          timeoutMs:
-            20000,
-        }
-      );
-
-    const elements =
-      Array.isArray(
-        response
-      )
-        ? response
-        : response?.elements ||
-          [];
-
-    for (
-      const element
-      of elements
-    ) {
-      const index =
-        Number(
-          element
-            ?.destinationIndex
-        );
-
-      const distance =
-        Number(
-          element
-            ?.distanceMeters
-        );
-
-      if (
-        Number.isInteger(
-          index
-        ) &&
-        Number.isFinite(
-          distance
-        ) &&
-        chunk[index]
-      ) {
-        output[
-          start + index
-        ].distanceMeters =
-          distance;
-      }
-    }
-  }
-
-  return output;
-}
-
-
-/* ==========================================================================
-   PIPE ORGAN DATABASE DETAIL API
-   ========================================================================== */
-
-async function podJson(
-  endpoint
-) {
-  return requestJson(
-    `${POD_API}${endpoint}`,
-    {
-      headers: {
-        Accept:
-          "application/json",
-      },
-    }
-  );
-}
-
-function instrumentStubs(
-  location
-) {
-  if (!location) {
-    return [];
-  }
-
-  const direct =
-    [
-      location?.instruments,
-
-      location?.organs,
-
-      location
-        ?.instrumentRecords,
-
-      location?.data
-        ?.instruments,
-
-      location
-        ?.relationships
-        ?.instruments,
-    ].find(
-      (value) =>
-        Array.isArray(
-          value
-        ) &&
-        value.length
-    );
-
-  if (direct) {
-    return uniqueById(
-      direct
-    );
-  }
-
-  const found = [];
-
-  walk(
-    location,
-    (
-      key,
-      value
-    ) => {
-      if (
-        /instrument/i.test(
-          key
-        ) &&
-        Array.isArray(
-          value
-        )
-      ) {
-        found.push(
-          ...value
-        );
-      }
-    },
-    0,
-    4
-  );
-
-  return uniqueById(
-    found
-  );
-}
-
-
-/* ==========================================================================
-   BUILDER DATA
-   ========================================================================== */
-
-function builderIdsOf(
-  instrument
-) {
-  const ids = [];
-
-  const values = [
-    instrument?.builderId,
-
-    instrument?.builder_id,
-
-    instrument?.builder?.id,
-
-    ...(
-      Array.isArray(
-        instrument?.builders
-      )
-        ? instrument.builders.map(
-            (builder) =>
-              builder?.id
-          )
-        : []
-    ),
-  ];
-
-  for (
-    const value
-    of values
-  ) {
-    if (
-      value != null &&
-      value !== ""
-    ) {
-      ids.push(
-        String(value)
-      );
-    }
-  }
-
-  return unique(ids);
-}
-
-function builderOf(
-  instrument
-) {
-  const direct =
-    text(
-      first(
-        instrument
-          ?.__openOrganBuilderName,
-
-        instrument?.builder
-          ?.name,
-
-        instrument
-          ?.builderName,
-
-        instrument?.builder
-          ?.companyName,
-
-        instrument
-          ?.manufacturer
-          ?.name,
-
-        Array.isArray(
-          instrument?.builders
-        )
-          ? instrument.builders
-              .map(
-                (builder) =>
-                  text(
-                    first(
-                      builder?.name,
-                      builder
-                        ?.companyName
-                    )
-                  )
-              )
-              .find(Boolean)
-          : "",
-
-        typeof instrument?.builder ===
-          "string"
-          ? instrument.builder
-          : ""
-      )
-    );
-
-  if (
-    direct &&
-    !/^\d+$/.test(
-      direct
-    )
-  ) {
-    return direct;
-  }
-
-  return "";
-}
-
-
-/* ==========================================================================
-   CANONICAL ORGAN SELECTION
-   ========================================================================== */
-
-function instrumentScore(
-  instrument
-) {
-  const room =
-    text(
-      first(
-        instrument?.room,
-
-        instrument
-          ?.locationRoom,
-
-        instrument
-          ?.divisionLocation,
-
-        ""
-      )
-    );
-
-  return (
-    (
-      isPlayable(
-        instrument
-      )
-        ? 1_000_000_000
-        : 0
-    ) +
-
-    (
-      MAIN_ROOM_RE.test(
-        room
-      )
-        ? 75_000_000
-
-        : SECONDARY_ROOM_RE.test(
-            room
-          )
-          ? -30_000_000
-          : 0
-    ) +
-
-    metric(
-      instrument,
-      [
-        "manuals",
-        "numManuals",
-        "numberOfManuals",
-      ]
-    ) *
-      5_000_000 +
-
-    metric(
-      instrument,
-      [
-        "stops",
-        "numStops",
-        "numberOfStops",
-        "stopCount",
-      ]
-    ) *
-      50_000 +
-
-    metric(
-      instrument,
-      [
-        "ranks",
-        "numRanks",
-        "numberOfRanks",
-        "rankCount",
-      ]
-    ) *
-      5_000 +
-
-    metric(
-      instrument,
-      [
-        "pipes",
-        "numPipes",
-        "numberOfPipes",
-        "pipeCount",
-      ]
-    ) +
-
-    yearOf(
-      instrument
-    )
-  );
-}
-
-function statusText(
-  instrument
-) {
-  return [
-    instrument?.status,
-
-    instrument
-      ?.instrumentStatus,
-
-    instrument?.condition,
-
-    instrument
-      ?.currentStatus,
-
-    instrument
-      ?.statusText,
-  ]
-    .map(text)
-    .join(" ");
-}
-
-function falseFlag(
-  value
-) {
-  return (
-    value === false ||
-    value === 0 ||
-    value === "0" ||
-    /^false$/i.test(
-      String(value)
-    )
-  );
-}
-
-function trueFlag(
-  value
-) {
-  return (
-    value === true ||
-    value === 1 ||
-    value === "1" ||
-    /^true$/i.test(
-      String(value)
-    )
-  );
-}
-
-function isUnplayable(
-  instrument
-) {
-  if (
-    NON_PLAYABLE_RE.test(
-      statusText(
-        instrument
-      )
-    )
-  ) {
-    return true;
-  }
-
-  return [
-    "isPlayable",
-    "playable",
-    "isExtant",
-    "extant",
-  ].some(
-    (key) =>
-      falseFlag(
-        instrument?.[
-          key
-        ]
-      )
-  );
-}
-
-function isPlayable(
-  instrument
-) {
-  const status =
-    statusText(
-      instrument
-    );
-
-  if (
-    PLAYABLE_RE.test(
-      status
-    ) &&
-    !NON_PLAYABLE_RE.test(
-      status
-    )
-  ) {
-    return true;
-  }
-
-  return [
-    "isPlayable",
-    "playable",
-    "isExtant",
-    "extant",
-  ].some(
-    (key) =>
-      trueFlag(
-        instrument?.[
-          key
-        ]
-      )
-  );
-}
-
-
-/* ==========================================================================
-   BUILD OPENORGAN RECORD
-   ========================================================================== */
-
-function buildRecord(
-  group,
-  src,
-  instrument
-) {
-  const builder =
-    builderOf(
-      instrument
-    );
-
-  const opus =
-    opusData(
-      instrument
-    );
-
-  const year =
-    yearOf(
-      instrument
-    );
-
-  const manuals =
-    metric(
-      instrument,
-      [
-        "manuals",
-        "numManuals",
-        "numberOfManuals",
-      ]
-    );
-
-  const stops =
-    metric(
-      instrument,
-      [
-        "stops",
-        "numStops",
-        "numberOfStops",
-        "stopCount",
-      ]
-    );
-
-  const ranks =
-    metric(
-      instrument,
-      [
-        "ranks",
-        "numRanks",
-        "numberOfRanks",
-        "rankCount",
-      ]
-    );
-
-  const church =
-    src.name ||
-    group.place
-      ?.displayName
-      ?.text ||
-    "Church";
-
-  /*
-   * name = ORGAN
-   * organizationName = CHURCH
-   *
-   * Example:
-   *
-   * name:
-   * Aeolian-Skinner Organ Co. Opus 940
-   *
-   * organizationName:
-   * Church of the Advent
-   */
-  const name =
-    organName(
-      builder,
-      opus,
-      year,
-      instrument
-    );
-
-  const address =
-    googleAddress(
-      group.place
-        .addressComponents ||
-        []
-    );
-
-  const sourceInstrumentId =
-    String(
-      idOf(
-        instrument
-      ) || ""
-    );
-
-  return {
-    id:
-      `ohs-place-${group.place.id}`,
-
-    name,
-
-    organizationName:
-      church,
-
-    venueName:
-      church,
-
-    ownerId: "",
-
-    status:
-      "active",
-
-    listingOwnership:
-      "unclaimed",
-
-    claimStatus:
-      "available",
-
-    bookingEnabled:
-      false,
-
-    verificationStatus:
-      "source_imported",
-
-    builder,
-
-    opus:
-      opus.value,
-
-    year:
-      year || "",
-
-    manuals:
-      manuals || "",
-
-    stops:
-      stops || "",
-
-    ranks:
-      ranks || "",
-
-    instrumentLabel:
-      name,
-
-    description:
-      `Reference listing for the ${name} at ${church}, imported from the Pipe Organ Database. ` +
-      "This listing has not yet been claimed by the organization.",
-
-    publicAccessNotes:
-      "",
-
-    location: {
-      placeId:
-        group.place.id,
-
-      name:
-        group.place
-          ?.displayName
-          ?.text ||
-        church,
-
-      formattedAddress:
-        group.place
-          .formattedAddress ||
-        src.address,
-
-      googleMapsUri:
-        `https://www.google.com/maps/search/?api=1&query_place_id=${
-          encodeURIComponent(
-            group.place.id
-          )
-        }`,
-
-      latitude:
-        Number(
-          group.place
-            .location
-            .latitude
-        ),
-
-      longitude:
-        Number(
-          group.place
-            .location
-            .longitude
-        ),
-
-      city:
-        address.city,
-
-      region:
-        address.region,
-
-      postalCode:
-        address.postalCode,
-
-      country:
-        address.country ||
-        "United States",
-    },
-
-    fullAddress:
-      group.place
-        .formattedAddress ||
-      src.address,
-
-    city:
-      address.city,
-
-    region:
-      address.region,
-
-    sourceType:
-      "pipe_organ_database",
-
-    sourceKey:
-      `ohs-place:${group.place.id}`,
-
-    sourceName:
-      "Pipe Organ Database",
-
-    sourceLocationId:
-      String(src.id),
-
-    sourceInstrumentId,
-
-    sourceLocationUrl:
-      `${POD_WEB}/locations/${src.id}`,
-
-    sourceUrl:
-      `${POD_WEB}/instruments/${sourceInstrumentId}`,
-
-    source: {
-      provider:
-        "pipe_organ_database",
-
-      locationId:
-        String(src.id),
-
-      instrumentId:
-        sourceInstrumentId,
-    },
-
-    importMeta: {
-      routeDistanceMeters:
-        group.distanceMeters,
-
-      canonicalSelection:
-        "one_per_physical_church",
-
-      importedAt:
-        new Date().toISOString(),
-    },
-  };
-}
-
-
-/* ==========================================================================
-   ORGAN NAME
-   ========================================================================== */
-
-function opusData(
-  instrument
-) {
-  const number =
-    first(
-      instrument?.opus,
-
-      instrument
-        ?.opusNumber,
-
-      instrument
-        ?.originalOpus
-    );
-
-  if (
-    number == null ||
-    number === ""
-  ) {
-    return {
-      value: "",
-      display: "",
-    };
-  }
-
-  const prefix =
-    text(
-      first(
-        instrument
-          ?.opusPrefix,
-
-        instrument
-          ?.originalOpusPrefix,
-
-        ""
-      )
-    );
-
-  const suffix =
-    text(
-      first(
-        instrument
-          ?.opusSuffix,
-
-        instrument
-          ?.originalOpusSuffix,
-
-        ""
-      )
-    );
-
-  const value =
-    `${prefix}${number}${suffix}`
-      .trim();
-
-  /*
-   * Preserve source terminology:
-   *
-   * prefix absent -> Opus 940
-   * prefix "No. " -> No. 1726
-   */
-  const display =
-    prefix
-      ? value
-      : `Opus ${number}${suffix}`
-          .trim();
-
-  return {
-    value,
-    display,
-  };
-}
-
-function organName(
-  builder,
-  opus,
-  year,
-  instrument
-) {
-  const cleanBuilder =
-    text(builder)
-      .replace(
-        /\s+/g,
-        " "
-      )
-      .trim();
-
-  if (
-    cleanBuilder &&
-    opus.display
-  ) {
-    return (
-      `${cleanBuilder} ${opus.display}`
-    );
-  }
-
-  if (
-    cleanBuilder &&
-    year
-  ) {
-    return (
-      `${cleanBuilder} (${year})`
-    );
-  }
-
-  if (cleanBuilder) {
-    return (
-      `${cleanBuilder} Pipe Organ`
-    );
-  }
-
-  const title =
-    text(
-      first(
-        instrument
-          ?.instrumentName,
-
-        instrument?.title,
-
-        instrument
-          ?.displayName
-          ?.text
-      )
-    );
-
-  /*
-   * Do not accidentally use a venue /
-   * church name as the organ name.
-   */
-  if (
-    title &&
-    !CHURCH_NAME_RE.test(
-      title
-    )
-  ) {
-    return title;
-  }
-
-  return (
-    year
-      ? `Pipe Organ (${year})`
-      : "Pipe Organ"
-  );
-}
-
-
-/* ==========================================================================
-   INSTRUMENT METRICS
-   ========================================================================== */
-
-function yearOf(
-  instrument
-) {
-  const year =
-    Number(
-      first(
-        instrument?.year,
-
-        instrument
-          ?.installYear,
-
-        instrument
-          ?.builtYear,
-
-        instrument
-          ?.originalYear
-      )
-    );
-
-  return (
-    Number.isFinite(
-      year
-    ) &&
-    year > 1000 &&
-    year < 2200
-      ? year
-      : 0
-  );
-}
-
-function metric(
-  object,
-  keys
-) {
-  const wanted =
-    new Set(
-      keys.map(
-        (key) =>
-          key.toLowerCase()
-      )
-    );
-
-  let result = 0;
-
-  walk(
-    object,
-    (
-      key,
-      value
-    ) => {
-      if (
-        result ||
-        !wanted.has(
-          key.toLowerCase()
-        )
-      ) {
-        return;
-      }
-
-      const n =
-        Number(
-          Array.isArray(
-            value
-          )
-            ? value.length
-            : value
-        );
-
-      if (
-        Number.isFinite(n) &&
-        n >= 0 &&
-        n < 100000
-      ) {
-        result = n;
-      }
-    },
-    0,
-    4
-  );
-
-  return result;
-}
-
-
-/* ==========================================================================
-   FIREBASE ADMIN
-   ========================================================================== */
-
-async function adminDb() {
-  if (
-    getApps().length
-  ) {
-    return getFirestore(
-      getApps()[0]
-    );
-  }
-
-  const projectId =
-    process.env
-      .NEXT_PUBLIC_FIREBASE_PROJECT_ID
-      ?.trim() ||
-    process.env
-      .GOOGLE_CLOUD_PROJECT
-      ?.trim();
-
-  const servicePath =
-    process.env
-      .FIREBASE_SERVICE_ACCOUNT_PATH
-      ?.trim();
-
-  const raw =
-    process.env
-      .FIREBASE_SERVICE_ACCOUNT_JSON
-      ?.trim();
-
-  /*
-   * Supports a file-path credential if
-   * present, but does NOT require you to
-   * change your existing setup.
-   */
-  if (servicePath) {
-    const service =
-      JSON.parse(
-        await fs.readFile(
-          path.resolve(
-            servicePath
-          ),
-          "utf8"
-        )
-      );
-
-    return getFirestore(
-      initializeApp({
-        credential:
-          cert(service),
-
-        projectId:
-          projectId ||
-          service.project_id,
-      })
-    );
-  }
-
-  /*
-   * Your existing
-   * FIREBASE_SERVICE_ACCOUNT_JSON setup.
-   */
-  if (raw) {
-    const service =
-      parseServiceJson(
-        raw
-      );
-
-    return getFirestore(
-      initializeApp({
-        credential:
-          cert(service),
-
-        projectId:
-          projectId ||
-          service.project_id,
-      })
-    );
-  }
-
-  return getFirestore(
-    initializeApp({
-      credential:
-        applicationDefault(),
-
-      projectId,
-    })
-  );
-}
-
-function parseServiceJson(
-  raw
-) {
-  let value =
-    raw.trim();
-
-  if (
-    (
-      value.startsWith(
-        "'"
-      ) &&
-      value.endsWith(
-        "'"
-      )
-    ) ||
-    (
-      value.startsWith(
-        '"'
-      ) &&
-      value.endsWith(
-        '"'
-      ) &&
-      !value.startsWith(
-        "{"
-      )
-    )
-  ) {
-    value =
-      value.slice(
-        1,
-        -1
-      );
-  }
-
-  try {
-    return JSON.parse(
-      value
-    );
-  } catch (firstError) {
-    /*
-     * Repair the exact multiline-private-key
-     * format that caused the earlier
-     * Bad control character error.
-     */
-    const repaired =
-      value.replace(
-        /("private_key"\s*:\s*")([\s\S]*?)("\s*,\s*"client_email")/,
-        (
-          _match,
-          prefix,
-          key,
-          suffix
-        ) =>
-          `${
-            prefix
-          }${
-            key.replace(
-              /\r\n|\r|\n/g,
-              "\\n"
-            )
-          }${
-            suffix
-          }`
-      );
-
-    if (
-      repaired === value
-    ) {
-      throw firstError;
-    }
-
-    return JSON.parse(
-      repaired
-    );
-  }
-}
-
-
-/* ==========================================================================
-   FIRESTORE WRITES
-   ========================================================================== */
-
-async function writeBatches(
-  db,
-  records
-) {
-  for (
-    let i = 0;
-    i < records.length;
-    i += 400
-  ) {
-    const batch =
-      db.batch();
-
-    for (
-      const record
-      of records.slice(
-        i,
-        i + 400
-      )
-    ) {
-      const {
-        id,
-        ...data
-      } = record;
-
-      /*
-       * Correct Firebase Admin SDK:
-       *
-       * db.collection(...)
-       *
-       * NOT:
-       *
-       * db.getCollection(...)
-       */
-      const ref =
-        db
-          .collection(
-            "organs"
-          )
-          .doc(id);
-
-      batch.set(
-        ref,
-        {
-          ...data,
-
-          updatedAt:
-            FieldValue
-              .serverTimestamp(),
-
-          createdAt:
-            FieldValue
-              .serverTimestamp(),
-        },
-        {
-          merge: true,
-        }
-      );
-    }
-
-    await batch.commit();
-  }
-}
-
-async function deleteBatches(
-  db,
-  refs
-) {
-  for (
-    let i = 0;
-    i < refs.length;
-    i += 400
-  ) {
-    const batch =
-      db.batch();
-
-    for (
-      const ref
-      of refs.slice(
-        i,
-        i + 400
-      )
-    ) {
-      batch.delete(ref);
-    }
-
-    await batch.commit();
-  }
-}
-
-function isPodRecord(
-  data
-) {
-  return (
-    data?.sourceType ===
-      "pipe_organ_database" ||
-
-    data?.source
-      ?.provider ===
-      "pipe_organ_database" ||
-
-    String(
-      data?.sourceKey ||
-        ""
-    ).startsWith(
-      "ohs-"
-    )
-  );
-}
-
-
-/* ==========================================================================
-   NETWORK
-   ========================================================================== */
-
-async function requestJson(
-  url,
-  options = {}
-) {
-  const response =
-    await request(
-      url,
-      options
-    );
-
-  const body =
-    await response.text();
-
-  try {
-    return JSON.parse(
-      body
-    );
-  } catch {
-    throw new Error(
-      `Expected JSON from ${url}: ${
-        body.slice(
-          0,
-          200
-        )
-      }`
-    );
-  }
-}
-
-async function requestJsonStream(
-  url,
-  options = {}
-) {
-  const response =
-    await request(
-      url,
-      options
-    );
-
-  const body =
-    await response.text();
-
-  try {
-    return JSON.parse(
-      body
-    );
-  } catch {
-    const rows =
-      body
-        .split(/\r?\n/)
-        .map(
-          (line) =>
-            line.trim()
-        )
-        .filter(Boolean)
-        .map(
-          (line) => {
-            try {
-              return JSON.parse(
-                line
-              );
-            } catch {
-              return null;
-            }
-          }
-        )
-        .filter(Boolean);
-
-    if (rows.length) {
-      return rows;
-    }
-
-    throw new Error(
-      `Expected JSON stream from ${url}: ${
-        body.slice(
-          0,
-          200
-        )
-      }`
-    );
-  }
-}
-
-async function request(
-  url,
-  options = {}
-) {
-  const {
-    retries = 2,
-    timeoutMs = 12000,
-    ...fetchOptions
-  } = options;
-
-  let lastError;
-
-  for (
-    let attempt = 0;
-    attempt <= retries;
-    attempt += 1
-  ) {
-    const controller =
-      new AbortController();
-
-    const timer =
-      setTimeout(
-        () =>
-          controller.abort(),
-        timeoutMs
-      );
-
-    try {
-      const response =
-        await fetch(
-          url,
-          {
-            ...fetchOptions,
-
-            signal:
-              controller.signal,
-          }
-        );
-
-      if (
-        response.ok
-      ) {
-        return response;
-      }
-
-      const body =
-        await response
-          .text()
-          .catch(
-            () => ""
-          );
-
-      lastError =
-        new Error(
-          `${response.status} ${response.statusText}: ${
-            body.slice(
-              0,
-              260
-            )
-          }`
-        );
-
-      if (
-        response.status <
-          500 &&
-        response.status !==
-          429
-      ) {
-        throw lastError;
-      }
-    } catch (error) {
-      lastError =
-        error;
-
-      if (
-        attempt === retries
-      ) {
-        throw error;
-      }
-    } finally {
-      clearTimeout(
-        timer
-      );
-    }
-
-    await sleep(
-      250 *
-        (attempt + 1)
-    );
-  }
-
-  throw lastError;
-}
-
-
-/* ==========================================================================
-   GENERIC CONCURRENCY
-   ========================================================================== */
-
-async function mapLimit(
-  items,
-  limit,
-  fn
-) {
-  const output =
-    new Array(
-      items.length
-    );
-
-  let cursor = 0;
-
-  await Promise.all(
-    Array.from(
-      {
-        length:
-          Math.min(
-            limit,
-            items.length ||
-              1
-          ),
-      },
-
-      async () => {
-        while (true) {
-          const index =
-            cursor++;
-
-          if (
-            index >=
-            items.length
-          ) {
-            return;
-          }
-
-          output[index] =
-            await fn(
-              items[index],
-              index
-            );
-        }
-      }
-    )
-  );
-
-  return output;
-}
-
-
-/* ==========================================================================
-   GENERIC DATA HELPERS
-   ========================================================================== */
-
-function idOf(
-  value
-) {
-  if (
-    value == null
-  ) {
+    return buildImportRecord(location, instrument, googlePlace);
+  } catch (error) {
+    reject(locationId, "google_place_failed", error.message);
     return null;
   }
+})).filter(Boolean);
+const resolved = dedupeResolvedChurches(resolvedRaw);
+console.log(`Resolved ${resolvedRaw.length}/${canonicalChurches.length} church addresses through Google Places; ${resolved.length} remain after physical-place deduplication (${formatDuration(placesStart)}).`);
 
-  if (
-    typeof value ===
-      "string" ||
-    typeof value ===
-      "number"
-  ) {
-    return value;
-  }
+const routesStart = performance.now();
+const routed = await addRouteDistances(resolved);
+const accepted = routed
+  .filter((record) => {
+    if (!Number.isFinite(record.importMeta.routeDistanceMeters)) {
+      reject(record.sourceLocationId, "route_not_found", record.location.formattedAddress);
+      return false;
+    }
+    if (record.importMeta.routeDistanceMeters > RADIUS_MILES * METERS_PER_MILE) {
+      reject(record.sourceLocationId, "outside_launch_radius", `${(record.importMeta.routeDistanceMeters / METERS_PER_MILE).toFixed(1)} miles`);
+      return false;
+    }
+    return true;
+  })
+  .sort((a, b) => a.importMeta.routeDistanceMeters - b.importMeta.routeDistanceMeters);
+console.log(`Route-filtered in batches: ${accepted.length} within ${RADIUS_MILES} miles (${formatDuration(routesStart)}).`);
 
-  return first(
-    value.id,
-    value.locationId,
-    value.instrumentId,
-    value.organId
+await writeJson("accepted.json", accepted);
+await writeJson("rejected.json", rejected);
+await writeJson("run-summary.json", {
+  generatedAt: new Date().toISOString(),
+  mode: COMMIT ? "commit" : "dry-run",
+  rebuild: REBUILD,
+  sourceLocationsDiscovered: discoveredLocations.length,
+  sourceChurchLocationsDiscovered: churchCandidates.length,
+  sourceLocationsProcessed: limitedChurchCandidates.length,
+  churchLocations: churchLocations.length,
+  sourceInstrumentRecordsFetched: instrumentMap.size,
+  canonicalOrgans: canonicalChurches.length,
+  placesResolved: resolved.length,
+  accepted: accepted.length,
+  rejected: rejected.length,
+  radiusMiles: RADIUS_MILES,
+  cities: CITIES,
+});
+
+printRejectionSummary();
+console.log(`\nAccepted ${accepted.length} unique church organs.`);
+console.log(`Dry-run files: ${path.join(OUTPUT_DIR, "accepted.json")}`);
+
+if (!COMMIT) {
+  console.log("No Firestore writes were made. Review accepted.json, then run with --commit.");
+  console.log(`Total runtime: ${formatDuration(startedAt)}\n`);
+  process.exit(0);
+}
+
+if (REBUILD && accepted.length < MIN_SAFE_REBUILD_COUNT) {
+  throw new Error(
+    `Safety stop: only ${accepted.length} replacement listings were accepted. ` +
+    `At least ${MIN_SAFE_REBUILD_COUNT} are required before --rebuild may delete previous imports.`
   );
 }
 
-function uniqueById(
-  items
-) {
-  const map =
-    new Map();
-
-  for (
-    const item
-    of items || []
-  ) {
-    const id =
-      idOf(item);
-
-    if (
-      id != null
-    ) {
-      map.set(
-        String(id),
-        item
-      );
-    }
-  }
-
-  return [
-    ...map.values(),
-  ];
+if (REBUILD && rejected.some(item => /_api_failed|google_place_failed|route_not_found/.test(item.reason))) {
+  throw new Error("Incomplete source/address/route verification: rebuild blocked. Inspect rejected.json; no Firestore writes made.");
 }
+const db = await getAdminDb();
+const commitStart = performance.now();
+const existingSnapshot = await db.collection("organs").get();
+const claimedLocationIds = new Set();
+const claimedPlaceIds = new Set();
+const oldImportedRefs = [];
 
-function unique(
-  items
-) {
-  return [
-    ...new Set(
-      items.filter(
-        (item) =>
-          item != null &&
-          item !== ""
-      )
-    ),
-  ];
-}
-
-function walk(
-  value,
-  fn,
-  depth = 0,
-  maxDepth = 4
-) {
-  if (
-    depth > maxDepth ||
-    value == null ||
-    typeof value !==
-      "object"
-  ) {
-    return;
-  }
-
-  if (
-    Array.isArray(
-      value
-    )
-  ) {
-    for (
-      const item
-      of value
-    ) {
-      walk(
-        item,
-        fn,
-        depth + 1,
-        maxDepth
-      );
-    }
-
-    return;
-  }
-
-  for (
-    const [
-      key,
-      child,
-    ]
-    of Object.entries(
-      value
-    )
-  ) {
-    fn(
-      key,
-      child
-    );
-
-    walk(
-      child,
-      fn,
-      depth + 1,
-      maxDepth
-    );
-  }
-}
-
-
-/* ==========================================================================
-   GOOGLE ADDRESS PARSER
-   ========================================================================== */
-
-function googleAddress(
-  parts
-) {
-  const get =
-    (
-      type,
-      short = false
-    ) => {
-      const part =
-        parts.find(
-          (item) =>
-            item.types?.includes(
-              type
-            )
-        );
-
-      if (!part) {
-        return "";
-      }
-
-      return (
-        short
-          ? part.shortText ||
-            part.longText
-
-          : part.longText ||
-            part.shortText
-      ) || "";
-    };
-
-  return {
-    city:
-      get("locality") ||
-      get("postal_town") ||
-      get(
-        "administrative_area_level_2"
-      ),
-
-    region:
-      get(
-        "administrative_area_level_1",
-        true
-      ),
-
-    postalCode:
-      get(
-        "postal_code"
-      ),
-
-    country:
-      get(
-        "country"
-      ),
-  };
-}
-
-
-/* ==========================================================================
-   SMALL HELPERS
-   ========================================================================== */
-
-function first(
-  ...values
-) {
-  return values.find(
-    (value) =>
-      value !== undefined &&
-      value !== null &&
-      value !== ""
+for (const doc of existingSnapshot.docs) {
+  const data = doc.data();
+  const sourceLocationId = String(
+    data.sourceLocationId ?? data.source?.locationId ?? data.importMeta?.sourceLocationId ?? ""
   );
+  const isPod = isPipeOrganDatabaseRecord(data);
+
+  if (data.listingOwnership === "claimed") {
+    if (sourceLocationId) claimedLocationIds.add(sourceLocationId);
+    if(data.location?.placeId) claimedPlaceIds.add(data.location.placeId);
+  }
+
+  if (isPod && data.listingOwnership === "unclaimed" && data.status === "active") {
+    oldImportedRefs.push(doc.ref);
+  }
 }
 
-function text(
-  value
-) {
-  if (
-    value == null
-  ) {
-    return "";
-  }
+const recordsToWrite = accepted.filter((record) => !claimedLocationIds.has(String(record.sourceLocationId)) && !claimedPlaceIds.has(record.location?.placeId));
+await writeJson("firestore-backup-before-refresh.json", existingSnapshot.docs.map(doc => ({id:doc.id,...doc.data()})));
+if (REBUILD && recordsToWrite.length < oldImportedRefs.length * 0.6) throw new Error("Rebuild would remove over 40% of the existing reference collection; inspect the audit before proceeding.");
+// Write the verified replacement set first. A failed write must leave existing records available.
+await writeRecordsInBatches(db, recordsToWrite);
 
-  if (
-    typeof value ===
-      "string" ||
-    typeof value ===
-      "number"
-  ) {
-    return String(
-      value
-    ).trim();
-  }
-
-  if (
-    typeof value ===
-      "object"
-  ) {
-    return text(
-      first(
-        value.name,
-        value.text,
-        value.label,
-        value.description,
-        value.code
-      )
-    );
-  }
-
-  return "";
+if (REBUILD) {
+  const currentIds = new Set(recordsToWrite.map(record => record.id));
+  const stale = oldImportedRefs.filter(ref => !currentIds.has(ref.id));
+  await mapConcurrent(stale, 8, ref => db.runTransaction(async transaction => {
+    const current = await transaction.get(ref);
+    if (current.exists && current.data().listingOwnership === "unclaimed") transaction.update(ref,{status:"archived",archivedReason:"outside_verified_replacement_set",updatedAt:FieldValue.serverTimestamp()});
+  }));
+  console.log(`Archived ${stale.length} stale unclaimed imports after replacement writes succeeded.`);
 }
 
-function reject(
-  id,
-  reason,
-  detail = ""
-) {
-  rejected.push({
-    sourceLocationId:
-      String(
-        id ?? ""
-      ),
+console.log(`Committed ${recordsToWrite.length} unique church listings.`);
+if (accepted.length !== recordsToWrite.length) {
+  console.log(`Preserved ${accepted.length - recordsToWrite.length} already-claimed source locations.`);
+}
+console.log(`Total runtime: ${formatDuration(startedAt)}\n`);
 
-    reason,
+// --------------------------------------------------------------------------------------
+// Discovery: browser ONLY gathers location IDs. No per-location or per-instrument browsing.
+// --------------------------------------------------------------------------------------
 
-    detail:
-      String(
-        detail ?? ""
-      ),
+async function discoverLocations(cities) {
+  return discoverPodLocations(cities, fetchPodJson, (city, count) => console.log(`Source city ${city}: ${count} unique in-scope locations`));
+}
+function isChurchDiscovery(entry) { return churchLocation(entry); }
+
+function printSourceTypeSummary(entries) {
+  const counts = new Map();
+  for (const entry of entries) {
+    const type = stringValue(entry?.sourceType) || "(type missing)";
+    counts.set(type, (counts.get(type) || 0) + 1);
+  }
+  const top = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12);
+  if (!top.length) return;
+  console.log("Source location types (top):");
+  for (const [type, count] of top) {
+    console.log(`  ${String(count).padStart(4)}  ${type}`);
+  }
+}
+
+// --------------------------------------------------------------------------------------
+// Canonical church/instrument selection
+// --------------------------------------------------------------------------------------
+
+function chooseCanonicalInstrument(instruments) { return selectInstrument(instruments); }
+
+// --------------------------------------------------------------------------------------
+// Pipe Organ Database JSON API
+// --------------------------------------------------------------------------------------
+
+async function fetchPodJson(endpoint) {
+  return fetchJson(`${POD_API}${endpoint}`, {
+    headers: { Accept: "application/json" },
+    timeoutMs: 12_000,
+    retries: 3,
   });
 }
 
-function printRejections() {
-  const counts =
-    new Map();
-
-  for (
-    const item
-    of rejected
-  ) {
-    counts.set(
-      item.reason,
-      (
-        counts.get(
-          item.reason
-        ) || 0
-      ) + 1
-    );
+function extractInstrumentStubs(location) {
+  const candidates = [
+    location?.instruments,
+    location?.organs,
+    location?.instrumentRecords,
+    location?.data?.instruments,
+    location?.relationships?.instruments,
+  ];
+  for (const candidate of candidates) {
+    if (Array.isArray(candidate) && candidate.length) return uniqueById(candidate);
   }
 
-  if (
-    !counts.size
-  ) {
-    return;
-  }
-
-  console.log(
-    "\nRejection summary:"
-  );
-
-  for (
-    const [
-      reason,
-      count,
-    ]
-    of [
-      ...counts.entries(),
-    ].sort(
-      (a, b) =>
-        b[1] - a[1]
-    )
-  ) {
-    console.log(
-      `  ${
-        String(
-          count
-        ).padStart(4)
-      }  ${reason}`
-    );
-  }
+  // Defensive fallback for minor API-shape changes.
+  const found = [];
+  walk(location, (key, value) => {
+    if (/instrument/i.test(key) && Array.isArray(value)) found.push(...value);
+  }, 0, 4);
+  return uniqueById(found);
 }
 
-function printTypeSummary(
-  rows
-) {
-  const counts =
-    new Map();
-
-  for (
-    const row
-    of rows
-  ) {
-    const type =
-      row.sourceType ||
-      "Unknown";
-
-    counts.set(
-      type,
-      (
-        counts.get(
-          type
-        ) || 0
-      ) + 1
-    );
-  }
-
-  console.log(
-    "Source location types (top):"
-  );
-
-  for (
-    const [
-      type,
-      count,
-    ]
-    of [
-      ...counts.entries(),
-    ]
-      .sort(
-        (a, b) =>
-          b[1] - a[1]
-      )
-      .slice(
-        0,
-        12
-      )
-  ) {
-    console.log(
-      `  ${
-        String(
-          count
-        ).padStart(4)
-      }  ${type}`
-    );
-  }
+function isChurchLocation(location) {
+  const type = extractLocationType(location);
+  if (type && CHURCH_TYPE_RE.test(type)) return true;
+  if (type) return false;
+  return CHURCH_NAME_RE.test(extractName(location));
 }
 
-async function writeJson(
-  name,
-  value
-) {
-  await fs.writeFile(
-    path.join(
-      OUT_DIR,
-      name
-    ),
-
-    JSON.stringify(
-      value,
-      null,
-      2
-    ),
-
-    "utf8"
-  );
+function extractLocationType(location) {
+  return stringValue(firstDefined(
+    location?.locationType?.name,
+    location?.locationType,
+    location?.type?.name,
+    location?.type,
+    location?.subType?.name,
+    location?.locationSubType?.name,
+    location?.__openOrganSourceType,
+  ));
 }
 
-function parseArgs(
-  argv
-) {
-  const map =
-    new Map();
+// --------------------------------------------------------------------------------------
+// Google Places + batched Routes
+// --------------------------------------------------------------------------------------
 
-  for (
-    const arg
-    of argv
-  ) {
-    if (
-      !arg.startsWith(
-        "--"
-      )
-    ) {
+async function assertGooglePlacesReady() {
+  const response = await fetchJson(GOOGLE_PLACES_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": GOOGLE_KEY,
+      "X-Goog-FieldMask": "places.id,places.formattedAddress",
+    },
+    body: JSON.stringify({
+      textQuery: "Trinity Church, Boston, MA",
+      pageSize: 1,
+      regionCode: "US",
+      locationBias: {
+        circle: {
+          center: BOSTON_CENTER,
+          radius: GOOGLE_PLACES_BIAS_RADIUS_METERS,
+        },
+      },
+    }),
+    timeoutMs: 10_000,
+    retries: 0,
+  }).catch((error) => {
+    throw new Error(
+      `Google Places preflight failed before import discovery. ${error.message}\n` +
+      "Check GOOGLE_MAPS_SERVER_API_KEY, enable Places API (New), and make sure the key is not HTTP-referrer restricted."
+    );
+  });
+
+  if (!response || typeof response !== "object") {
+    throw new Error("Google Places preflight returned an invalid response.");
+  }
+
+  console.log("Google Places preflight: OK (50 km Boston location bias).\n");
+}
+
+async function resolveGooglePlace(textQuery) {
+  const response = await fetchJson(GOOGLE_PLACES_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": GOOGLE_KEY,
+      "X-Goog-FieldMask": [
+        "places.id",
+        "places.displayName",
+        "places.formattedAddress",
+        "places.location",
+        "places.addressComponents",
+      ].join(","),
+    },
+    body: JSON.stringify({
+      textQuery,
+      pageSize: 1,
+      regionCode: "US",
+      locationBias: {
+        circle: {
+          center: BOSTON_CENTER,
+          radius: GOOGLE_PLACES_BIAS_RADIUS_METERS,
+        },
+      },
+    }),
+    timeoutMs: 10_000,
+    retries: 2,
+  });
+  return response?.places?.[0] || null;
+}
+
+async function addRouteDistances(records) {
+  const output = records.map((record) => structuredClone(record));
+
+  // Google permits up to 50 address/place-ID waypoints in a matrix request. With one coordinate
+  // origin we keep destination chunks at 49, turning dozens of individual route calls into only
+  // a handful of matrix requests.
+  for (let start = 0; start < output.length; start += 49) {
+    const chunk = output.slice(start, start + 49);
+    const body = {
+      origins: [{
+        waypoint: {
+          location: { latLng: BOSTON_CENTER },
+        },
+      }],
+      destinations: chunk.map((record) => ({
+        waypoint: { placeId: record.location.placeId },
+      })),
+      travelMode: "DRIVE",
+    };
+
+    const response = await fetchRawJsonOrStream(GOOGLE_ROUTE_MATRIX_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": GOOGLE_KEY,
+        "X-Goog-FieldMask": "originIndex,destinationIndex,distanceMeters,condition,status",
+      },
+      body: JSON.stringify(body),
+      timeoutMs: 20_000,
+      retries: 2,
+    });
+
+    const elements = Array.isArray(response) ? response : response?.routes || response?.elements || [];
+    for (const element of elements) {
+      const destinationIndex = Number(element?.destinationIndex);
+      if (!Number.isInteger(destinationIndex) || !chunk[destinationIndex]) continue;
+      if (Number.isFinite(Number(element?.distanceMeters))) {
+        output[start + destinationIndex].importMeta.routeDistanceMeters = Number(element.distanceMeters);
+      }
+    }
+  }
+  return output;
+}
+
+function buildImportRecord(location, instrument, googlePlace) {
+  const sourceLocationId = String(extractId(location));
+  const sourceInstrumentId = String(extractId(instrument));
+  const builder = extractBuilderName(instrument);
+  const opus = formatOpus(instrument);
+  const year = extractYear(instrument);
+  const churchName = googlePlace.displayName?.text || extractName(location) || "Church organ";
+  const addressParts = parseGoogleAddress(googlePlace.addressComponents || []);
+  const formattedAddress = googlePlace.formattedAddress || buildSourceAddress(location);
+  const manuals = extractMetric(instrument, ["manuals", "numManuals", "numberOfManuals"]);
+  const stops = extractMetric(instrument, ["stops", "numStops", "numberOfStops", "stopCount"]);
+  const ranks = extractMetric(instrument, ["ranks", "numRanks", "numberOfRanks", "rankCount"]);
+
+  return {
+    id: `ohs-location-${sourceLocationId}`,
+    name: churchName,
+    organizationName: churchName,
+    ownerId: "",
+    status: "active",
+    listingOwnership: "unclaimed",
+    claimStatus: "available",
+    bookingEnabled: false,
+    verificationStatus: "source_imported",
+
+    builder,
+    sourceRecordBuilder: builder,
+    originalBuilder: instrument.originalBuilder?.name || "",
+    sourceLocationName: extractName(location),
+    originalYear: instrument.originalYear || "",
+    opus,
+    year: year || "",
+    manuals: manuals || "",
+    stops: stops || "",
+    ranks: ranks || "",
+    instrumentLabel: [builder, opus ? `Opus ${opus}` : ""].filter(Boolean).join(" "),
+
+    description: "Reference listing imported from the Pipe Organ Database. This listing has not yet been claimed by the organization.",
+    publicAccessNotes: "",
+
+    location: {
+      placeId: googlePlace.id,
+      name: googlePlace.displayName?.text || churchName,
+      formattedAddress,
+      googleMapsUri: `https://www.google.com/maps/search/?api=1&query_place_id=${encodeURIComponent(googlePlace.id)}`,
+      latitude: Number(googlePlace.location.latitude),
+      longitude: Number(googlePlace.location.longitude),
+      city: addressParts.city || stringValue(firstDefined(location?.city, location?.locality)),
+      region: addressParts.region || stringValue(firstDefined(location?.stateProvinceCode, location?.stateCode, location?.state, location?.region)),
+      postalCode: addressParts.postalCode,
+      country: addressParts.country || "United States",
+    },
+    fullAddress: formattedAddress,
+    city: addressParts.city || stringValue(firstDefined(location?.city, location?.locality)),
+    region: addressParts.region || stringValue(firstDefined(location?.stateProvinceCode, location?.stateCode, location?.state, location?.region)),
+
+    sourceType: "pipe_organ_database",
+    sourceKey: `ohs-location:${sourceLocationId}`,
+    sourceName: "Pipe Organ Database",
+    sourceLocationId,
+    sourceInstrumentId,
+    sourceLocationUrl: `${POD_WEB}/locations/${sourceLocationId}`,
+    sourceUrl: `${POD_WEB}/instruments/${sourceInstrumentId}`,
+    source: {
+      provider: "pipe_organ_database",
+      locationId: sourceLocationId,
+      instrumentId: sourceInstrumentId,
+      locationUrl: `${POD_WEB}/locations/${sourceLocationId}`,
+      instrumentUrl: `${POD_WEB}/instruments/${sourceInstrumentId}`,
+    },
+    importMeta: {
+      sourceLocationId,
+      sourceInstrumentId,
+      routeDistanceMeters: null,
+      canonicalSelection: "one_per_church_confirmed_current_playable_main",
+      verifiedAt: new Date().toISOString(),
+      sourceExtant: true,
+      sourcePlayable: true,
+      addressVerification: "source_street_number_name_and_google_place",
+      importedAt: new Date().toISOString(),
+    },
+  };
+}
+
+
+function dedupeResolvedChurches(records) {
+  const byPlace = new Map();
+  for (const record of records) {
+    const key = record.location?.placeId || `source:${record.sourceLocationId}`;
+    const previous = byPlace.get(key);
+    if (!previous) {
+      byPlace.set(key, record);
       continue;
     }
 
-    const token =
-      arg.slice(2);
+    const keep = importedRecordScore(record) > importedRecordScore(previous) ? record : previous;
+    const omit = keep === record ? previous : record;
+    byPlace.set(key, keep);
+    reject(omit.sourceLocationId, "duplicate_physical_church", `Same Google Place as source location ${keep.sourceLocationId}`);
+  }
+  return [...byPlace.values()];
+}
 
-    const index =
-      token.indexOf(
-        "="
-      );
+function importedRecordScore(record) {
+  return (Number(record.manuals) || 0) * 5_000_000 +
+    (Number(record.stops) || 0) * 50_000 +
+    (Number(record.ranks) || 0) * 5_000 +
+    (Number(record.year) || 0);
+}
 
-    map.set(
-      index < 0
-        ? token
-        : token.slice(
-            0,
-            index
-          ),
+// --------------------------------------------------------------------------------------
+// Firestore
+// --------------------------------------------------------------------------------------
 
-      index < 0
-        ? true
-        : token.slice(
-            index + 1
-          )
-    );
+async function getAdminDb() {
+  if (getApps().length) {
+    return getFirestore(getApps()[0]);
   }
 
+  const projectId =
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim() ||
+    process.env.GCLOUD_PROJECT?.trim() ||
+    process.env.GOOGLE_CLOUD_PROJECT?.trim() ||
+    undefined;
+
+  const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH?.trim();
+  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON?.trim();
+
+  if (serviceAccountPath) {
+    const absolutePath = path.resolve(process.cwd(), serviceAccountPath);
+    let raw;
+    try {
+      raw = await fs.readFile(absolutePath, "utf8");
+    } catch (error) {
+      throw new Error(
+        `Could not read FIREBASE_SERVICE_ACCOUNT_PATH at ${absolutePath}: ${error.message}`
+      );
+    }
+
+    let serviceAccount;
+    try {
+      serviceAccount = JSON.parse(raw);
+    } catch (error) {
+      throw new Error(
+        `Firebase service-account file is not valid JSON (${absolutePath}): ${error.message}`
+      );
+    }
+
+    const app = initializeApp({
+      credential: cert(serviceAccount),
+      projectId: projectId || serviceAccount.project_id,
+    });
+    return getFirestore(app);
+  }
+
+  if (serviceAccountJson) {
+    let serviceAccount;
+    try {
+      serviceAccount = JSON.parse(serviceAccountJson);
+    } catch (error) {
+      throw new Error(
+        "FIREBASE_SERVICE_ACCOUNT_JSON is invalid. Keep it as one-line JSON with escaped \n sequences, " +
+        "or preferably set FIREBASE_SERVICE_ACCOUNT_PATH=./secrets/firebase-service-account.json. " +
+        `Original error: ${error.message}`
+      );
+    }
+
+    const app = initializeApp({
+      credential: cert(serviceAccount),
+      projectId: projectId || serviceAccount.project_id,
+    });
+    return getFirestore(app);
+  }
+
+  try {
+    const app = initializeApp({
+      credential: applicationDefault(),
+      projectId,
+    });
+    return getFirestore(app);
+  } catch (error) {
+    throw new Error(
+      "Firebase Admin credentials are missing. For local imports, set " +
+      "FIREBASE_SERVICE_ACCOUNT_PATH=./secrets/firebase-service-account.json. " +
+      `Original error: ${error.message}`
+    );
+  }
+}
+
+async function writeRecordsInBatches(db, records) {
+  await mapConcurrent(records, 8, async record => {
+    const { id, ...data } = record;
+    const ref = db.collection("organs").doc(id);
+    await db.runTransaction(async transaction => {
+      const current = await transaction.get(ref);
+      if (current.exists && current.data().listingOwnership === "claimed") return;
+      transaction.set(ref, {
+        ...data,
+        updatedAt: FieldValue.serverTimestamp(),
+        ...(!current.exists ? { createdAt: FieldValue.serverTimestamp() } : {}),
+      }, { merge: true });
+    });
+  });
+}
+
+async function deleteRefsInBatches(db, refs) {
+  for (let start = 0; start < refs.length; start += 400) {
+    const batch = db.batch();
+    for (const ref of refs.slice(start, start + 400)) batch.delete(ref);
+    await batch.commit();
+  }
+}
+
+function isPipeOrganDatabaseRecord(data) {
+  return data?.sourceType === "pipe_organ_database" ||
+    data?.source?.provider === "pipe_organ_database" ||
+    String(data?.sourceKey || "").startsWith("ohs-") ||
+    String(data?.sourceKey || "").startsWith("ohs-location:");
+}
+
+// --------------------------------------------------------------------------------------
+// Generic helpers
+// --------------------------------------------------------------------------------------
+
+async function fetchJson(url, options = {}) {
+  const response = await fetchWithRetry(url, options);
+  const text = await response.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(`Expected JSON from ${url}, received ${text.slice(0, 160)}`);
+  }
+}
+
+async function fetchRawJsonOrStream(url, options = {}) {
+  const response = await fetchWithRetry(url, options);
+  const text = await response.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    const parsed = text
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        try { return JSON.parse(line); } catch { return null; }
+      })
+      .filter(Boolean);
+    if (parsed.length) return parsed;
+    throw new Error(`Expected JSON/JSON stream from ${url}, received ${text.slice(0, 160)}`);
+  }
+}
+
+async function fetchWithRetry(url, options = {}) {
+  const { retries = 2, timeoutMs = 10_000, ...fetchOptions } = options;
+  let lastError;
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(url, { ...fetchOptions, signal: controller.signal });
+      if (!response.ok) {
+        const body = await response.text().catch(() => "");
+        const error = new Error(`${response.status} ${response.statusText}: ${body.slice(0, 240)}`);
+        if (response.status < 500 && response.status !== 429) throw error;
+        lastError = error;
+      } else {
+        return response;
+      }
+    } catch (error) {
+      lastError = error;
+      if (attempt === retries) throw error;
+    } finally {
+      clearTimeout(timer);
+    }
+    await sleep(250 * (attempt + 1));
+  }
+  throw lastError;
+}
+
+async function mapConcurrent(items, concurrency, worker) {
+  const output = new Array(items.length);
+  let cursor = 0;
+  const runners = Array.from({ length: Math.min(concurrency, items.length || 1) }, async () => {
+    while (true) {
+      const index = cursor++;
+      if (index >= items.length) return;
+      output[index] = await worker(items[index], index);
+    }
+  });
+  await Promise.all(runners);
+  return output;
+}
+
+function extractName(object) {
+  return stringValue(firstDefined(
+    object?.name,
+    object?.displayName?.text,
+    object?.locationName,
+    object?.title,
+    object?.__openOrganSourceName,
+  ));
+}
+
+function extractId(object) {
+  if (object == null) return null;
+  if (typeof object === "number" || typeof object === "string") return object;
+  return firstDefined(object.id, object.instrumentId, object.locationId, object.organId);
+}
+
+function numericId(object) {
+  return Number(extractId(object)) || 0;
+}
+
+function extractBuilderName(instrument) {
+  return stringValue(firstDefined(
+    instrument?.builder?.name,
+    instrument?.builderName,
+    instrument?.builder?.companyName,
+    instrument?.manufacturer?.name,
+    instrument?.builder,
+  ));
+}
+
+function formatOpus(instrument) {
+  const prefix = stringValue(firstDefined(instrument?.opusPrefix, instrument?.originalOpusPrefix));
+  const number = firstDefined(instrument?.opus, instrument?.opusNumber, instrument?.originalOpus);
+  const suffix = stringValue(firstDefined(instrument?.opusSuffix, instrument?.originalOpusSuffix));
+  if (number == null || number === "") return "";
+  return `${prefix}${number}${suffix}`.trim();
+}
+
+function extractYear(instrument) {
+  const year = Number(firstDefined(instrument?.year, instrument?.installYear, instrument?.builtYear, instrument?.originalYear));
+  return Number.isFinite(year) && year > 1000 && year < 2200 ? year : 0;
+}
+
+function extractMetric(object, keys) { return metric(object, keys[0]); }
+
+function buildSourceAddress(location) {
+  const street = stringValue(firstDefined(
+    location?.address,
+    location?.streetAddress,
+    location?.address1,
+    location?.street,
+  ));
+  const city = stringValue(firstDefined(location?.city, location?.locality));
+  const region = stringValue(firstDefined(location?.stateProvinceCode, location?.stateCode, location?.state, location?.region));
+  const postal = stringValue(firstDefined(location?.postalCode, location?.zipcode, location?.zip, location?.zipCode));
+  const country = stringValue(firstDefined(location?.countryCode, location?.country, "US"));
+  return [street, city, region, postal, country]
+    .filter((value) => value && !/^unknown address$/i.test(value))
+    .join(", ");
+}
+
+function parseGoogleAddress(components) {
+  const find = (type, short = false) => {
+    const component = components.find((item) => item.types?.includes(type));
+    if (!component) return "";
+    return short ? component.shortText || component.longText || "" : component.longText || component.shortText || "";
+  };
+  return {
+    city: find("locality") || find("postal_town") || find("administrative_area_level_2"),
+    region: find("administrative_area_level_1", true),
+    postalCode: find("postal_code"),
+    country: find("country"),
+  };
+}
+
+function walk(value, visitor, depth = 0, maxDepth = 4) {
+  if (depth > maxDepth || value == null || typeof value !== "object") return;
+  if (Array.isArray(value)) {
+    for (const item of value) walk(item, visitor, depth + 1, maxDepth);
+    return;
+  }
+  for (const [key, child] of Object.entries(value)) {
+    visitor(key, child);
+    walk(child, visitor, depth + 1, maxDepth);
+  }
+}
+
+function uniqueById(items) {
+  const map = new Map();
+  for (const item of items || []) {
+    const id = extractId(item);
+    if (id != null) map.set(String(id), item);
+  }
+  return [...map.values()];
+}
+
+function reject(sourceLocationId, reason, detail = "") {
+  rejected.push({ sourceLocationId: String(sourceLocationId ?? ""), reason, detail: String(detail ?? "") });
+}
+
+function printRejectionSummary() {
+  const counts = new Map();
+  for (const item of rejected) counts.set(item.reason, (counts.get(item.reason) || 0) + 1);
+  if (!counts.size) return;
+  console.log("\nRejection summary:");
+  for (const [reason, count] of [...counts.entries()].sort((a, b) => b[1] - a[1])) {
+    console.log(`  ${String(count).padStart(4)}  ${reason}`);
+  }
+}
+
+async function writeJson(filename, value) {
+  await fs.writeFile(path.join(OUTPUT_DIR, filename), JSON.stringify(value, null, 2), "utf8");
+}
+
+async function loadEnvFiles() {
+  for (const filename of [".env.local", ".env"]) {
+    const fullPath = path.resolve(filename);
+    let content;
+    try { content = await fs.readFile(fullPath, "utf8"); } catch { continue; }
+    for (const rawLine of content.split(/\r?\n/)) {
+      const line = rawLine.trim();
+      if (!line || line.startsWith("#")) continue;
+      const equals = line.indexOf("=");
+      if (equals < 1) continue;
+      const key = line.slice(0, equals).trim();
+      let value = line.slice(equals + 1).trim();
+      if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+        value = value.slice(1, -1);
+      }
+      if (process.env[key] == null) process.env[key] = value;
+    }
+  }
+}
+
+function parseArgs(argv) {
+  const map = new Map();
+  for (const arg of argv) {
+    if (!arg.startsWith("--")) continue;
+    const token = arg.slice(2);
+    const equals = token.indexOf("=");
+    if (equals === -1) map.set(token, true);
+    else map.set(token.slice(0, equals), token.slice(equals + 1));
+  }
   return map;
 }
 
-function positiveInt(
-  value
-) {
-  const n =
-    Number(value);
-
-  return (
-    Number.isInteger(n) &&
-    n > 0
-      ? n
-      : null
-  );
+function positiveInteger(value) {
+  const number = Number(value);
+  return Number.isInteger(number) && number > 0 ? number : null;
 }
 
-function positiveNumber(
-  value
-) {
-  const n =
-    Number(value);
-
-  return (
-    Number.isFinite(n) &&
-    n > 0
-      ? n
-      : null
-  );
+function positiveNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) && number > 0 ? number : null;
 }
 
-function elapsed(
-  start
-) {
-  const seconds =
-    (
-      performance.now() -
-      start
-    ) / 1000;
-
-  if (
-    seconds < 60
-  ) {
-    return (
-      `${seconds.toFixed(
-        1
-      )}s`
-    );
-  }
-
-  return (
-    `${Math.floor(
-      seconds / 60
-    )}m ${
-      (
-        seconds % 60
-      ).toFixed(0)
-    }s`
-  );
+function firstDefined(...values) {
+  return values.find((value) => value !== undefined && value !== null && value !== "");
 }
 
-function sleep(
-  ms
-) {
-  return new Promise(
-    (resolve) =>
-      setTimeout(
-        resolve,
-        ms
-      )
-  );
+function stringValue(value) {
+  if (value == null) return "";
+  if (typeof value === "string" || typeof value === "number") return String(value).trim();
+  if (typeof value === "object") return stringValue(firstDefined(value.name, value.text, value.label, value.description));
+  return "";
 }
 
+function formatDuration(start) {
+  const seconds = (performance.now() - start) / 1000;
+  return seconds < 60 ? `${seconds.toFixed(1)}s` : `${Math.floor(seconds / 60)}m ${(seconds % 60).toFixed(0)}s`;
+}
 
-/* ==========================================================================
-   .ENV / .ENV.LOCAL LOADER
-
-   Supports your existing multiline:
-   FIREBASE_SERVICE_ACCOUNT_JSON={...}
-   ========================================================================== */
-
-async function loadEnv() {
-  for (
-    const file
-    of [
-      ".env.local",
-      ".env",
-    ]
-  ) {
-    let raw;
-
-    try {
-      raw =
-        await fs.readFile(
-          path.resolve(
-            file
-          ),
-          "utf8"
-        );
-    } catch {
-      continue;
-    }
-
-    const lines =
-      raw.split(
-        /\r?\n/
-      );
-
-    for (
-      let i = 0;
-      i < lines.length;
-    ) {
-      const match =
-        lines[i].match(
-          /^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/
-        );
-
-      if (!match) {
-        i += 1;
-        continue;
-      }
-
-      const key =
-        match[1];
-
-      let value =
-        match[2];
-
-      i += 1;
-
-      /*
-       * Your service-account JSON can span
-       * multiple physical lines.
-       */
-      if (
-        value
-          .trim()
-          .startsWith(
-            "{"
-          ) &&
-        !value
-          .trim()
-          .endsWith(
-            "}"
-          )
-      ) {
-        while (
-          i < lines.length
-        ) {
-          value +=
-            `\n${lines[i]}`;
-
-          i += 1;
-
-          if (
-            value
-              .trim()
-              .endsWith(
-                "}"
-              )
-          ) {
-            break;
-          }
-        }
-      }
-
-      value =
-        value.trim();
-
-      if (
-        (
-          value.startsWith(
-            '"'
-          ) &&
-          value.endsWith(
-            '"'
-          )
-        ) ||
-        (
-          value.startsWith(
-            "'"
-          ) &&
-          value.endsWith(
-            "'"
-          )
-        )
-      ) {
-        value =
-          value.slice(
-            1,
-            -1
-          );
-      }
-
-      if (
-        process.env[
-          key
-        ] == null
-      ) {
-        process.env[
-          key
-        ] =
-          value;
-      }
-    }
-  }
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

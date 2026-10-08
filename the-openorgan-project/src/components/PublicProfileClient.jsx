@@ -86,7 +86,7 @@ function Profile({ userId }) {
             <ProfileSummary profile={profile} contact={contact} />
             {!organist && profile.website && (
               <a className="text-link" href={profile.website} target="_blank" rel="noreferrer">
-                Official website ↗
+                Official website
               </a>
             )}
           </article>

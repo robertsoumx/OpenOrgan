@@ -1,5 +1,6 @@
 import EventDetailClient from "@/components/EventDetailClient";
-import { getPublicDocument } from "@/lib/server-data";
+import { getEvent } from "@/lib/events-server";
+import { notFound } from "next/navigation";
 import { siteUrl } from "@/lib/config";
 
 function toIso(value) {
@@ -17,7 +18,7 @@ function eventDescription(event) {
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const event = await getPublicDocument("events", id);
+  const event = await getEvent(id);
   if (!event) {
     return {
       title: "Organ Event",
@@ -53,7 +54,8 @@ export async function generateMetadata({ params }) {
 
 export default async function EventPage({ params }) {
   const { id } = await params;
-  const event = await getPublicDocument("events", id);
+  const event = await getEvent(id);
+  if (!event) notFound();
 
   const structuredData = event ? {
     "@context": "https://schema.org",
@@ -66,10 +68,11 @@ export default async function EventPage({ params }) {
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     url: `${siteUrl}/events/${id}`,
     image: event.imageUrl ? [event.imageUrl] : undefined,
+    isAccessibleForFree: event.admission?.startsWith("Free") || undefined,
     location: {
       "@type": "Place",
       name: event.location?.name,
-      address: event.location?.formattedAddress
+      address: { "@type": "PostalAddress", streetAddress: event.location?.formattedAddress, addressLocality: event.location?.city, addressRegion: event.location?.region, addressCountry: "US" }
     },
     organizer: {
       "@type": "Organization",

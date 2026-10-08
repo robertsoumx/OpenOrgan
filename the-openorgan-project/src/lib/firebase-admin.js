@@ -26,6 +26,7 @@ export function getAdminServices() {
     const existing = getApps()[0];
     const projectId = serviceAccount?.project_id || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
 
+    if (!existing && !projectId && !process.env.GOOGLE_CLOUD_PROJECT) return null;
     const app = existing || initializeApp({
       credential: serviceAccount ? cert(serviceAccount) : applicationDefault(),
       ...(projectId ? { projectId } : {})

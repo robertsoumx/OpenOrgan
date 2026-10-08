@@ -7,4 +7,3 @@ node_modules
 .DS_Store
 *.log
 import-output
-scripts

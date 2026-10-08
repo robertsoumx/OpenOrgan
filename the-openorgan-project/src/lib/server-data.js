@@ -32,7 +32,10 @@ export async function getPublicDocument(collectionName, id) {
     const database = publicDb();
     if (!database) return null;
     const snapshot = await getDoc(doc(database, collectionName, id));
-    return snapshot.exists() ? serialize({ id: snapshot.id, ...snapshot.data() }) : null;
+    if (!snapshot.exists()) return null;
+    const data = snapshot.data();
+    if (data.status && data.status !== "active") return null;
+    return serialize({ id: snapshot.id, ...data });
   } catch (error) {
     console.warn(`Unable to read ${collectionName}/${id}:`, error?.message || error);
     return null;

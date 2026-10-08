@@ -10,6 +10,7 @@ import LocationPanel from "@/components/LocationPanel";
 import QuestionsSection from "@/components/QuestionsSection";
 import ProfileSummary from "@/components/ProfileSummary";
 import { formatDateTime } from "@/lib/format";
+import { eventDate } from "@/lib/events-core.mjs";
 
 export default function EventDetailClient({ id, initialEvent = null }) {
   const { user, account, profile, loading: authLoading } = useAuth();
@@ -21,15 +22,15 @@ export default function EventDetailClient({ id, initialEvent = null }) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (!db || !id) {
+    if (!db || !id || initialEvent?.origin === "curated") {
       setLoading(false);
       return;
     }
     getDoc(doc(db, "events", id))
       .then((snapshot) => setEvent(snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null))
-      .catch(() => setEvent(null))
+      .catch(() => {})
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, initialEvent?.origin]);
 
   useEffect(() => {
     if (!db || !event?.ownerId) return;
@@ -100,7 +101,7 @@ export default function EventDetailClient({ id, initialEvent = null }) {
     <section className="section">
       <div className="container detail-grid">
         <div className="stack-lg">
-          {event.imageUrl && <img className="detail-image" src={event.imageUrl} alt="" />}
+          {event.imageUrl && <img className="detail-image" src={event.imageUrl} alt={event.imageAlt || event.title} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/event-cover.svg"; }} />}
           <div>
             <span className="eyebrow">{event.type || "Event"}</span>
             <h1>{event.title}</h1>
@@ -108,8 +109,9 @@ export default function EventDetailClient({ id, initialEvent = null }) {
           </div>
 
           <article className="card stack">
-            <strong>{formatDateTime(event.startDateTime)}</strong>
+            <strong>{event.origin === "curated" ? `${eventDate(event.startDateTime, { weekday: "long", hour: "numeric", minute: "2-digit" })} ET` : formatDateTime(event.startDateTime)}</strong>
             <p>{event.description}</p>
+            {event.sourceUrl && <div className="source-panel"><strong>{event.admission || "Organizer details"}</strong><p className="small">{event.sourceName}{event.sourceCheckedAt ? ` · Schedule checked ${new Date(event.sourceCheckedAt).toLocaleDateString("en-US", { timeZone: "America/New_York" })}` : ""}</p><a className="button" href={event.sourceUrl} target="_blank" rel="noopener noreferrer">Visit official event page</a><p className="small muted">Confirm program details and schedule changes with the organizer.</p></div>}
             {policy === "required" && <div className="message warning">Signup is required for this event.</div>}
             {policy === "optional" && <p className="muted">Signup is optional but helps the organization plan.</p>}
 
@@ -127,13 +129,13 @@ export default function EventDetailClient({ id, initialEvent = null }) {
           </article>
 
           <LocationPanel location={event.location} />
-          <QuestionsSection targetType="event" targetId={id} ownerId={event.ownerId} />
+          {event.ownerId && <QuestionsSection targetType="event" targetId={id} ownerId={event.ownerId} />}
         </div>
 
         <aside className="detail-sidebar stack-lg">
           <article className="card">
             <span className="eyebrow">Hosted by</span>
-            <ProfileSummary profile={ownerProfile} userId={event.ownerId} contact={ownerContact} />
+            {event.ownerId ? <ProfileSummary profile={ownerProfile} userId={event.ownerId} contact={ownerContact} /> : <><h2>{event.organizationName}</h2><p>{event.location?.formattedAddress}</p>{event.imageCredit && <p className="small muted">Series image: {event.imageCredit}</p>}</>}
           </article>
 
           {organizationAccount && ownsEvent && (

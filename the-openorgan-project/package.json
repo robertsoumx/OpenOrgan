@@ -11,7 +11,10 @@
     "test:smoke": "node scripts/smoke.mjs",
     "migrate:data": "node scripts/migrate-private-notes.mjs",
     "import:boston": "node scripts/import-ohs-boston.mjs",
-    "analytics:export": "node scripts/export-analytics.mjs"
+    "analytics:export": "node scripts/export-analytics.mjs",
+    "events:refresh": "node scripts/refresh-events.mjs",
+    "test:content": "node --test scripts/test-content.mjs",
+    "check:seo": "node scripts/check-seo-build.mjs"
   },
   "dependencies": {
     "firebase": "12.16.0",

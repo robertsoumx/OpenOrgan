@@ -1,8 +1,11 @@
 function normalizeSiteUrl(value) {
   try {
-    return new URL(String(value || "http://localhost:3000")).origin;
+    const url = new URL(String(value || "https://openorgan.org"));
+    if (!["http:", "https:"].includes(url.protocol)) return "https://openorgan.org";
+    if (process.env.NODE_ENV === "production" && (url.protocol !== "https:" || /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/.test(url.hostname))) return "https://openorgan.org";
+    return url.origin;
   } catch {
-    return "http://localhost:3000";
+    return "https://openorgan.org";
   }
 }
 

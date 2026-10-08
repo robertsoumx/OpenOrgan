@@ -39,7 +39,7 @@ export default function AboutPage() {
             <span className="eyebrow">The mission</span>
             <h1>Access instruments. Promote events.</h1>
             <p className="lead">
-              The OpenOrgan Project is an open-source mission aiming to connecting organists with churches, schools, and organizations wanting to promote events and provide practice access to their instruments.
+              The OpenOrgan Project connects organists and listeners with Greater Boston’s church organs, public performances, and organization-approved practice access.
             </p>
             <div className="about-tags" aria-label="Project focus">
               <Link href="/search">Practice</Link>

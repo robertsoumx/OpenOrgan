@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { formatPricing } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-client";
+import { cleanText } from "@/lib/events-core.mjs";
 
 export default function OrganCard({ organ, selected, onHover }) {
   const hasImage = Boolean(organ.imageUrl);
@@ -31,18 +32,19 @@ export default function OrganCard({ organ, selected, onHover }) {
     >
       {hasImage && (
         <div className="organ-card-image">
-          <img src={organ.imageUrl} alt="" />
+          <img src={organ.imageUrl} alt={cleanText(organ.name)} loading="lazy" />
           {unclaimed && <strong className="unclaimed-badge organ-card-badge">UNCLAIMED LISTING</strong>}
         </div>
       )}
+      {!hasImage && <div className="organ-card-art" aria-hidden="true"><svg viewBox="0 0 90 120"><g fill="#376671"><path d="M8 43h10v63H8zM24 25h10v81H24zM40 8h10v98H40zM56 25h10v81H56zM72 43h10v63H72z"/></g><path d="M5 109h80v6H5z" fill="#bd7490"/></svg></div>}
 
       <div className="organ-card-body">
         {!hasImage && unclaimed && <strong className="unclaimed-badge organ-card-badge-inline">UNCLAIMED LISTING</strong>}
         <span className="eyebrow organ-location-label">{organ.location?.city || "Greater Boston"}</span>
-        <h2>{organ.name}</h2>
-        {organ.organizationName && <p>{organ.organizationName}</p>}
+        <h2>{cleanText(organ.name)}</h2>
+        {organ.organizationName && organ.organizationName !== organ.name && <p>{cleanText(organ.organizationName)}</p>}
         <div className="organ-facts">
-          <span>{organ.ratingCount ? `${organ.ratingAverage.toFixed(1)} ★ (${organ.ratingCount})` : "Not yet rated"}</span>
+          <span>{organ.ratingCount ? `${Number(organ.ratingAverage || 0).toFixed(1)} / 5 (${organ.ratingCount} reviews)` : "Not yet rated"}</span>
           <span>{unclaimed ? "Reference listing" : formatPricing(organ.pricing)}</span>
           {Number.isFinite(organ.routeDistanceMeters) && (
             <span>{(organ.routeDistanceMeters / 1609.344).toFixed(1)} mi · {Math.round((organ.routeDurationSeconds || 0) / 60)} min</span>
@@ -53,6 +55,7 @@ export default function OrganCard({ organ, selected, onHover }) {
             ? "Church organ sourced from the Pipe Organ Database. Practice requests are unavailable until the church claims the listing."
             : organ.description?.slice(0, 130)}
         </p>
+        {organ.importMeta?.verifiedAt && <p className="organ-source muted">Source checked {new Date(organ.importMeta.verifiedAt).toLocaleDateString("en-US", { timeZone: "America/New_York" })}</p>}
       </div>
     </Link>
   );

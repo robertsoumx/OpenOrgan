@@ -1,17 +1,9 @@
 import RoleAwareHome from "@/components/RoleAwareHome";
 import HomeHighlights from "@/components/HomeHighlights";
-
-export const metadata = {
-  title: "The OpenOrgan Project | Pipe Organ Access & Events",
-  description: "Discover pipe organs, practice access, and organ events through The OpenOrgan Project, beginning in Greater Boston.",
-  alternates: { canonical: "/" }
-};
-
-export default function HomePage() {
-  return (
-    <>
-      <RoleAwareHome />
-      <HomeHighlights />
-    </>
-  );
+import { getEventFeed } from "@/lib/events-server";
+export const revalidate = 21600;
+export const metadata = { title: { absolute: "OpenOrgan | Boston Pipe Organs, Recitals & Practice Access" }, description: "Discover church pipe organs, upcoming organ concerts, and organization-approved practice access in Greater Boston with OpenOrgan.", alternates: { canonical: "/" } };
+export default async function HomePage() {
+  const feed = await getEventFeed();
+  return <><RoleAwareHome /><HomeHighlights events={feed.events} /></>;
 }
