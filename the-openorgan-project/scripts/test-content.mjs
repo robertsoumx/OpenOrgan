@@ -118,3 +118,55 @@ test("Home highlights include different venues while the event directory remains
   const events=["A","A","B","C"].map((name,i)=>({id:String(i),startDateTime:`2026-10-${20+i}T12:00:00Z`,location:{name}}));
   assert.deepEqual(diverseUpcoming(events,3,new Date("2026-10-17")).map(e=>e.location.name),["A","B","C"]);
 });
+
+test("Directory coordinates reject missing and zero coordinates instead of plotting an invented location",async()=>{
+  const {coordinates}=await import("../src/lib/directory-core.mjs");
+  assert.equal(coordinates({latitude:null,longitude:null}),null);assert.equal(coordinates({latitude:"",longitude:""}),null);assert.equal(coordinates({latitude:0,longitude:0}),null);assert.equal(coordinates({latitude:100,longitude:1}),null);assert.deepEqual(coordinates({latitude:42.3,longitude:-71.1}),{lat:42.3,lng:-71.1});
+});
+test("Physical aliases deduplicate, while conflicting source coordinates are held off the map",async()=>{
+  const {dedupeReferences,coordinates}=await import("../src/lib/directory-core.mjs");
+  const item=(id,address,name,year=2000)=>({id,sourceLocationId:id,name,year,location:{formattedAddress:address,city:"Boston",region:"MA",latitude:42.35,longitude:-71.1},importMeta:{}});
+  const result=dedupeReferences([item("1","67 Newberry Street, Boston, MA","Old church",1850),item("2","67 Newbury Street, Boston, MA","Current church",2000)]);
+  assert.equal(result.length,1);assert.equal(result[0].name,"Current church");
+  const conflict=dedupeReferences([item("1","85 Main St, Boston, MA","A"),item("2","107 Main St, Boston, MA","B")]);assert.ok(conflict.every(i=>coordinates(i.location)===null));assert.ok(conflict.every(i=>i.importMeta.coordinateReview));
+});
+test("A claimed draft suppresses its reference listing and obsolete unclaimed imports stay out",async()=>{
+  const {mergeDirectory}=await import("../src/lib/directory-core.mjs");
+  const reference={id:"source",sourceLocationId:"10",name:"Church",location:{formattedAddress:"10 Main St, Boston, MA",city:"Boston",region:"MA"}};
+  assert.equal(mergeDirectory([reference],[{...reference,id:"claimed",listingOwnership:"claimed",status:"draft"}]).length,0);
+  assert.equal(mergeDirectory([reference],[{id:"obsolete",sourceLocationId:"11",listingOwnership:"unclaimed",status:"active",location:{formattedAddress:"40 Other St",city:"Boston"}}]).length,1);
+  assert.equal(mergeDirectory([reference],[{...reference,id:"claimed",listingOwnership:"claimed",status:"active"}])[0].id,"claimed");
+  assert.equal(mergeDirectory([reference],[{...reference,id:"old-import",listingOwnership:"unclaimed",status:"archived"}])[0].id,"source");
+});
+test("The complete source catalogue has regional coverage, unique physical addresses and honest pin positions",async()=>{
+  const {coordinates,addressKey,municipality}=await import("../src/lib/directory-core.mjs");
+  const snapshot=JSON.parse(fs.readFileSync("src/data/organ-directory.json","utf8")),organs=snapshot.organs;
+  assert.ok(organs.length>=200);assert.ok(new Set(organs.map(o=>municipality(o.location.city))).size>=35);assert.equal(new Set(organs.map(o=>addressKey(o.location))).size,organs.length);
+  assert.ok(organs.every(o=>o.importMeta.sourceExtant&&o.importMeta.sourcePlayable&&!o.bookingEnabled&&o.sourceUrl));
+  const mapped=organs.filter(o=>coordinates(o.location));assert.equal(new Set(mapped.map(o=>`${o.location.latitude.toFixed(5)},${o.location.longitude.toFixed(5)}`)).size,mapped.length);
+});
+test("Map grouping includes every valid result regardless of the list page size",async()=>{
+  const {geographicGroups}=await import("../src/lib/directory-core.mjs");
+  const items=Array.from({length:246},(_,i)=>({id:String(i),location:{latitude:42+i*.001,longitude:-71}}));
+  const groups=geographicGroups(items,10);assert.equal(groups.flat().length,246);assert.ok(groups.length>1);
+});
+test("Route matrices cover more than 100 destinations and cache repeated queries",async()=>{
+  const {rankRoutes}=await import("../src/lib/routes-core.mjs");
+  const items=Array.from({length:126},(_,i)=>({id:String(i),location:{placeId:"place-"+i}})),cache=new Map();let calls=0;
+  const fetcher=async(url,options)=>{calls++;const body=JSON.parse(options.body);return {ok:true,json:async()=>body.destinations.map((_,i)=>({destinationIndex:i,condition:"ROUTE_EXISTS",distanceMeters:100+i,duration:"100s"}))};};
+  const first=await rankRoutes({origin:{latitude:42,longitude:-71},items,key:"test",cache,fetcher,now:1000});assert.equal(first.results.length,126);assert.equal(calls,6);
+  const second=await rankRoutes({origin:{latitude:42,longitude:-71},items,key:"test",cache,fetcher,now:2000});assert.equal(second.results.length,126);assert.equal(calls,6);
+});
+test("Event routes deduplicate shared addresses and never label failed routes as zero distance",async()=>{
+  const {rankRoutes}=await import("../src/lib/routes-core.mjs");
+  const items=[{id:"a",location:{name:"Venue",formattedAddress:"10 Main St, Boston, MA"}},{id:"b",location:{name:"Venue",formattedAddress:"10 Main St, Boston, MA"}},{id:"c",location:{name:"Other",formattedAddress:"20 Main St, Boston, MA"}}];
+  let count;
+  const result=await rankRoutes({origin:{latitude:42,longitude:-71},items,key:"test",fetcher:async(url,options)=>{count=JSON.parse(options.body).destinations.length;return {ok:true,json:async()=>[{destinationIndex:0,condition:"ROUTE_EXISTS",distanceMeters:1500,duration:"140s"},{destinationIndex:1,condition:"ROUTE_NOT_FOUND"}]};}});
+  assert.equal(count,2);assert.equal(result.results.length,2);assert.deepEqual(result.unavailable,["c"]);assert.ok(result.results.every(r=>r.routeDistanceMeters===1500));
+});
+test("A failed matrix batch preserves successful batches and rejects malformed durations",async()=>{
+  const {rankRoutes}=await import("../src/lib/routes-core.mjs");
+  let calls=0;const items=Array.from({length:27},(_,i)=>({id:String(i),location:{placeId:String(i)}}));
+  const result=await rankRoutes({origin:{latitude:42,longitude:-71},items,key:"test",fetcher:async()=>++calls===1?{ok:false}:{ok:true,json:async()=>[{destinationIndex:0,condition:"ROUTE_EXISTS",distanceMeters:0,duration:"0s"},{destinationIndex:1,condition:"ROUTE_EXISTS",distanceMeters:12}]}});
+  assert.equal(result.results.length,1);assert.equal(result.results[0].routeDistanceMeters,0);assert.equal(result.unavailable.length,26);
+});

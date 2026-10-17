@@ -14,7 +14,8 @@
     "analytics:export": "node scripts/export-analytics.mjs",
     "events:refresh": "node scripts/refresh-events.mjs",
     "test:content": "node --test scripts/test-content.mjs",
-    "check:seo": "node scripts/check-seo-build.mjs"
+    "check:seo": "node scripts/check-seo-build.mjs",
+    "directory:refresh": "node scripts/refresh-directory.mjs"
   },
   "dependencies": {
     "firebase": "12.16.0",

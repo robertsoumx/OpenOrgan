@@ -1,0 +1,51 @@
+name: Refresh current organ directory
+on:
+  schedule:
+    - cron: '37 5 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/refresh-organ-directory.yml'
+      - 'the-openorgan-project/src/lib/directory*.mjs'
+      - 'the-openorgan-project/src/lib/routes-core.mjs'
+      - 'the-openorgan-project/src/data/organ-directory.json'
+      - 'the-openorgan-project/scripts/refresh-directory.mjs'
+      - 'the-openorgan-project/scripts/test-content.mjs'
+permissions:
+  contents: read
+concurrency:
+  group: organ-directory-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  directory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '22'
+      - name: Validate catalogue, routing, and existing content
+        working-directory: the-openorgan-project
+        run: node --test scripts/test-content.mjs
+      - name: Recheck the complete public source
+        if: github.event_name != 'pull_request'
+        working-directory: the-openorgan-project
+        run: |
+          node scripts/refresh-directory.mjs
+          node --test scripts/test-content.mjs
+      - name: Save the verified catalogue
+        if: github.event_name != 'pull_request'
+        env:
+          TARGET_BRANCH: ${{ github.ref_name }}
+        run: |
+          snapshot=the-openorgan-project/src/data/organ-directory.json
+          if git diff --quiet -- "$snapshot"; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- "$snapshot"
+          git commit -m 'Refresh current playable church organ catalogue'
+          git pull --rebase origin "$TARGET_BRANCH"
+          git push origin "HEAD:$TARGET_BRANCH"

@@ -46,7 +46,8 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    if (!db || !id) {
+    if (!db || !id || initialOrgan) {
+      if(initialOrgan)setOrgan(initialOrgan);
       setLoading(false);
       return;
     }
@@ -55,7 +56,7 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
       .then((snapshot) => setOrgan(snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, initialOrgan]);
 
   useEffect(() => {
     if (!db || !organ?.ownerId) return;
@@ -147,7 +148,7 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
             )}
           </article>
 
-          <LocationPanel location={organ.location} />
+          <LocationPanel location={organ.location} />{organ.importMeta?.coordinateReview&&<p className="small">This venue uses its street address while the source map pin is under review.</p>}
 
           {!unclaimed && (
             <section className="card stack-lg">
