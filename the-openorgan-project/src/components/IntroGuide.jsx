@@ -38,7 +38,7 @@ export default function IntroGuide() {
   if (!steps.length) return null;
   const item = steps[step];
   return <dialog ref={dialog} className="guide-dialog" aria-labelledby="intro-title" onCancel={event => { event.preventDefault(); finish(); }}>
-    <div className="flex-between"><span className="eyebrow">{role === "organization" ? "Institution guide" : "Organist guide"}</span><button className="button-secondary" onClick={finish}>Close guide</button></div>
+    <div className="flex-between"><span className="eyebrow">Getting started</span><button className="button-secondary" onClick={finish}>Close guide</button></div>
     <p className="guide-progress" aria-live="polite">Step {step + 1} of {steps.length}</p>
     <div key={item.id} aria-live="polite"><h2 id="intro-title" ref={titleRef} tabIndex={-1}>{item.title}</h2><p>{item.text}</p><p>{item.detail}</p></div>
     <label className="guide-checkbox"><input type="checkbox" checked={optOut} onChange={e => setOptOut(e.target.checked)} />Don't show automatically again on this browser</label>

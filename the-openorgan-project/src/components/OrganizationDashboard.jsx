@@ -162,11 +162,11 @@ function Console() {
     <section className="section">
       <div className="container">
         <div className="page-header">
-          <span className="eyebrow">Organization dashboard</span>
-          <h1>{profile?.organizationName || "Your organization"}</h1>
-          <p>Manage listings, events, practice requests, and questions.</p>
+          <span className="eyebrow">Manage listings</span>
+          <h1>{profile?.organizationName || "Your institution"}</h1>
+          <p>Offer free or paid practice access, review requests, and publish events.</p>
           <div className="form-actions"><Link className="button-secondary" href="/guide">User guide</Link>
-            <Link className="button-secondary" href="/profile">Edit Organization Profile</Link>
+            <Link className="button-secondary" href="/profile">Edit institution profile</Link>
           </div>
         </div>
 
@@ -199,9 +199,9 @@ function Console() {
 
         {tab === "overview" && (
           <div className="grid-3 dashboard-shortcuts">
-            <button className="card" onClick={() => setTab("organs")}><strong>{organs.length}</strong><p>Manage organs</p></button>
+            <button className="card" onClick={() => setTab("organs")}><strong>{organs.length}</strong><p>Offer practice access</p></button>
             <button className="card" onClick={() => setTab("reservations")}><strong>{reservations.filter((item) => item.status === "pending").length}</strong><p>Review pending requests</p></button>
-            <button className="card" onClick={() => setTab("events")}><strong>{events.length}</strong><p>Manage events</p></button>
+            <button className="card" onClick={() => setTab("events")}><strong>{events.length}</strong><p>Publish events</p></button>
           </div>
         )}
 
@@ -244,7 +244,7 @@ function Console() {
               )) : !creatingOrgan ? (
                 <div className="empty-state">
                   <h2>No organs yet</h2>
-                  <p>Add an instrument when you are ready to create your first listing.</p>
+                  <p>List an organ and choose free access, a recommended donation, or a required fee.</p>
                   <button className="button" onClick={() => { setCreatingOrgan(true); setEditingOrgan(null); }}>Add Organ</button>
                 </div>
               ) : null}
@@ -290,7 +290,7 @@ function Console() {
               )) : !creatingEvent ? (
                 <div className="empty-state">
                   <h2>No events yet</h2>
-                  <p>Create a concert, service, workshop, or other public event when you are ready.</p>
+                  <p>Publish a concert, service, or workshop so people can find it in Find events.</p>
                   <button className="button" onClick={() => { setCreatingEvent(true); setEditingEvent(null); }}>Add Event</button>
                 </div>
               ) : null}

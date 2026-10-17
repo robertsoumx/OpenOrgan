@@ -12,10 +12,10 @@ import {
 } from "@/lib/account-setup";
 import { toUserMessage } from "@/lib/user-error";
 
-export default function RegisterClient() {
+export default function RegisterClient({ initialRole = "organist" }) {
   const router = useRouter();
   const [form, setForm] = useState({
-    role: "organist",
+    role: initialRole,
     displayName: "",
     organizationName: "",
     email: "",
@@ -83,20 +83,21 @@ export default function RegisterClient() {
 
   return (
     <form className="auth-card" onSubmit={submit}>
-      <span className="eyebrow">Join the project</span>
+      <span className="eyebrow">OpenOrgan</span>
       <h1>Create an account</h1>
 
       <label>
         Account type
-        <select name="role" value={form.role} onChange={change}>
+        <select name="role" value={form.role} onChange={change} aria-describedby="account-purpose">
           <option value="organist">Organist</option>
-          <option value="organization">Church, school, or organization</option>
+          <option value="organization">Institution</option>
         </select>
       </label>
+      <p id="account-purpose">{form.role === "organization" ? "Offer free or paid practice access and publish your events." : "Request practice access and sign up for events."}</p>
 
       {form.role === "organization" ? (
         <label>
-          Organization name
+          Institution name
           <input name="organizationName" value={form.organizationName} onChange={change} required />
         </label>
       ) : (
@@ -125,7 +126,7 @@ export default function RegisterClient() {
       </label>
 
       <button className="button" disabled={working}>
-        {working ? "Creating Account..." : "Create Account"}
+        {working ? "Creating account..." : "Create account"}
       </button>
 
       {message && <div className="message error" role="alert">{message}</div>}
