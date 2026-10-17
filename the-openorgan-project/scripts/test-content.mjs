@@ -136,6 +136,7 @@ test("A claimed draft suppresses its reference listing and obsolete unclaimed im
   assert.equal(mergeDirectory([reference],[{...reference,id:"claimed",listingOwnership:"claimed",status:"draft"}]).length,0);
   assert.equal(mergeDirectory([reference],[{id:"obsolete",sourceLocationId:"11",listingOwnership:"unclaimed",status:"active",location:{formattedAddress:"40 Other St",city:"Boston"}}]).length,1);
   assert.equal(mergeDirectory([reference],[{...reference,id:"claimed",listingOwnership:"claimed",status:"active"}])[0].id,"claimed");
+  assert.equal(mergeDirectory([reference],[{...reference,id:"old-import",listingOwnership:"unclaimed",status:"archived"}])[0].id,"source");
 });
 test("The complete source catalogue has regional coverage, unique physical addresses and honest pin positions",async()=>{
   const {coordinates,addressKey,municipality}=await import("../src/lib/directory-core.mjs");

@@ -40,6 +40,7 @@ export function dedupeReferences(records) {
 export function mergeDirectory(references,hosted) {
   const remaining=new Map(references.map(o=>[o.id,o])),output=[];
   for(const item of [...hosted].sort((a,b)=>(b.listingOwnership==="claimed")-(a.listingOwnership==="claimed"))) {
+    if(item.listingOwnership!=="claimed"&&item.status!=="active")continue;
     const matches=[...remaining.values()].filter(r=>String(r.sourceLocationId)===String(item.sourceLocationId || item.source?.locationId || "") || addressKey(r.location)===addressKey(item.location));
     const current=matches[0];matches.forEach(r=>remaining.delete(r.id));
     if(item.listingOwnership==="claimed") {if(item.status==="active")output.push(item);continue;}
