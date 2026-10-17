@@ -1,4 +1,4 @@
-import {KeyboardRule,PipeMark} from "@/components/OrganShowcase";
+import {KeyboardRule,PipeMark} from "@/components/OrganMotifs";
 import Link from "next/link";
 export default function SiteFooter() {
   return <footer className="site-footer"><KeyboardRule/><div className="container">
