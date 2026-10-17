@@ -1,4 +1,4 @@
-import { EVENT_SOURCES, parseTrinity, parseHarvard, parseJsonLd, parseAgo, curateEvents, cleanText, eventLocation, safeImage } from "./events-core.mjs";
+import { EVENT_SOURCES, parseTrinity, parseHarvard, parseJsonLd, parseAgo, curateEvents, eventLocation } from "./events-core.mjs";
 
 async function request(url, fetcher) {
   const response = await fetcher(url, { cache:"no-store", signal:AbortSignal.timeout(15000), headers:{"User-Agent":"OpenOrgan/1.1 (+https://openorgan.org/about)","Accept":"text/html,application/json"} });
@@ -7,13 +7,9 @@ async function request(url, fetcher) {
 }
 function parseTrinityApi(text, source, checkedAt) {
   const data=JSON.parse(text);
-  return (data.events || []).filter(e=>/organ|recital/i.test(cleanText(e.title)) && !/no recital|no concert|cancelled|canceled/i.test(cleanText(e.title))).flatMap(e=>{
-    // Explicit offsets or UTC dates are required; never use the runner's timezone.
-    const date = e.utc_start_date ? new Date(e.utc_start_date.replace(" ","T")+"Z") : null;
-    if(!date || !Number.isFinite(date.getTime())) return [];
-    const venue=e.venue || {};
-    return [{id:`curated-${source.id}-${date.toLocaleDateString("en-CA",{timeZone:"America/New_York"})}`,title:cleanText(e.title),type:"Organ recital",status:"active",origin:"curated",registrationPolicy:"none",timeZone:"America/New_York",organizationName:source.name,startDateTime:date.toISOString(),description:cleanText(e.description).split(/(?<=[.!?])\s/)[0],sourceId:source.id,sourceName:source.name,sourceUrl:e.url || source.url,sourceCheckedAt:checkedAt,imageUrl:safeImage(e.image?.url || source.imageUrl),imageAlt:source.name,admission:e.cost || "See organizer",location:eventLocation(source,{name:cleanText(venue.venue) || source.name,formattedAddress:venue.address ? [venue.address,venue.city,venue.state,venue.zip].filter(Boolean).join(", ") : source.address})}];
-  });
+  // Recurring API occurrences also include services and holiday placeholders.
+  // Use only the explicit dated recital program embedded by the organizer.
+  return (data.events || []).flatMap(event=>parseTrinity(event.description || "",source,checkedAt)).map(event=>({...event,location:eventLocation(source)}));
 }
 export async function pullSource(source, fetcher = fetch, checkedAt = new Date().toISOString()) {
   let html;

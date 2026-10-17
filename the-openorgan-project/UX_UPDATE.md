@@ -7,13 +7,13 @@ OpenOrgan returns to burgundy, rose, and cream with simpler wording and task-foc
 - Made institution overview counts actionable, added guide links, and kept organ search usable while travel distances load.
 - Added separate organist and institution introductions covering the existing account functions, plus a permanent `/guide` page.
 - Introductions appear once per signed-in browser session unless the user opts out; preferences are scoped to the account and role on that browser.
-- Added official Harvard Memorial Church, Methuen Memorial Music Hall, and Boston AGO calendars alongside Trinity; the verified snapshot contains 52 events across seven venues as of October 17, 2026.
+- Added official Harvard Memorial Church, Methuen Memorial Music Hall, and Boston AGO calendars alongside Trinity; the verified snapshot contains 53 events across seven venues as of October 17, 2026.
 - Added address search, venue filtering, visible event addresses, map reveals, directions, and address copying; institution event editing continues to use the same Places picker as organ editing.
 - Homepage highlights favor different venues while the full calendar stays chronological.
 
 ## Calendar refresh
 
-The previous GitHub run failed on Trinity's HTTP 403 response. Sources now refresh independently, with an alternate official Trinity JSON endpoint and a verified snapshot fallback. Unavailable sources keep their original verification dates and expire after 30 days. No future dates are inferred from weekly recurrence. Refreshes report warnings and source status rather than failing when useful verified dates remain; a completely unusable feed still fails for attention.
+The previous GitHub run failed on Trinity's HTTP 403 response. Sources now refresh independently, with an alternate official Trinity JSON endpoint and a verified snapshot fallback. The alternate endpoint is parsed from its embedded dated program, excluding recurring services and holiday placeholders. Unavailable sources keep their original verification dates and expire after 30 days. No future dates are inferred from weekly recurrence. Refreshes report warnings and source status rather than failing when useful verified dates remain; a completely unusable feed still fails for attention.
 
 The GitHub workflow tests parsing before and after refreshing, records a source summary, and runs on pull requests without committing their snapshots. Scheduled and manual runs save only the snapshot. The authenticated refresh API also reports partial source failures without treating a usable feed as unavailable.
 

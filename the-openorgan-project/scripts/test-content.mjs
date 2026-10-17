@@ -6,12 +6,13 @@ import { refreshCalendars, pullSource } from "../src/lib/events-refresh.mjs";
 import { sourceFlag, currentInstrument, selectInstrument, churchLocation, metric, discoverPodLocations, placeMatchesSource } from "../src/lib/organ-import-core.mjs";
 
 test("Published dates only; skip holidays and handle Eastern daylight saving", () => {
-  const html = "<h2>Fall 2026 Recitals</h2><ul><li>Oct. 9 <strong>Stephen Kalnoske</strong></li><li>Nov. 6 <strong>Angela Kraft Cross</strong></li><li>Nov. 27 No Recital</li></ul><h2>Spring 2027 Recitals</h2><ul><li>Mar. 26 No concert for Good Friday</li><li>Apr. 9 <strong>Mark Pacoe</strong></li></ul>";
+  const html = "<h2>Fall 2026 Recitals</h2><ul><li>Oct. 9 <strong>Stephen Kalnoske</strong></li><li>Nov. 6 <strong>Angela Kraft Cross</strong></li><li>Nov. 20 Example Organist <em>No Recital on Nov. 27</em></li><li>Nov. 27 No Recital</li></ul><h2>Spring 2027 Recitals</h2><ul><li>Mar. 26 No concert for Good Friday</li><li>Apr. 9 <strong>Mark Pacoe</strong></li></ul>";
   const events = parseTrinity(html);
-  assert.equal(events.length,3);
+  assert.equal(events.length,4);
   assert.equal(events[0].startDateTime,"2026-10-09T16:15:00.000Z");
   assert.equal(events[1].startDateTime,"2026-11-06T17:15:00.000Z");
-  assert.equal(events[2].startDateTime,"2027-04-09T16:15:00.000Z");
+  assert.equal(events[2].startDateTime,"2026-11-20T17:15:00.000Z");
+  assert.equal(events[3].startDateTime,"2027-04-09T16:15:00.000Z");
   assert.equal(parseTrinity("<h2>Other unrelated calendar</h2>").length,0);
   assert.equal(localDateTime(2027,1,8),"2027-01-08T17:15:00.000Z");
 });
@@ -85,13 +86,13 @@ test("AGO chapter calendar rejects cancellations and unknown venues, preserves a
   const parsed=parseAgo('<h1>2026 Events</h1>'+block(24,"")+block(25,"This event was cancelled.")+block(26,"","Location TBA",""),EVENT_SOURCES.find(s=>s.id==="boston-ago"),"2026-10-17T00:00:00Z");
   assert.equal(parsed.length,1);assert.equal(parsed[0].startDateTime,"2026-10-24T23:00:00.000Z");assert.equal(parsed[0].location.formattedAddress,"10 Main St, Boston, MA");
 });
-test("403 uses the alternate official Trinity endpoint with explicit UTC dates",async()=>{
+test("403 uses the alternate official Trinity dated program and skips recurrence placeholders",async()=>{
   const calls=[];
   const events=await pullSource(EVENT_SOURCES[0],async url=>{
     calls.push(url);
-    return calls.length===1 ? {ok:false,status:403} : {ok:true,text:async()=>JSON.stringify({events:[{title:"Organ recital",utc_start_date:"2026-10-23 16:15:00",url:"https://trinitychurchboston.org/event/test"}]})};
+    return calls.length===1 ? {ok:false,status:403} : {ok:true,text:async()=>JSON.stringify({events:[{title:"Organ recital",utc_start_date:"2026-11-27 17:15:00",description:"<table><tr><td>October 23, 2026</td><td>Example Organist</td></tr><tr><td>November 27, 2026</td><td>THANKSGIVING (NO RECITAL)</td></tr></table>"},{title:"Holy Eucharist with Organ and Choir",utc_start_date:"2026-10-25 17:00:00"}]})};
   },"2026-10-17T00:00:00Z");
-  assert.equal(calls.length,2);assert.match(calls[1],/wp-json\/tribe/);assert.equal(events[0].startDateTime,"2026-10-23T16:15:00.000Z");assert.ok(events[0].location.formattedAddress);
+  assert.equal(calls.length,2);assert.equal(events.length,1);assert.match(calls[1],/wp-json\/tribe/);assert.equal(events[0].startDateTime,"2026-10-23T16:15:00.000Z");assert.ok(events[0].location.formattedAddress);
 });
 test("Independent refresh retains verification time on failure and expires cached dates after 30 days",async()=>{
   const now=new Date("2026-10-17T00:00:00Z"), checked="2026-10-16T00:00:00Z";

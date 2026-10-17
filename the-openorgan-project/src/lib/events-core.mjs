@@ -27,7 +27,7 @@ export function parseTrinity(html, source = EVENT_SOURCES[0], checkedAt = new Da
     for (const item of season[2].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/gi)) {
       const text = cleanText(item[1]);
       const date = text.match(/^([A-Za-z]+)\.?\s+(\d{1,2})(?:,?\s+20\d{2})?\s+(.*)/);
-      if (!date || /no (?:concert|recital)/i.test(date[3])) continue;
+      if (!date || /^(?:no (?:concert|recital)|thanksgiving|good friday|easter week)/i.test(date[3])) continue;
       const month = months[date[1].slice(0, 3).toLowerCase()];
       const day = Number(date[2]);
       const performer = cleanText(date[3].split(/No Recital|No Concert/i)[0]);
@@ -38,7 +38,14 @@ export function parseTrinity(html, source = EVENT_SOURCES[0], checkedAt = new Da
       events.push({ id, title: performer + " · Friday organ recital", performer, organizationName: source.name, type: "Organ recital", status: "active", startDateTime, timeZone: "America/New_York", registrationPolicy: "none", description: "Friday lunchtime organ recital with " + performer + ".", admission: "Free · donation welcome", imageUrl: source.imageUrl, imageAlt: "Trinity Church Boston organ recital series", imageCredit: source.name, sourceUrl: source.url, sourceName: source.name, sourceId: source.id, sourceCheckedAt: checkedAt, origin: "curated", location: { name: source.name, city: source.city, region: source.region, formattedAddress: source.address } });
     }
   }
-  return events;
+  // Trinity's official event API embeds the same dated program as a table.
+  for (const row of html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)) {
+    const cells=[...row[1].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)].map(m=>cleanText(m[1]));
+    const date=cells[0]?.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(20\d{2})$/);
+    if(!date || !cells[1] || /no (?:recital|concert)|cancelled|canceled/i.test(cells[1])) continue;
+    events.push(...parseTrinity(`<h2>Fall ${date[3]} Recitals</h2><ul><li>${date[1]} ${date[2]} ${cells[1]}</li></ul>`,source,checkedAt));
+  }
+  return [...new Map(events.map(event=>[event.id,event])).values()];
 }
 export function curateEvents(events, now = new Date()) {
   const lower = now.getTime() - 30 * 86400000, upper = now.getTime() + 270 * 86400000;
