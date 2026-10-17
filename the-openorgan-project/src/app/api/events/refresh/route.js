@@ -14,6 +14,6 @@ export async function POST(request) {
   revalidatePath("/");
   revalidatePath("/events");
   revalidatePath("/sitemap.xml");
-  const ok = feed.sources.every(source => source.ok);
-  return Response.json({ ok, events: feed.events.length, checkedAt: feed.generatedAt }, { status: ok ? 200 : 503 });
+  const ok = feed.events.some(event => new Date(event.endDateTime || event.startDateTime) > new Date());
+  return Response.json({ ok, partial: feed.sources.some(source => !source.ok), sources: feed.sources, events: feed.events.length, checkedAt: feed.generatedAt }, { status: ok ? 200 : 503 });
 }

@@ -1,26 +1,23 @@
 import fs from "node:fs/promises";
-import { EVENT_SOURCES, parseTrinity, curateEvents } from "../src/lib/events-core.mjs";
-const checkedAt = new Date().toISOString();
-const pulled = await Promise.all(EVENT_SOURCES.map(async source => {
-  const response = await fetch(source.url, { signal: AbortSignal.timeout(30000) });
-  if (!response.ok) throw new Error(source.name + ": HTTP " + response.status);
-  const events = parseTrinity(await response.text(), source, checkedAt);
-  if (!events.length) throw new Error(source.name + ": no dated recitals parsed; snapshot preserved");
-  return events;
-}));
-const events = curateEvents(pulled.flat());
-if (!events.some(e => new Date(e.startDateTime) >= new Date())) throw new Error("No upcoming events verified; snapshot preserved");
-const filename = "src/data/events-snapshot.json";
-if (process.argv.includes("--if-changed")) {
-  const previous = await fs.readFile(filename, "utf8").then(JSON.parse).catch(() => null);
-  const facts = list => JSON.stringify((list || []).map(({ sourceCheckedAt, ...event }) => event));
-  const unchanged = previous && facts(previous.events) === facts(events);
-  const checkedRecently = previous && Date.now() - Date.parse(previous.checkedAt) < 24 * 60 * 60 * 1000;
-  if (unchanged && checkedRecently) {
-    console.log("Official calendar verified; dates unchanged and snapshot checked within 24 hours.");
-    process.exit(0);
-  }
+import { refreshCalendars } from "../src/lib/events-refresh.mjs";
+const filename="src/data/events-snapshot.json";
+const previous=await fs.readFile(filename,"utf8").then(JSON.parse).catch(()=>({events:[]}));
+const result=await refreshCalendars(previous);
+const warnings=result.sources.filter(s=>!s.ok);
+for(const source of warnings) console.warn(`${process.env.GITHUB_ACTIONS ? "::warning::" : "Warning: "}${source.name}: ${source.error}; ${source.checkedAt ? "retaining dates last checked "+source.checkedAt : "no verified cached dates"}.`);
+const upcoming=result.events.filter(e=>new Date(e.endDateTime || e.startDateTime)>new Date());
+if(process.env.GITHUB_STEP_SUMMARY) {
+  const summary=["### Official event refresh",`${result.events.length} events; ${upcoming.length} upcoming; ${result.sources.length-warnings.length}/${result.sources.length} sources refreshed.`,...result.sources.map(s=>`- ${s.name}: ${s.ok ? "refreshed" : "source unavailable"}${s.checkedAt ? "; last verified "+s.checkedAt : ""}`)].join("\n");
+  await fs.appendFile(process.env.GITHUB_STEP_SUMMARY,summary+"\n");
 }
-await fs.mkdir("src/data", { recursive: true });
-await fs.writeFile(filename, JSON.stringify({ checkedAt, events }, null, 2) + "\n");
-console.log("Verified " + events.length + " recent/upcoming events from " + EVENT_SOURCES.length + " official calendar(s).");
+if(!upcoming.length) throw new Error("No upcoming verified events remain; snapshot preserved for review");
+if(process.argv.includes("--strict") && warnings.length) throw new Error("Strict verification: a source is unavailable");
+const facts = data => JSON.stringify({events:(data.events || []).map(({sourceCheckedAt,...event})=>event),sources:(data.sources || []).map(({checkedAt,attemptedAt,...source})=>source)});
+if(process.argv.includes("--if-changed") && facts(previous)===facts(result) && Date.now()-Date.parse(previous.checkedAt)<86400000) {
+  console.log("Calendar facts unchanged; last verification was within 24 hours.");
+} else {
+  const temporary=filename+".tmp";
+  await fs.writeFile(temporary,JSON.stringify(result,null,2)+"\n");
+  await fs.rename(temporary,filename);
+  console.log(`Saved ${result.events.length} verified events across ${new Set(result.events.map(e=>e.location?.name || e.organizationName)).size} venues.`);
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase-client";
 import OrganCard from "@/components/OrganCard";
@@ -37,14 +37,13 @@ export default function SearchExperience({ initialOrgans = [] }) {
   const [loading, setLoading] = useState(!initialOrgans.length);
   const [notice, setNotice] = useState({ type: "", text: "" });
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("distance");
-  const [limit, setLimit] = useState(5);
+  const [sort, setSort] = useState("recommended");
+  const [limit, setLimit] = useState(20);
   const [selectedId, setSelectedId] = useState("");
   const [view, setView] = useState("list");
   const [routing, setRouting] = useState(false);
   const [locationPhase, setLocationPhase] = useState("idle");
   const [userLocation, setUserLocation] = useState(null);
-  const automaticLocationAttempted = useRef(false);
 
   const selectFromMap = useCallback((id) => {
     setSelectedId(id);
@@ -150,7 +149,7 @@ export default function SearchExperience({ initialOrgans = [] }) {
           setSort("recommended");
           setNotice({
             type: "error",
-            text: toUserMessage(error, "We found your location but could not calculate routes. Showing recommended organs instead.")
+            text: toUserMessage(error, "Routes are unavailable; you can still search by city or address.")
           });
           trackEvent("directory_location", {
             feature: "organ_directory",
@@ -170,8 +169,8 @@ export default function SearchExperience({ initialOrgans = [] }) {
         setNotice({
           type: "info",
           text: denied
-            ? "Location access is off. Showing recommended organs instead. You can enable location at any time."
-            : "Your location could not be read. Showing recommended organs instead."
+            ? "Use the search box or enable location to find nearby organs."
+            : "Your location is unavailable; search by city or address."
         });
         trackEvent("directory_location", {
           feature: "organ_directory",
@@ -184,39 +183,6 @@ export default function SearchExperience({ initialOrgans = [] }) {
     );
   }, [organs]);
 
-  useEffect(() => {
-    if (loading || !organs.length || automaticLocationAttempted.current) return;
-    automaticLocationAttempted.current = true;
-
-    let cancelled = false;
-    async function startAutomaticLocation() {
-      try {
-        if (navigator.permissions?.query) {
-          const permission = await navigator.permissions.query({ name: "geolocation" });
-          if (cancelled) return;
-          if (permission.state === "denied") {
-            setLocationPhase("denied");
-            setSort("recommended");
-            setNotice({ type: "info", text: "Location access is off. Showing recommended organs instead." });
-            trackEvent("directory_location", {
-              feature: "organ_directory",
-              action: "automatic",
-              outcome: "already_denied",
-              locationStatus: "denied"
-            });
-            return;
-          }
-        }
-      } catch {
-        // Safari and some browsers do not expose geolocation through Permissions API.
-      }
-      if (!cancelled) requestLocation(true);
-    }
-
-    startAutomaticLocation();
-    return () => { cancelled = true; };
-  }, [loading, organs.length, requestLocation]);
-
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     const hasRoutes = organs.some((organ) => Number.isFinite(organ.routeDistanceMeters));
@@ -227,7 +193,8 @@ export default function SearchExperience({ initialOrgans = [] }) {
         organ.organizationName,
         organ.builder,
         organ.location?.city,
-        organ.location?.region
+        organ.location?.region,
+        organ.location?.formattedAddress
       ]
         .filter(Boolean)
         .join(" ")
@@ -253,7 +220,7 @@ export default function SearchExperience({ initialOrgans = [] }) {
 
   const hasRoutes = organs.some((organ) => Number.isFinite(organ.routeDistanceMeters));
   const findingNearest = !loading && organs.length > 0 && locationPhase === "requesting" && !hasRoutes;
-  const locationButtonNeeded = ["denied", "unavailable", "route-error"].includes(locationPhase);
+  const locationButtonNeeded = ["idle", "denied", "unavailable", "route-error"].includes(locationPhase);
 
   function changeSort(value) {
     setSort(value);
@@ -279,7 +246,7 @@ export default function SearchExperience({ initialOrgans = [] }) {
     <div className="search-layout">
       <section className={`search-list-panel ${view === "map" ? "mobile-hidden" : ""}`}>
         <div className="page-header compact directory-heading">
-          <span className="eyebrow">Greater Boston church organs</span>
+          <span className="eyebrow">Organ directory</span>
           <h1>Find organs</h1>
           <p>Church organs sourced from the Pipe Organ Database, plus claimed practice listings from participating organizations.</p>
         </div>
@@ -300,7 +267,7 @@ export default function SearchExperience({ initialOrgans = [] }) {
           />
 
           <select aria-label="Order organs" value={sort} onChange={(event) => changeSort(event.target.value)}>
-            <option value="distance">Nearest by route</option>
+            <option value="distance" disabled={!hasRoutes}>Nearest by route</option>
             <option value="recommended">Recommended</option>
             <option value="rating">Highest rated</option>
             <option value="price">Lowest cost</option>
@@ -320,12 +287,12 @@ export default function SearchExperience({ initialOrgans = [] }) {
               ? "Finding the nearest church organs…"
               : hasRoutes
                 ? "Using your current location"
-                : "Location-based ranking unavailable"}
+                : "Use your location to sort by travel distance"}
           </span>
 
           {locationButtonNeeded && (
             <button className="button-ghost location-retry" onClick={() => requestLocation(false)} disabled={routing}>
-              {routing ? "Checking…" : "Enable location"}
+              {routing ? "Checking…" : "Use my location"}
             </button>
           )}
 
@@ -334,7 +301,7 @@ export default function SearchExperience({ initialOrgans = [] }) {
 
         {notice.text && <div className={`message ${notice.type}`} role={notice.type === "error" ? "alert" : "status"}>{notice.text}</div>}
 
-        {loading || findingNearest ? (
+        {loading ? (
           <div className="stack search-results"><div className="skeleton" /><div className="skeleton short" /></div>
         ) : displayed.length ? (
           <div className="stack search-results">
@@ -343,7 +310,7 @@ export default function SearchExperience({ initialOrgans = [] }) {
             ))}
           </div>
         ) : (
-          <div className="empty-state"><h2>No organs found</h2></div>
+          <div className="empty-state"><h2>No organs found</h2><p>Try another church, city, or builder.</p>{search && <button className="button-secondary" onClick={() => setSearch("")}>Clear search</button>}</div>
         )}
       </section>
 

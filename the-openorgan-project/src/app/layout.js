@@ -15,7 +15,7 @@ export const metadata = {
     template: "%s | The OpenOrgan Project"
   },
   description:
-    "Find pipe organs, practice-access opportunities, organ events, and participating churches through The OpenOrgan Project, beginning in Greater Boston.",
+    "Find pipe organs, practice-access opportunities, organ events, and participating churches through The OpenOrgan Project.",
   applicationName: "The OpenOrgan Project",
   creator: "The OpenOrgan Project",
   publisher: "The OpenOrgan Project",
@@ -25,9 +25,9 @@ export const metadata = {
     "organ practice",
     "church organ",
     "organist",
-    "pipe organ Boston",
+    "pipe organs",
     "organ concerts",
-    "Greater Boston organs"
+    "organ practice"
   ],
   alternates: { canonical: "/" },
   icons: {
@@ -54,7 +54,7 @@ export const metadata = {
     siteName: "The OpenOrgan Project",
     title: "The OpenOrgan Project | Pipe Organ Access & Events",
     description:
-      "Discover pipe organs, practice access, and organ events, beginning in Greater Boston.",
+      "Discover pipe organs, practice access, and organ events.",
     images: [
       {
         url: "/opengraph-image",

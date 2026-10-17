@@ -107,10 +107,10 @@ function Dashboard() {
         <div className="page-header">
           <span className="eyebrow">Organist dashboard</span>
           <h1>Hello, {firstName}</h1>
-          <p>Manage practice requests, questions, events, and your trust profile.</p>
-          <div className="form-actions">
+          <p>Manage practice requests, questions, events, and your profile.</p>
+          <div className="form-actions"><Link className="button-secondary" href="/guide">User guide</Link>
             <Link className="button-secondary" href="/profile">Edit Profile</Link>
-            <Link className="button-secondary" href={`/profiles/${user.uid}`}>View Trust Profile</Link>
+            <Link className="button-secondary" href={`/profiles/${user.uid}`}>View public profile</Link>
           </div>
         </div>
 
@@ -121,13 +121,13 @@ function Dashboard() {
         )}
 
         <div className="tabs">
-          <button className={tab === "reservations" ? "active" : ""} onClick={() => setTab("reservations")}>
+          <button aria-pressed={tab === "reservations"} className={tab === "reservations" ? "active" : ""} onClick={() => setTab("reservations")}>
             Reservations ({reservations.length})
           </button>
-          <button className={tab === "questions" ? "active" : ""} onClick={() => setTab("questions")}>
+          <button aria-pressed={tab === "questions"} className={tab === "questions" ? "active" : ""} onClick={() => setTab("questions")}>
             Questions {unread ? `(${unread} new)` : ""}
           </button>
-          <button className={tab === "events" ? "active" : ""} onClick={() => setTab("events")}>
+          <button aria-pressed={tab === "events"} className={tab === "events" ? "active" : ""} onClick={() => setTab("events")}>
             Event Signups ({signups.length})
           </button>
         </div>

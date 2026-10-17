@@ -164,8 +164,8 @@ function Console() {
         <div className="page-header">
           <span className="eyebrow">Organization dashboard</span>
           <h1>{profile?.organizationName || "Your organization"}</h1>
-          <p>Manage listings, events, requests, questions, and community trust.</p>
-          <div className="form-actions">
+          <p>Manage listings, events, practice requests, and questions.</p>
+          <div className="form-actions"><Link className="button-secondary" href="/guide">User guide</Link>
             <Link className="button-secondary" href="/profile">Edit Organization Profile</Link>
           </div>
         </div>
@@ -185,7 +185,7 @@ function Console() {
 
         <div className="tabs">
           {tabs.map(([value, label]) => (
-            <button key={value} className={tab === value ? "active" : ""} onClick={() => setTab(value)}>
+            <button key={value} aria-pressed={tab === value} className={tab === value ? "active" : ""} onClick={() => setTab(value)}>
               {label}
             </button>
           ))}
@@ -198,10 +198,10 @@ function Console() {
         )}
 
         {tab === "overview" && (
-          <div className="grid-3">
-            <article className="card interactive-card"><h2>{organs.length}</h2><p>organ listings</p></article>
-            <article className="card interactive-card"><h2>{reservations.filter((item) => item.status === "pending").length}</h2><p>pending requests</p></article>
-            <article className="card interactive-card"><h2>{events.length}</h2><p>events</p></article>
+          <div className="grid-3 dashboard-shortcuts">
+            <button className="card" onClick={() => setTab("organs")}><strong>{organs.length}</strong><p>Manage organs</p></button>
+            <button className="card" onClick={() => setTab("reservations")}><strong>{reservations.filter((item) => item.status === "pending").length}</strong><p>Review pending requests</p></button>
+            <button className="card" onClick={() => setTab("events")}><strong>{events.length}</strong><p>Manage events</p></button>
           </div>
         )}
 

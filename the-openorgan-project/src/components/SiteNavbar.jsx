@@ -12,14 +12,16 @@ import Logo from "@/components/Logo";
 const publicLinks = [
   ["/search", "Organ Directory"],
   ["/events", "Events"],
-  ["/about", "About"]
+  ["/about", "About"],
+  ["/guide", "Guide"]
 ];
 
 const organistLinks = [
   ["/search", "Find Organs"],
   ["/events", "Events"],
   ["/dashboard", "My Dashboard"],
-  ["/profile", "My Profile"]
+  ["/profile", "My profile"],
+  ["/guide", "Guide"]
 ];
 
 const organizationLinks = [
@@ -27,7 +29,8 @@ const organizationLinks = [
   ["/search", "Organ Directory"],
   ["/events", "Events"],
   ["/verification", "Verification"],
-  ["/profile", "Organization Profile"]
+  ["/profile", "Institution profile"],
+  ["/guide", "Guide"]
 ];
 
 const adminLinks = [
@@ -46,6 +49,8 @@ function isActive(pathname, href) {
 export default function SiteNavbar() {
   const pathname = usePathname();
   const { user, account, isAdmin, loading } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => setMenuOpen(false), [pathname]);
   const [notifications, setNotifications] = useState(0);
 
   useEffect(() => {
@@ -89,9 +94,11 @@ export default function SiteNavbar() {
           <Logo compact />
         </Link>
 
-        <nav aria-label="Primary navigation">
+        <button className="button-secondary nav-menu-toggle" aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close menu" : "Menu"}</button>
+        <nav id="primary-navigation" className={menuOpen ? "nav-open" : ""} aria-label="Primary navigation">
           {links.map(([href, label]) => (
             <Link
+              aria-current={isActive(pathname, href) ? "page" : undefined}
               className={isActive(pathname, href) ? "active" : ""}
               key={href}
               href={href}

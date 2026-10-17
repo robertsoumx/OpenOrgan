@@ -122,8 +122,7 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
             <article className="unclaimed-notice">
               <h2>Public reference listing</h2>
               <p>
-                This church organ was added from the Pipe Organ Database and has not been claimed by its organization.
-                Practice requests, payments, reviews, and Q&amp;A remain disabled until ownership is verified.
+                This reference listing becomes available for practice requests after the institution verifies ownership.
               </p>
               {(organ.sourceUrl || organ.source?.instrumentUrl || organ.source?.url) && (
                 <p className="small">
@@ -177,7 +176,7 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
             <article className="card unclaimed-sidebar-card">
               <span className="eyebrow">Unclaimed church organ</span>
               <h2>{organ.name}</h2>
-              <p className="muted">{organ.location?.formattedAddress || organ.location?.city || "Greater Boston"}</p>
+              <p className="muted">{organ.location?.formattedAddress || organ.location?.city || "Address unavailable"}</p>
               <OrganSpecs organ={organ} />
               {canClaim && (
                 <Link className="button claim-listing-button" href={claimHref}>

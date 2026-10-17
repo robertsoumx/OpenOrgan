@@ -81,7 +81,7 @@ function Verification() {
         <header className="verification-intro">
           <span className="eyebrow">Organization verification</span>
           <h1>Confirm your organization.</h1>
-          <p>Enter the organization website and a contact email. We send a six-digit code, then the account waits for manual approval.</p>
+          <p>Confirm your institutional email with a six-digit code before manual review.</p>
         </header>
 
         <div className="verification-progress" aria-label="Verification progress">
