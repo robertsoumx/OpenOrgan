@@ -9,6 +9,8 @@ assert.match(robots, /Sitemap: https:\/\/openorgan\.org\/sitemap.xml/);
 assert.ok(!sitemap.includes("localhost"));
 assert.match(sitemap, /https:\/\/openorgan\.org\/events\/curated-trinity-boston-/);
 const snapshot = JSON.parse(fs.readFileSync("src/data/events-snapshot.json","utf8"));
-const future = snapshot.events.filter(e => new Date(e.startDateTime)>new Date(snapshot.checkedAt)).slice(0,3);
-for (const event of future) { assert.ok(html.includes(event.performer)); assert.ok(events.includes(event.performer)); }
+const upcoming = snapshot.events.filter(e => new Date(e.startDateTime)>new Date(snapshot.checkedAt));
+for (const event of upcoming) { assert.ok(events.includes(event.title.replaceAll("&", "&amp;")) || events.includes(event.title)); }
+assert.ok(html.includes("/events/curated-"));
+assert.ok(fs.readFileSync(".next/server/app/guide.html","utf8").includes("User guide"));
 console.log("Production HTML contains current event cards and correct canonical, robots and sitemap URLs.");

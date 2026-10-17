@@ -2,7 +2,7 @@ export default function manifest() {
   return {
     name: "The OpenOrgan Project",
     short_name: "OpenOrgan",
-    description: "Pipe organ access and events, beginning in Greater Boston.",
+    description: "Pipe organ access and events.",
     start_url: "/",
     display: "standalone",
     background_color: "#f8f5f0",

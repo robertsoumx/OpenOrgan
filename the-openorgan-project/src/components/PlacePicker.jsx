@@ -20,6 +20,7 @@ export default function PlacePicker({ value, onChange, label = "Location" }) {
         if (value?.placeId) markerRef.current = new AdvancedMarkerElement({ map, position });
         searchNode.current.innerHTML = "";
         autocomplete = new places.PlaceAutocompleteElement();
+        autocomplete.setAttribute("aria-label", label);
         autocomplete.placeholder = "Search Google Maps for a church, school, or venue";
         autocomplete.style.width = "100%";
         handler = async (event) => {

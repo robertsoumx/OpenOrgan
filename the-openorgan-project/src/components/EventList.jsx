@@ -2,18 +2,22 @@
 import { useMemo, useState } from "react";
 import EventCard from "@/components/EventCard";
 import { eventDate } from "@/lib/events-core.mjs";
-export default function EventList({ initialEvents = [], sources = [], generatedAt }) {
-  const [period, setPeriod] = useState("upcoming"), [search, setSearch] = useState("");
+export default function EventList({ initialEvents=[], sources=[], generatedAt }) {
+  const [period,setPeriod]=useState("upcoming"),[search,setSearch]=useState(""),[venue,setVenue]=useState("");
   const now = new Date(generatedAt).getTime();
-  const filtered = useMemo(() => initialEvents.filter(event => {
-    const date = new Date(event.endDateTime || event.startDateTime).getTime();
-    return (period === "upcoming" ? date >= now : date < now) && [event.title, event.organizationName, event.location?.city].join(" ").toLowerCase().includes(search.toLowerCase());
-  }), [initialEvents, now, period, search]);
-  const verifiedDates = sources.map(x => x.checkedAt).filter(Boolean).sort();
+  const venues=useMemo(()=>[...new Set(initialEvents.map(e=>e.location?.name || e.organizationName).filter(Boolean))].sort(),[initialEvents]);
+  const filtered=useMemo(()=>initialEvents.filter(event=>{
+    const date=new Date(event.endDateTime || event.startDateTime).getTime();
+    const text=[event.title,event.performer,event.description,event.organizationName,event.location?.name,event.location?.city,event.location?.formattedAddress].join(" ").toLowerCase();
+    return (period === "upcoming" ? date >= now : date < now) && text.includes(search.trim().toLowerCase()) && (!venue || (event.location?.name || event.organizationName)===venue);
+  }).sort((a,b)=>period === "recent" ? new Date(b.startDateTime)-new Date(a.startDateTime) : new Date(a.startDateTime)-new Date(b.startDateTime)),[initialEvents,now,period,search,venue]);
+  function clear(){setSearch("");setVenue("");}
   return <section className="section"><div className="container">
-    <div className="page-header editorial-header"><span className="eyebrow">The sound of the city</span><h1>Make room for<br />live music.</h1><p>Organ recitals and concerts, selected from official calendars across Greater Boston.</p></div>
-    <div className="search-toolbar event-filters"><div className="segmented" aria-label="Event period">{["upcoming", "recent"].map(p => <button type="button" key={p} className={p === period ? "active" : ""} aria-pressed={p === period} onClick={() => setPeriod(p)}>{p === "upcoming" ? "Coming up" : "Recently held"}</button>)}</div><label className="event-search"><span className="visually-hidden">Search events</span><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search performer, venue, or city" type="search" /></label></div>
-    <p className="small muted">{filtered.length} {filtered.length === 1 ? "event" : "events"}{verifiedDates.length ? " · Official calendars checked " + eventDate(verifiedDates[0]) : ""}. {sources.some(x => !x.ok) ? "A source is unavailable; showing its last verified schedule. " : ""}Confirm the latest details with the organizer.</p>
-    {filtered.length ? <div className="grid-3">{filtered.map(event => <EventCard key={event.id} event={event} recent={period === "recent"} />)}</div> : <div className="empty-state"><h2>{search ? "No matching events" : "No verified events in this period"}</h2><p>{search ? "Try another performer or venue." : "New published dates appear when the official calendars update."}</p></div>}
+    <header className="page-header editorial-header"><h1>Organ events</h1><p>Find recitals, concerts, and workshops from official organizers.</p></header>
+    <div className="segmented" aria-label="Event period">{["upcoming","recent"].map(value=><button key={value} type="button" className={value===period?"active":""} aria-pressed={value===period} onClick={()=>setPeriod(value)}>{value === "upcoming" ? "Upcoming" : "Recent"}</button>)}</div>
+    <div className="event-filter-fields"><label>Search events<input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Performer, venue, city, or address" type="search" /></label><label>Venue<select value={venue} onChange={e=>setVenue(e.target.value)}><option value="">All venues</option>{venues.map(name=><option key={name}>{name}</option>)}</select></label></div>
+    <div className="flex-between"><p role="status" aria-live="polite">{filtered.length} {filtered.length===1 ? "event" : "events"}</p>{(search || venue) && <button className="button-secondary" onClick={clear}>Clear filters</button>}</div>
+    {filtered.length ? <div className="grid-3">{filtered.map(event=><EventCard key={event.id} event={event} recent={period === "recent"} />)}</div> : <div className="empty-state"><h2>No matching events</h2><p>{search || venue ? "Clear a filter or try another place." : "Check the other date period for published events."}</p><button className="button-secondary" onClick={()=>{clear();setPeriod(period === "upcoming" ? "recent" : "upcoming");}}>View {period === "upcoming" ? "recent" : "upcoming"} events</button></div>}
+    <details className="source-health"><summary>Calendar sources and update status</summary><ul>{sources.map(source=><li key={source.sourceId}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.name || source.sourceId}</a>{source.checkedAt ? ` · Last verified ${eventDate(source.checkedAt)}` : " · No verified dates available"}{!source.ok && " · Source unavailable; cached dates expire after 30 days"}</li>)}</ul><p>Confirm schedule and ticket details with the organizer.</p></details>
   </div></section>;
 }

@@ -82,7 +82,7 @@ function Profile({ userId }) {
       <div className="container public-profile-layout">
         <div className="public-profile-main">
           <article className="card public-profile-identity">
-            <span className="eyebrow">{organist ? "Trust profile" : "Organization profile"}</span>
+            <span className="eyebrow">{organist ? "Organist profile" : "Organization profile"}</span>
             <ProfileSummary profile={profile} contact={contact} />
             {!organist && profile.website && (
               <a className="text-link" href={profile.website} target="_blank" rel="noreferrer">
@@ -141,11 +141,11 @@ function Profile({ userId }) {
 
         <aside className="public-profile-aside">
           <article className="card profile-context-card">
-            <span className="eyebrow">How trust works</span>
+            <span className="eyebrow">About reviews</span>
             <h2>{organist ? "Session-based feedback" : "Verified organization"}</h2>
             <p className="muted">
               {organist
-                ? "Host reviews can only be created after a completed OpenOrgan reservation. Ratings are tied to verified sessions."
+                ? "Host reviews are available after a completed OpenOrgan reservation."
                 : "Organization identity, publishing permissions, and listing claims are reviewed separately by The OpenOrgan Project."}
             </p>
           </article>

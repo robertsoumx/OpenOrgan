@@ -20,6 +20,7 @@ export default function EventDetailClient({ id, initialEvent = null }) {
   const [ownerContact, setOwnerContact] = useState(null);
   const [registered, setRegistered] = useState(false);
   const [message, setMessage] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (!db || !id || initialEvent?.origin === "curated") {
@@ -51,9 +52,10 @@ export default function EventDetailClient({ id, initialEvent = null }) {
   }, [account?.role, id, user?.uid]);
 
   async function toggleSignup() {
-    if (!user) return;
+    if (!user || saving) return;
     if (account?.role !== "organist" || !db || !event) return;
 
+    setSaving(true);
     try {
       const reference = doc(db, "eventSignups", `${id}_${user.uid}`);
       if (registered) {
@@ -73,7 +75,7 @@ export default function EventDetailClient({ id, initialEvent = null }) {
       }
     } catch (error) {
       setMessage(toUserMessage(error, "Unable to update your signup."));
-    }
+    } finally { setSaving(false); }
   }
 
   if (loading) {
@@ -99,7 +101,8 @@ export default function EventDetailClient({ id, initialEvent = null }) {
 
   return (
     <section className="section">
-      <div className="container detail-grid">
+      <div className="container"><Link className="text-link" href="/events">Back to events</Link></div>
+      <div className="container detail-grid" style={{marginTop:24}}>
         <div className="stack-lg">
           {event.imageUrl && <img className="detail-image" src={event.imageUrl} alt={event.imageAlt || event.title} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/event-cover.svg"; }} />}
           <div>
@@ -117,15 +120,15 @@ export default function EventDetailClient({ id, initialEvent = null }) {
 
             {policy !== "none" && canSignUp && (
               user ? (
-                <button className={registered ? "button-secondary" : "button"} onClick={toggleSignup}>
-                  {registered ? "Cancel Signup" : "Sign Up"}
+                <button disabled={saving} className={registered ? "button-secondary" : "button"} onClick={toggleSignup}>
+                  {saving ? "Saving..." : registered ? "Cancel signup" : "Sign up"}
                 </button>
               ) : (
                 <Link className="button" href={`/login?next=/events/${id}`}>Sign In to Sign Up</Link>
               )
             )}
 
-            {message && <div className="message">{message}</div>}
+            {message && <div className="message" role="status">{message}</div>}
           </article>
 
           <LocationPanel location={event.location} />

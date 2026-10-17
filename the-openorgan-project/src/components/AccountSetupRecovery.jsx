@@ -56,7 +56,7 @@ export default function AccountSetupRecovery() {
           <span className="eyebrow">One final step</span>
           <h1>Finish account setup</h1>
           <p>
-            Your sign-in is ready. Confirm the account details below to create the missing profile records.
+            Confirm your account details to finish setting up your profile.
           </p>
 
           {!fixedRole && (

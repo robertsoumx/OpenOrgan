@@ -2,82 +2,18 @@ import Link from "next/link";
 
 export const metadata = {
   title: "About",
-  description: "The mission behind The OpenOrgan Project: connecting organists with churches and organizations that share instruments and events.",
+  description: "OpenOrgan helps organists find instruments, request practice access, and discover organ events.",
   alternates: { canonical: "/about" }
 };
 
-const principles = [
-  {
-    className: "about-principle-crimson",
-    number: "01",
-    title: "Open doors",
-    body: "Hosts control access. Organists get a clear way to ask.",
-    href: "/search"
-  },
-  {
-    className: "about-principle-pink",
-    number: "02",
-    title: "Local first",
-    body: "Build a useful Greater Boston network before expanding.",
-    href: "/search"
-  },
-  {
-    className: "about-principle-wine",
-    number: "03",
-    title: "Earn trust",
-    body: "Completed sessions build useful history on both sides.",
-    href: "/register"
-  }
-];
-
 export default function AboutPage() {
-  return (
-    <section className="section about-page">
-      <div className="container about-shell">
-        <div className="about-stage">
-          <div className="about-intro">
-            <span className="eyebrow">The mission</span>
-            <h1>Access instruments. Promote events.</h1>
-            <p className="lead">
-              The OpenOrgan Project connects organists and listeners with Greater Boston’s church organs, public performances, and organization-approved practice access.
-            </p>
-            <div className="about-tags" aria-label="Project focus">
-              <Link href="/search">Practice</Link>
-              <Link href="/events">Events</Link>
-              <Link href="/register">Community</Link>
-            </div>
-          </div>
-
-          <div className="about-signal" aria-hidden="true">
-            <span className="about-signal-bar about-signal-one" />
-            <span className="about-signal-bar about-signal-two" />
-            <span className="about-signal-bar about-signal-three" />
-            <span className="about-signal-bar about-signal-four" />
-          </div>
-        </div>
-
-        <div className="about-principles">
-          {principles.map((item) => (
-            <Link
-              className={`about-principle ${item.className}`}
-              href={item.href}
-              key={item.number}
-            >
-              <span>{item.number}</span>
-              <h2>{item.title}</h2>
-              <p>{item.body}</p>
-            </Link>
-          ))}
-        </div>
-
-        <div className="about-band">
-          <div>
-            <span className="eyebrow">Open source · community led</span>
-            <h2>One useful local network.</h2>
-          </div>
-          <p>Claimed listings, church-organ references, events, and verified access in one place.</p>
-        </div>
-      </div>
-    </section>
-  );
+  return <section className="section about-page"><div className="container about-shell">
+    <header className="page-header"><h1>About OpenOrgan</h1><p className="lead">OpenOrgan connects organists with institutions that share instruments, practice access, and events.</p></header>
+    <div className="grid-3">
+      <article className="card"><h2>Find an organ</h2><p>Browse instrument details and check whether an institution accepts practice requests.</p><Link className="text-link" href="/search">Browse organs</Link></article>
+      <article className="card"><h2>Attend an event</h2><p>Find recitals and confirm the program with the organizer.</p><Link className="text-link" href="/events">Browse events</Link></article>
+      <article className="card"><h2>Manage an institution</h2><p>List instruments, publish events, and decide how practice access works.</p><Link className="text-link" href="/register">Create an account</Link></article>
+    </div>
+    <section className="card about-access"><h2>Practice access</h2><p>Institutions choose whether to accept requests and must approve each reservation.</p><p>Reference listings from the Pipe Organ Database provide information without granting access.</p><Link className="text-link" href="/guide">Read the user guide</Link></section>
+  </div></section>;
 }

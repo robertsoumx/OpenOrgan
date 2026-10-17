@@ -30,6 +30,7 @@ export default async function sitemap() {
     { path: "", priority: 1, frequency: "weekly" },
     { path: "/search", priority: 0.95, frequency: "daily" },
     { path: "/events", priority: 0.85, frequency: "daily" },
+    { path: "/guide", priority: 0.5, frequency: "monthly" },
     { path: "/about", priority: 0.65, frequency: "monthly" }
   ].map((item) => ({
     url: `${siteUrl}${item.path}`,

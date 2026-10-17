@@ -36,11 +36,11 @@ export default function OrganCard({ organ, selected, onHover }) {
           {unclaimed && <strong className="unclaimed-badge organ-card-badge">UNCLAIMED LISTING</strong>}
         </div>
       )}
-      {!hasImage && <div className="organ-card-art" aria-hidden="true"><svg viewBox="0 0 90 120"><g fill="#376671"><path d="M8 43h10v63H8zM24 25h10v81H24zM40 8h10v98H40zM56 25h10v81H56zM72 43h10v63H72z"/></g><path d="M5 109h80v6H5z" fill="#bd7490"/></svg></div>}
+      {!hasImage && <div className="organ-card-art" aria-hidden="true"><svg viewBox="0 0 90 120"><g fill="#5f1730"><path d="M8 43h10v63H8zM24 25h10v81H24zM40 8h10v98H40zM56 25h10v81H56zM72 43h10v63H72z"/></g><path d="M5 109h80v6H5z" fill="#bd7490"/></svg></div>}
 
       <div className="organ-card-body">
         {!hasImage && unclaimed && <strong className="unclaimed-badge organ-card-badge-inline">UNCLAIMED LISTING</strong>}
-        <span className="eyebrow organ-location-label">{organ.location?.city || "Greater Boston"}</span>
+        <span className="eyebrow organ-location-label">{organ.location?.city || "Pipe organ"}</span>
         <h2>{cleanText(organ.name)}</h2>
         {organ.organizationName && organ.organizationName !== organ.name && <p>{cleanText(organ.organizationName)}</p>}
         <div className="organ-facts">
@@ -52,7 +52,7 @@ export default function OrganCard({ organ, selected, onHover }) {
         </div>
         <p className="muted">
           {unclaimed
-            ? "Church organ sourced from the Pipe Organ Database. Practice requests are unavailable until the church claims the listing."
+            ? "Practice requests open only after the institution claims this reference listing."
             : organ.description?.slice(0, 130)}
         </p>
         {organ.importMeta?.verifiedAt && <p className="organ-source muted">Source checked {new Date(organ.importMeta.verifiedAt).toLocaleDateString("en-US", { timeZone: "America/New_York" })}</p>}

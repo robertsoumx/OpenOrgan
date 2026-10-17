@@ -1,33 +1,6 @@
 {
-  "checkedAt": "2026-10-07T01:12:35.462Z",
+  "checkedAt": "2026-10-17T05:15:31.620Z",
   "events": [
-    {
-      "id": "curated-trinity-boston-2026-09-11",
-      "title": "Adriano Spampanato · Friday organ recital",
-      "performer": "Adriano Spampanato",
-      "organizationName": "Trinity Church Boston",
-      "type": "Organ recital",
-      "status": "active",
-      "startDateTime": "2026-09-11T16:15:00.000Z",
-      "timeZone": "America/New_York",
-      "registrationPolicy": "none",
-      "description": "Hear Adriano Spampanato at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
-      "admission": "Free · donation welcome",
-      "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
-      "imageAlt": "Trinity Church Boston organ recital series",
-      "imageCredit": "Trinity Church Boston",
-      "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
-      "sourceName": "Trinity Church Boston",
-      "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
-      "origin": "curated",
-      "location": {
-        "name": "Trinity Church Boston",
-        "city": "Boston",
-        "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
-      }
-    },
     {
       "id": "curated-trinity-boston-2026-09-18",
       "title": "Ethan Haman · Friday organ recital",
@@ -38,7 +11,7 @@
       "startDateTime": "2026-09-18T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Ethan Haman at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Ethan Haman.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -46,13 +19,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -65,7 +40,7 @@
       "startDateTime": "2026-09-25T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Matthew Yar at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Matthew Yar.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -73,13 +48,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -92,7 +69,7 @@
       "startDateTime": "2026-10-02T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Leo Abbott at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Leo Abbott.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -100,13 +77,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -119,7 +98,7 @@
       "startDateTime": "2026-10-09T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Stephen Kalnoske at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Stephen Kalnoske.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -127,13 +106,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -146,7 +127,7 @@
       "startDateTime": "2026-10-16T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear David Stultz at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with David Stultz.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -154,14 +135,74 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ workshop",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "boston-ago",
+      "sourceName": "Boston Chapter, American Guild of Organists",
+      "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "All Saints Episcopal Church",
+      "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/fdf49442-cdd9-46f7-b0e8-78828ac88ebe/IMG_3741.JPG",
+      "imageCredit": "Boston Chapter, American Guild of Organists",
+      "location": {
+        "name": "All Saints Episcopal Church",
+        "formattedAddress": "10 Billerica Rd, Chelmsford, MA",
+        "city": "Chelmsford",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=All%20Saints%20Episcopal%20Church%2C%2010%20Billerica%20Rd%2C%20Chelmsford%2C%20MA"
+      },
+      "id": "curated-boston-ago-2026-10-17",
+      "title": "Merrimack Valley Mini-Convention",
+      "startDateTime": "2026-10-17T12:30:00.000Z",
+      "endDateTime": "2026-10-17T17:30:00.000Z",
+      "description": "MERRIMACK VALLEY MINI-CONVENTION Cosponsored by the Boston Chapter",
+      "admission": "Fee: $45 with lunch, $35 without Students: Free, $15 for lunch",
+      "imageAlt": "All Saints Episcopal Church"
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-39",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-39",
+      "title": "Alessandro Bianchi · Organ recital",
+      "description": "Organist Alessandro Bianchi. The concert is free and open to the public.",
+      "startDateTime": "2026-10-21T16:15:00.000Z",
+      "endDateTime": "2026-10-21T17:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2026-10-23",
@@ -173,7 +214,7 @@
       "startDateTime": "2026-10-23T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Alessandro Bianchi at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Alessandro Bianchi.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -181,14 +222,74 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ concert",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "methuen",
+      "sourceName": "Methuen Memorial Music Hall",
+      "sourceUrl": "https://mmmh.org/events/musicalstorytime",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Methuen Memorial Music Hall",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Methuen Memorial Music Hall",
+      "location": {
+        "name": "Methuen Memorial Music Hall",
+        "formattedAddress": "192 Broadway, Methuen, MA 01844",
+        "city": "Methuen",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Methuen%20Memorial%20Music%20Hall%2C%20192%20Broadway%2C%20Methuen%2C%20MA%2001844"
+      },
+      "id": "curated-methuen-musicalstorytime",
+      "title": "Musical Storytime at MMMH",
+      "description": "Bilingual Musical Storytime at MMMH Featuring Children’s Stories with Live Music In Conjunction with Nevins Memorial Library, Methuen Raymond Hawkins, Organist Sarah Sullivan, Nevins Library Director Cameron Rees, Nevins Head of Youth Services Shelby Downie, Nevins Community Engagement Coordinator Stories: The Rooster Who Would Not Be Quiet! by Carmen Agra Deedy ¡El gallo que no se callaba! de Carmen Agra Deedy The Magical Yet by Angela DiTerlizzi El mágico aún de Angela DiTerlizzi Story narration will be in English and Spanish Free to Attend",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "startDateTime": "2026-10-24T14:00:00.000Z",
+      "imageAlt": "Musical Storytime at MMMH",
+      "admission": "Free"
+    },
+    {
+      "type": "Organ workshop",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "boston-ago",
+      "sourceName": "Boston Chapter, American Guild of Organists",
+      "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Church of the Advent",
+      "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/e23423a6-09d3-487f-8330-872899cf60a3/IMG_3616.JPG",
+      "imageCredit": "Boston Chapter, American Guild of Organists",
+      "location": {
+        "name": "Church of the Advent",
+        "formattedAddress": "30 Brimmer St, Boston, MA",
+        "city": "Boston",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Church%20of%20the%20Advent%2C%2030%20Brimmer%20St%2C%20Boston%2C%20MA"
+      },
+      "id": "curated-boston-ago-2026-10-24",
+      "title": "Music Of Everett Titcomb",
+      "startDateTime": "2026-10-24T14:00:00.000Z",
+      "endDateTime": "2026-10-24T16:00:00.000Z",
+      "description": "MUSIC OF EVERETT TITCOMB Mark Dwyer, Andrew Scanlon, William Harris, Fred MacArthur",
+      "admission": "Free for chapter members and friends",
+      "imageAlt": "Church of the Advent"
     },
     {
       "id": "curated-trinity-boston-2026-10-30",
@@ -200,7 +301,7 @@
       "startDateTime": "2026-10-30T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Janet E. Hunt at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Janet E. Hunt.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -208,14 +309,45 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ concert",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "boston-ago",
+      "sourceName": "Boston Chapter, American Guild of Organists",
+      "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Old South Church",
+      "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/2c6e3f07-734a-405d-b395-79b04528e1cb/512px-Old_South_Church_%28interior%29%2C_Boston%2C_Massachusetts.JPG",
+      "imageCredit": "Boston Chapter, American Guild of Organists",
+      "location": {
+        "name": "Old South Church",
+        "formattedAddress": "645 Boylston St, Boston, MA",
+        "city": "Boston",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Old%20South%20Church%2C%20645%20Boylston%20St%2C%20Boston%2C%20MA"
+      },
+      "id": "curated-boston-ago-2026-10-31",
+      "title": "Family Halloween Concert",
+      "startDateTime": "2026-10-31T23:00:00.000Z",
+      "endDateTime": "2026-11-01T00:30:00.000Z",
+      "description": "FAMILY HALLOWEEN CONCERT Come in costume! Benefit Event for the Young Organists Initiative",
+      "admission": "Donation suggested",
+      "imageAlt": "Old South Church"
     },
     {
       "id": "curated-trinity-boston-2026-11-06",
@@ -227,7 +359,7 @@
       "startDateTime": "2026-11-06T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Angela Kraft Cross at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Angela Kraft Cross.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -235,14 +367,103 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-40",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-40",
+      "title": "Lunchtime Recital",
+      "description": "The recital features pianist Will Cesta. The concert is free and open to the public. This recital was previously scheduled for Nov. 4.",
+      "startDateTime": "2026-11-06T17:15:00.000Z",
+      "endDateTime": "2026-11-06T18:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
+    },
+    {
+      "type": "Organ concert",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "methuen",
+      "sourceName": "Methuen Memorial Music Hall",
+      "sourceUrl": "https://mmmh.org/events/atthemovies",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Methuen Memorial Music Hall",
+      "imageUrl": "https://mmmh.org/wp-content/uploads/2023/08/Avakian.png",
+      "imageCredit": "Methuen Memorial Music Hall",
+      "location": {
+        "name": "Methuen Memorial Music Hall",
+        "formattedAddress": "192 Broadway, Methuen, MA 01844",
+        "city": "Methuen",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Methuen%20Memorial%20Music%20Hall%2C%20192%20Broadway%2C%20Methuen%2C%20MA%2001844"
+      },
+      "id": "curated-methuen-atthemovies",
+      "title": "Fall Variety Series: At the Movies with Nathan Avakian",
+      "description": "At the Movies with Nathan Avakian, Organ A celebration of cinema’s most thrilling and enduring scores featuring music by John Williams, Alan Silvestri, Danny Elfman, Thomas Newman, Michael Giacchino, and others",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "startDateTime": "2026-11-08T00:30:00.000Z",
+      "imageAlt": "Fall Variety Series: At the Movies with Nathan Avakian",
+      "admission": "$35/$25/$15"
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-41",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-41",
+      "title": "Lunchtime Recital",
+      "description": "Carson Cooman, Research Associate in Music and Composer in Residence at the Memorial Church, and David von Behren, Assistant University Organist and Choirmaster, perform a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2026-11-11T17:15:00.000Z",
+      "endDateTime": "2026-11-11T18:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2026-11-13",
@@ -254,7 +475,7 @@
       "startDateTime": "2026-11-13T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Aidan Yau at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Aidan Yau.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -262,14 +483,74 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ concert",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "methuen",
+      "sourceName": "Methuen Memorial Music Hall",
+      "sourceUrl": "https://mmmh.org/events/veterans",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Methuen Memorial Music Hall",
+      "imageUrl": "https://mmmh.org/wp-content/uploads/2025/01/Nathan_Skinner_headshot-e1736457293334.jpg",
+      "imageCredit": "Methuen Memorial Music Hall",
+      "location": {
+        "name": "Methuen Memorial Music Hall",
+        "formattedAddress": "192 Broadway, Methuen, MA 01844",
+        "city": "Methuen",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Methuen%20Memorial%20Music%20Hall%2C%20192%20Broadway%2C%20Methuen%2C%20MA%2001844"
+      },
+      "id": "curated-methuen-veterans",
+      "title": "Fall Variety Series: Veterans Day Concert",
+      "description": "Nathan Skinner, Organ Free Admission for Veterans",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "startDateTime": "2026-11-14T00:30:00.000Z",
+      "imageAlt": "Fall Variety Series: Veterans Day Concert",
+      "admission": "Adults: $20 Seniors: $15 Students: $10 Children 5 & Under: Free"
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-42",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-42",
+      "title": "Lunchtime Recital",
+      "description": "Carson Cooman, Research Associate in Music and Composer in Residence at the Memorial Church, and David von Behren, Assistant University Organist and Choirmaster, perform a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2026-12-02T17:15:00.000Z",
+      "endDateTime": "2026-12-02T18:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2026-12-04",
@@ -281,7 +562,7 @@
       "startDateTime": "2026-12-04T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Leonardo Ciampa at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Leonardo Ciampa.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -289,14 +570,103 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ concert",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "methuen",
+      "sourceName": "Methuen Memorial Music Hall",
+      "sourceUrl": "https://mmmh.org/events/merrymusichallsatmat",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Methuen Memorial Music Hall",
+      "imageUrl": "https://mmmh.org/wp-content/uploads/2023/09/Holiday.jpg",
+      "imageCredit": "Methuen Memorial Music Hall",
+      "location": {
+        "name": "Methuen Memorial Music Hall",
+        "formattedAddress": "192 Broadway, Methuen, MA 01844",
+        "city": "Methuen",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Methuen%20Memorial%20Music%20Hall%2C%20192%20Broadway%2C%20Methuen%2C%20MA%2001844"
+      },
+      "id": "curated-methuen-merrymusichallsatmat",
+      "title": "A Merry Music Hall Christmas Concert",
+      "description": "Celebrate the Holiday Season James Kennerley, Organ Robinson Pyle and Greg Gettel, Trumpets Maggie Finnegan, Soprano",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "startDateTime": "2026-12-05T19:00:00.000Z",
+      "imageAlt": "A Merry Music Hall Christmas Concert",
+      "admission": "$50/35/25"
+    },
+    {
+      "type": "Organ concert",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "methuen",
+      "sourceName": "Methuen Memorial Music Hall",
+      "sourceUrl": "https://mmmh.org/events/merrymusichallsateve",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Methuen Memorial Music Hall",
+      "imageUrl": "https://mmmh.org/wp-content/uploads/2023/09/Holiday.jpg",
+      "imageCredit": "Methuen Memorial Music Hall",
+      "location": {
+        "name": "Methuen Memorial Music Hall",
+        "formattedAddress": "192 Broadway, Methuen, MA 01844",
+        "city": "Methuen",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Methuen%20Memorial%20Music%20Hall%2C%20192%20Broadway%2C%20Methuen%2C%20MA%2001844"
+      },
+      "id": "curated-methuen-merrymusichallsateve",
+      "title": "A Merry Music Hall Christmas Concert",
+      "description": "Celebrate the Holiday Season James Kennerley, Organ Robinson Pyle and Greg Gettel, Trumpets Maggie Finnegan, Soprano",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "startDateTime": "2026-12-06T00:00:00.000Z",
+      "imageAlt": "A Merry Music Hall Christmas Concert",
+      "admission": "$50/35/25"
+    },
+    {
+      "type": "Organ concert",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "methuen",
+      "sourceName": "Methuen Memorial Music Hall",
+      "sourceUrl": "https://mmmh.org/events/merrymusichallsunday",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Methuen Memorial Music Hall",
+      "imageUrl": "https://mmmh.org/wp-content/uploads/2023/09/Holiday.jpg",
+      "imageCredit": "Methuen Memorial Music Hall",
+      "location": {
+        "name": "Methuen Memorial Music Hall",
+        "formattedAddress": "192 Broadway, Methuen, MA 01844",
+        "city": "Methuen",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Methuen%20Memorial%20Music%20Hall%2C%20192%20Broadway%2C%20Methuen%2C%20MA%2001844"
+      },
+      "id": "curated-methuen-merrymusichallsunday",
+      "title": "A Merry Music Hall Christmas Concert",
+      "description": "Celebrate the Holiday Season James Kennerley, Organ Robinson Pyle and Greg Gettel, Trumpets Maggie Finnegan, Soprano",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "startDateTime": "2026-12-06T20:00:00.000Z",
+      "imageAlt": "A Merry Music Hall Christmas Concert",
+      "admission": "$50/35/25"
     },
     {
       "id": "curated-trinity-boston-2026-12-11",
@@ -308,7 +678,7 @@
       "startDateTime": "2026-12-11T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Hyeyeon Ahn at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Hyeyeon Ahn.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -316,13 +686,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -335,7 +707,7 @@
       "startDateTime": "2026-12-18T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Wesley Hall at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Wesley Hall.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -343,14 +715,74 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ concert",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "boston-ago",
+      "sourceName": "Boston Chapter, American Guild of Organists",
+      "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "The First Church of Christ, Scientist (Mother Church)",
+      "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/f190a875-8335-4ca8-ba34-c994db8ada1d/Fireworks_-_20100724-_DSC9167_%284832590114%29.jpg",
+      "imageCredit": "Boston Chapter, American Guild of Organists",
+      "location": {
+        "name": "The First Church of Christ, Scientist (Mother Church)",
+        "formattedAddress": "250 Massachusetts Ave, Boston, MA",
+        "city": "Boston",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=The%20First%20Church%20of%20Christ%2C%20Scientist%20(Mother%20Church)%2C%20250%20Massachusetts%20Ave%2C%20Boston%2C%20MA"
+      },
+      "id": "curated-boston-ago-2026-12-31",
+      "title": "First Night Organ Recital",
+      "startDateTime": "2026-12-31T20:00:00.000Z",
+      "endDateTime": "2026-12-31T21:15:00.000Z",
+      "description": "FIRST NIGHT ORGAN RECITAL Featuring three chapter members",
+      "admission": "Free to members, friends, and the general public",
+      "imageAlt": "The First Church of Christ, Scientist (Mother Church)"
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-43",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-43",
+      "title": "Lunchtime Recital",
+      "description": "Carson Cooman, Research Associate in Music and Composer in Residence at the Memorial Church, performs a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2027-01-06T17:15:00.000Z",
+      "endDateTime": "2027-01-06T18:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2027-01-08",
@@ -362,7 +794,7 @@
       "startDateTime": "2027-01-08T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Connor Fluharty at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Connor Fluharty.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -370,13 +802,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -389,7 +823,7 @@
       "startDateTime": "2027-01-15T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Eric Plutz at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Eric Plutz.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -397,13 +831,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -416,7 +852,7 @@
       "startDateTime": "2027-01-22T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Walker Whitehouse at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Walker Whitehouse.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -424,13 +860,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -443,7 +881,7 @@
       "startDateTime": "2027-01-29T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Matthew Dion at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Matthew Dion.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -451,14 +889,45 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-44",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-44",
+      "title": "Lunchtime Recital",
+      "description": "Carson Cooman, Research Associate in Music and Composer in Residence at the Memorial Church, and David von Behren, Assistant University Organist and Choirmaster, perform a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2027-02-03T17:15:00.000Z",
+      "endDateTime": "2027-02-03T18:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2027-02-05",
@@ -470,7 +939,7 @@
       "startDateTime": "2027-02-05T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Victoria Shorokhova at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Victoria Shorokhova.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -478,13 +947,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -497,7 +968,7 @@
       "startDateTime": "2027-02-12T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Rosalind Mohnsen at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Rosalind Mohnsen.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -505,13 +976,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -524,7 +997,7 @@
       "startDateTime": "2027-02-19T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Dasha Ovchinnikova at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Dasha Ovchinnikova.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -532,13 +1005,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -551,7 +1026,7 @@
       "startDateTime": "2027-02-26T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Thomas Vozzella at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Thomas Vozzella.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -559,14 +1034,45 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-50",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-50",
+      "title": "Thomas R. Vozzella · Organ recital",
+      "description": "Organist Thomas R. Vozzella forms a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2027-03-01T17:15:00.000Z",
+      "endDateTime": "2027-03-01T18:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2027-03-05",
@@ -578,7 +1084,7 @@
       "startDateTime": "2027-03-05T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Kelsey Berg at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Kelsey Berg.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -586,14 +1092,45 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-45",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-45",
+      "title": "Lunchtime Recital",
+      "description": "Carson Cooman, Research Associate in Music and Composer in Residence at the Memorial Church, and David von Behren, Assistant University Organist and Choirmaster, perform a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2027-03-10T17:15:00.000Z",
+      "endDateTime": "2027-03-10T18:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2027-03-12",
@@ -605,7 +1142,7 @@
       "startDateTime": "2027-03-12T17:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Sarah Palmer at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Sarah Palmer.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -613,13 +1150,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -632,7 +1171,7 @@
       "startDateTime": "2027-03-19T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Chase Olson at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Chase Olson.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -640,13 +1179,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -659,7 +1200,7 @@
       "startDateTime": "2027-04-09T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Mark Pacoe at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Mark Pacoe.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -667,14 +1208,45 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-46",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-46",
+      "title": "Lunchtime Recital",
+      "description": "Carson Cooman, Research Associate in Music and Composer in Residence at the Memorial Church, and David von Behren, Assistant University Organist and Choirmaster, perform a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2027-04-14T16:15:00.000Z",
+      "endDateTime": "2027-04-14T17:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2027-04-16",
@@ -686,7 +1258,7 @@
       "startDateTime": "2027-04-16T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Richard Gray at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Richard Gray.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -694,13 +1266,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -713,7 +1287,7 @@
       "startDateTime": "2027-04-23T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Ben Outen at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Ben Outen.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -721,13 +1295,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -740,7 +1316,7 @@
       "startDateTime": "2027-04-30T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Davis Badaszewski at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Davis Badaszewski.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -748,13 +1324,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -767,7 +1345,7 @@
       "startDateTime": "2027-05-07T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Mina Choi at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Mina Choi.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -775,14 +1353,45 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-47",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-47",
+      "title": "Lunchtime Recital",
+      "description": "Carson Cooman, Research Associate in Music and Composer in Residence at the Memorial Church, and David von Behren, Assistant University Organist and Choirmaster, perform a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2027-05-12T16:15:00.000Z",
+      "endDateTime": "2027-05-12T17:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
     },
     {
       "id": "curated-trinity-boston-2027-05-14",
@@ -794,7 +1403,7 @@
       "startDateTime": "2027-05-14T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Nataly (Seoyoung) Pak at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Nataly (Seoyoung) Pak.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -802,13 +1411,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -821,7 +1432,7 @@
       "startDateTime": "2027-05-21T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Nicholas Halbert at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Nicholas Halbert.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -829,13 +1440,15 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
     },
     {
@@ -848,7 +1461,7 @@
       "startDateTime": "2027-05-28T16:15:00.000Z",
       "timeZone": "America/New_York",
       "registrationPolicy": "none",
-      "description": "Hear Viktor Billa at Trinity Church Boston's Friday lunchtime organ series. Admission is free; the church welcomes a donation. Check the organizer's page for the latest program and any changes.",
+      "description": "Friday lunchtime organ recital with Viktor Billa.",
       "admission": "Free · donation welcome",
       "imageUrl": "https://trinitychurchboston.org/wp-content/uploads/2016/11/FATBanner-1024x252.jpg",
       "imageAlt": "Trinity Church Boston organ recital series",
@@ -856,14 +1469,79 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-10-07T01:12:35.462Z",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
+        "formattedAddress": "206 Clarendon Street, Boston, MA 02116",
         "city": "Boston",
         "region": "MA",
-        "formattedAddress": "206 Clarendon Street, Boston, MA 02116"
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%20Boston%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA%2002116"
       }
+    },
+    {
+      "type": "Organ recital",
+      "status": "active",
+      "origin": "curated",
+      "registrationPolicy": "none",
+      "timeZone": "America/New_York",
+      "sourceId": "harvard-memorial",
+      "sourceName": "Harvard Memorial Church",
+      "sourceUrl": "https://memorialchurch.harvard.edu/event/lunchtime-recital-49",
+      "sourceCheckedAt": "2026-10-17T05:15:31.620Z",
+      "organizationName": "Harvard Memorial Church",
+      "imageUrl": "/event-cover.svg",
+      "imageCredit": "Harvard Memorial Church",
+      "location": {
+        "name": "Harvard Memorial Church",
+        "formattedAddress": "The Memorial Church, 1 Harvard Yard, Cambridge, MA 02138",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Memorial%20Church%2C%20The%20Memorial%20Church%2C%201%20Harvard%20Yard%2C%20Cambridge%2C%20MA%2002138"
+      },
+      "id": "curated-harvard-memorial-lunchtime-recital-49",
+      "title": "Lunchtime Recital",
+      "description": "Carson Cooman, Research Associate in Music and Composer in Residence at the Memorial Church, performs a lunchtime recital. The concert is free and open to the public.",
+      "startDateTime": "2027-06-09T16:15:00.000Z",
+      "endDateTime": "2027-06-09T17:00:00.000Z",
+      "imageAlt": "Harvard Memorial Church",
+      "admission": "Free"
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "trinity-boston",
+      "name": "Trinity Church Boston",
+      "url": "https://trinitychurchboston.org/music/organ-recitals/",
+      "ok": true,
+      "checkedAt": "2026-10-17T05:15:31.620Z",
+      "attemptedAt": "2026-10-17T05:15:31.620Z"
+    },
+    {
+      "sourceId": "harvard-memorial",
+      "name": "Harvard Memorial Church",
+      "url": "https://memorialchurch.harvard.edu/calendar",
+      "ok": true,
+      "checkedAt": "2026-10-17T05:15:31.620Z",
+      "attemptedAt": "2026-10-17T05:15:31.620Z"
+    },
+    {
+      "sourceId": "methuen",
+      "name": "Methuen Memorial Music Hall",
+      "url": "https://mmmh.org/",
+      "ok": true,
+      "checkedAt": "2026-10-17T05:15:31.620Z",
+      "attemptedAt": "2026-10-17T05:15:31.620Z"
+    },
+    {
+      "sourceId": "boston-ago",
+      "name": "Boston Chapter, American Guild of Organists",
+      "url": "https://www.bostonago.org/chapter-events-sep",
+      "ok": true,
+      "checkedAt": "2026-10-17T05:15:31.620Z",
+      "attemptedAt": "2026-10-17T05:15:31.620Z"
     }
   ]
 }
