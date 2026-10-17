@@ -1,4 +1,4 @@
-import {PipeMark} from "@/components/OrganShowcase";
+import {PipeMark} from "@/components/OrganMotifs";
 import Link from "next/link";
 
 export const metadata = {
