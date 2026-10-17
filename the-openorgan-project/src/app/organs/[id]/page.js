@@ -1,5 +1,5 @@
 import OrganDetailClient from "@/components/OrganDetailClient";
-import { getPublicDocument } from "@/lib/server-data";
+import { getDirectoryOrgan } from "@/lib/directory-server";
 import { siteUrl } from "@/lib/config";
 import { notFound } from "next/navigation";
 
@@ -24,7 +24,7 @@ function organDescription(organ) {
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const organ = await getPublicDocument("organs", id);
+  const organ = await getDirectoryOrgan(id);
   if (!organ) {
     return {
       title: "Pipe Organ Listing",
@@ -60,7 +60,7 @@ export async function generateMetadata({ params }) {
 
 export default async function OrganPage({ params }) {
   const { id } = await params;
-  const organ = await getPublicDocument("organs", id);
+  const organ = await getDirectoryOrgan(id);
   if (!organ) notFound();
 
   const structuredData = organ ? {

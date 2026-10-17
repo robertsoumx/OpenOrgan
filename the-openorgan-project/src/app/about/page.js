@@ -1,3 +1,4 @@
+import {PipeMark} from "@/components/OrganShowcase";
 import Link from "next/link";
 
 export const metadata = {
@@ -8,7 +9,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return <section className="section about-page"><div className="container about-shell">
-    <header className="page-header"><h1>About OpenOrgan</h1><p className="lead">OpenOrgan connects organists with institutions that share instruments, practice access, and events.</p></header>
+    <header className="page-header"><PipeMark className="section-pipe-mark"/><h1>About OpenOrgan</h1><p className="lead">OpenOrgan connects organists with institutions that share instruments, practice access, and events.</p></header>
     <div className="grid-3">
       <article className="card"><h2>Find an organ</h2><p>Browse instrument details and check whether an institution accepts practice requests.</p><Link className="text-link" href="/search">Browse organs</Link></article>
       <article className="card"><h2>Attend an event</h2><p>Find recitals and confirm the program with the organizer.</p><Link className="text-link" href="/events">Browse events</Link></article>

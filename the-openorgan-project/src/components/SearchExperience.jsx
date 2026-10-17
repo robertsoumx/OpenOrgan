@@ -1,326 +1,47 @@
 "use client";
-
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/lib/firebase-client";
+import {useCallback,useEffect,useMemo,useState} from "react";
+import {collection,getDocs} from "firebase/firestore";
+import {db} from "@/lib/firebase-client";
 import OrganCard from "@/components/OrganCard";
-import { toDate } from "@/lib/format";
-import { apiMessage, toUserMessage, userError } from "@/lib/user-error";
-import { trackEvent } from "@/lib/analytics-client";
-
-const SearchMap = dynamic(() => import("@/components/SearchMap"), {
-  ssr: false,
-  loading: () => <div className="skeleton map-shell" />
-});
-
-const LIMIT_OPTIONS = [5, 10, 20, 50];
-
-function price(organ) {
-  return organ.pricing?.model === "free" ? 0 : Number(organ.pricing?.amountCents || 0);
-}
-
-function recommendationScore(organ, hasRoutes) {
-  const rating = Number(organ.ratingAverage || 0) / 5;
-  const cost = 1 - Math.min(price(organ) / 10000, 1);
-  const reliability = Number(organ.providerReliability || 0.8);
-  const distance = hasRoutes && Number.isFinite(organ.routeDistanceMeters)
-    ? 1 - Math.min(organ.routeDistanceMeters / 80467.2, 1)
-    : null;
-
-  if (distance == null) return rating * 0.643 + cost * 0.286 + reliability * 0.071;
-  return rating * 0.45 + distance * 0.3 + cost * 0.2 + reliability * 0.05;
-}
-
-export default function SearchExperience({ initialOrgans = [] }) {
-  const [organs, setOrgans] = useState(initialOrgans);
-  const [loading, setLoading] = useState(!initialOrgans.length);
-  const [notice, setNotice] = useState({ type: "", text: "" });
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("recommended");
-  const [limit, setLimit] = useState(20);
-  const [selectedId, setSelectedId] = useState("");
-  const [view, setView] = useState("list");
-  const [routing, setRouting] = useState(false);
-  const [locationPhase, setLocationPhase] = useState("idle");
-  const [userLocation, setUserLocation] = useState(null);
-
-  const selectFromMap = useCallback((id) => {
-    setSelectedId(id);
-    trackEvent("directory_map_select", {
-      feature: "organ_directory",
-      action: "select_marker",
-      targetType: "organ",
-      targetId: id
-    });
-    document.getElementById(`organ-card-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, []);
-
-  useEffect(() => {
-    if (!db) {
-      setLoading(false);
-      if (!initialOrgans.length) setNotice({ type: "error", text: "The organ directory is temporarily unavailable." });
-      return;
-    }
-
-    Promise.all([
-      getDocs(query(collection(db, "organs"), where("status", "==", "active"))),
-      getDocs(collection(db, "organReviews")).catch(() => ({ docs: [] }))
-    ])
-      .then(([organSnapshot, reviewSnapshot]) => {
-        const grouped = new Map();
-        reviewSnapshot.docs.forEach((item) => {
-          const review = item.data();
-          if (!grouped.has(review.organId)) grouped.set(review.organId, []);
-          grouped.get(review.organId).push(Number(review.rating || 0));
-        });
-
-        setOrgans(organSnapshot.docs.map((item) => {
-          const data = item.data();
-          const ratings = grouped.get(item.id) || [];
-          return {
-            id: item.id,
-            ...data,
-            ratingAverage: ratings.length
-              ? ratings.reduce((sum, value) => sum + value, 0) / ratings.length
-              : 0,
-            ratingCount: ratings.length
-          };
-        }));
-      })
-      .catch((error) => {
-        setNotice({ type: "error", text: toUserMessage(error, "We could not load the organ directory. Try again.") });
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  const requestLocation = useCallback((automatic = false) => {
-    if (!navigator.geolocation) {
-      setLocationPhase("unavailable");
-      setSort("recommended");
-      trackEvent("directory_location", {
-        feature: "organ_directory",
-        action: automatic ? "automatic" : "manual",
-        outcome: "unsupported",
-        locationStatus: "unavailable"
-      });
-      if (!automatic) setNotice({ type: "error", text: "This browser cannot share a location for distance ranking." });
-      return;
-    }
-
-    setRouting(true);
-    setLocationPhase("requesting");
-    if (!automatic) setNotice({ type: "", text: "" });
-
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const origin = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-        setUserLocation({ lat: origin.latitude, lng: origin.longitude });
-
-        try {
-          const destinations = organs
-            .filter((organ) => organ.location?.placeId)
-            .map((organ) => ({ id: organ.id, placeId: organ.location.placeId }));
-
-          if (!destinations.length) throw userError("No mapped organ locations are available yet.");
-
-          const response = await fetch("/api/routes", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ origin, destinations })
-          });
-          const data = await response.json().catch(() => ({}));
-          if (!response.ok) throw userError(apiMessage(data, response.status, "We could not calculate route distances."));
-
-          const results = new Map(data.results.map((result) => [result.id, result]));
-          setOrgans((current) => current.map((organ) => ({ ...organ, ...results.get(organ.id) })));
-          setSort("distance");
-          setLocationPhase("ready");
-          setNotice({ type: "", text: "" });
-          trackEvent("directory_location", {
-            feature: "organ_directory",
-            action: automatic ? "automatic" : "manual",
-            outcome: "success",
-            locationStatus: "ready",
-            resultCount: data.results?.length || 0
-          });
-        } catch (error) {
-          setLocationPhase("route-error");
-          setSort("recommended");
-          setNotice({
-            type: "error",
-            text: toUserMessage(error, "Routes are unavailable; you can still search by city or address.")
-          });
-          trackEvent("directory_location", {
-            feature: "organ_directory",
-            action: automatic ? "automatic" : "manual",
-            outcome: "route_error",
-            locationStatus: "route-error"
-          });
-        } finally {
-          setRouting(false);
-        }
-      },
-      (error) => {
-        setRouting(false);
-        const denied = error?.code === 1;
-        setLocationPhase(denied ? "denied" : "unavailable");
-        setSort("recommended");
-        setNotice({
-          type: "info",
-          text: denied
-            ? "Use the search box or enable location to find nearby organs."
-            : "Your location is unavailable; search by city or address."
-        });
-        trackEvent("directory_location", {
-          feature: "organ_directory",
-          action: automatic ? "automatic" : "manual",
-          outcome: denied ? "denied" : "unavailable",
-          locationStatus: denied ? "denied" : "unavailable"
-        });
-      },
-      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
-    );
-  }, [organs]);
-
-  const filtered = useMemo(() => {
-    const term = search.trim().toLowerCase();
-    const hasRoutes = organs.some((organ) => Number.isFinite(organ.routeDistanceMeters));
-    const items = organs.filter((organ) => {
-      if (!term) return true;
-      return [
-        organ.name,
-        organ.organizationName,
-        organ.builder,
-        organ.location?.city,
-        organ.location?.region,
-        organ.location?.formattedAddress
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase()
-        .includes(term);
-    });
-
-    items.sort((a, b) => {
-      if (sort === "newest") return (toDate(b.createdAt)?.getTime() || 0) - (toDate(a.createdAt)?.getTime() || 0);
-      if (sort === "distance") return (a.routeDistanceMeters ?? Infinity) - (b.routeDistanceMeters ?? Infinity);
-      if (sort === "rating") return (b.ratingAverage || 0) - (a.ratingAverage || 0);
-      if (sort === "price") return price(a) - price(b);
-      return recommendationScore(b, hasRoutes) - recommendationScore(a, hasRoutes);
-    });
-
-    return items;
-  }, [organs, search, sort]);
-
-  const displayed = useMemo(
-    () => limit === "all" ? filtered : filtered.slice(0, Number(limit)),
-    [filtered, limit]
-  );
-
-  const hasRoutes = organs.some((organ) => Number.isFinite(organ.routeDistanceMeters));
-  const findingNearest = !loading && organs.length > 0 && locationPhase === "requesting" && !hasRoutes;
-  const locationButtonNeeded = ["idle", "denied", "unavailable", "route-error"].includes(locationPhase);
-
-  function changeSort(value) {
-    setSort(value);
-    trackEvent("directory_sort", { feature: "organ_directory", sort: value, resultCount: filtered.length });
-  }
-
-  function changeLimit(value) {
-    const next = value === "all" ? "all" : Number(value);
-    setLimit(next);
-    trackEvent("directory_limit", { feature: "organ_directory", limit: String(next), resultCount: filtered.length });
-  }
-
-  function finishSearch() {
-    if (!search.trim()) return;
-    trackEvent("directory_search", {
-      feature: "organ_directory",
-      queryLength: search.trim().length,
-      resultCount: filtered.length
-    });
-  }
-
-  return (
-    <div className="search-layout">
-      <section className={`search-list-panel ${view === "map" ? "mobile-hidden" : ""}`}>
-        <div className="page-header compact directory-heading">
-          <span className="eyebrow">Organ directory</span>
-          <h1>Find organs</h1>
-          <p>Church organs sourced from the Pipe Organ Database, plus claimed practice listings from participating organizations.</p>
-        </div>
-
-        <div className="mobile-view-toggle">
-          <button className="button" onClick={() => { setView("list"); trackEvent("directory_view", { feature: "organ_directory", action: "list" }); }}>List</button>
-          <button className="button-secondary" onClick={() => { setView("map"); trackEvent("directory_view", { feature: "organ_directory", action: "map" }); }}>Map</button>
-        </div>
-
-        <div className="search-toolbar search-toolbar-extended">
-          <input
-            aria-label="Search organs"
-            placeholder="Church, city, builder..."
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            onBlur={finishSearch}
-            onKeyDown={(event) => { if (event.key === "Enter") finishSearch(); }}
-          />
-
-          <select aria-label="Order organs" value={sort} onChange={(event) => changeSort(event.target.value)}>
-            <option value="distance" disabled={!hasRoutes}>Nearest by route</option>
-            <option value="recommended">Recommended</option>
-            <option value="rating">Highest rated</option>
-            <option value="price">Lowest cost</option>
-            <option value="newest">Newest listing</option>
-          </select>
-
-          <select aria-label="Number of organs to show" value={limit} onChange={(event) => changeLimit(event.target.value)}>
-            {LIMIT_OPTIONS.map((value) => <option key={value} value={value}>Show {value}</option>)}
-            <option value="all">Show all</option>
-          </select>
-        </div>
-
-        <div className="search-status-row">
-          <span className="directory-location-status" aria-live="polite">
-            <span className={`location-dot ${locationPhase}`} aria-hidden="true" />
-            {findingNearest
-              ? "Finding the nearest church organs…"
-              : hasRoutes
-                ? "Using your current location"
-                : "Use your location to sort by travel distance"}
-          </span>
-
-          {locationButtonNeeded && (
-            <button className="button-ghost location-retry" onClick={() => requestLocation(false)} disabled={routing}>
-              {routing ? "Checking…" : "Use my location"}
-            </button>
-          )}
-
-          <span className="muted small">Showing {displayed.length} of {filtered.length} matching organ{filtered.length === 1 ? "" : "s"}.</span>
-        </div>
-
-        {notice.text && <div className={`message ${notice.type}`} role={notice.type === "error" ? "alert" : "status"}>{notice.text}</div>}
-
-        {loading ? (
-          <div className="stack search-results"><div className="skeleton" /><div className="skeleton short" /></div>
-        ) : displayed.length ? (
-          <div className="stack search-results">
-            {displayed.map((organ) => (
-              <OrganCard key={organ.id} organ={organ} selected={selectedId === organ.id} onHover={setSelectedId} />
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state"><h2>No organs found</h2><p>Try another church, city, or builder.</p>{search && <button className="button-secondary" onClick={() => setSearch("")}>Clear search</button>}</div>
-        )}
-      </section>
-
-      <aside className={`search-map-panel ${view === "list" ? "mobile-hidden" : ""}`}>
-        <div className="mobile-view-toggle">
-          <button className="button-secondary" onClick={() => setView("list")}>List</button>
-          <button className="button" onClick={() => setView("map")}>Map</button>
-        </div>
-        <SearchMap organs={displayed} selectedId={selectedId} onSelect={selectFromMap} userLocation={userLocation} />
-      </aside>
-    </div>
-  );
+import RouteSearch,{useRouteRanking} from "@/components/RouteSearch";
+import {toDate} from "@/lib/format";
+import {coordinates} from "@/lib/directory-core.mjs";
+const SearchMap=dynamic(()=>import("@/components/SearchMap"),{ssr:false,loading:()=> <div className="skeleton map-shell"/>});
+export default function SearchExperience({initialOrgans=[]}) {
+  const [organs,setOrgans]=useState(initialOrgans),[loading,setLoading]=useState(!initialOrgans.length),[notice,setNotice]=useState("");
+  const [search,setSearch]=useState(""),[sort,setSort]=useState("name"),[limit,setLimit]=useState(20),[selectedId,setSelectedId]=useState(""),[view,setView]=useState("list");
+  const ranking=useRouteRanking("organs",organs);
+  useEffect(()=>{
+    let cancelled=false;
+    Promise.all([fetch("/api/directory").then(r=>{if(!r.ok)throw new Error();return r.json();}),db?getDocs(collection(db,"organReviews")).catch(()=>({docs:[]})):Promise.resolve({docs:[]})]).then(([data,reviews])=>{
+      if(cancelled)return;
+      const grouped=new Map();reviews.docs.forEach(d=>{const r=d.data();if(!grouped.has(r.organId))grouped.set(r.organId,[]);grouped.get(r.organId).push(Number(r.rating));});
+      setOrgans(data.organs.map(organ=>{const values=grouped.get(organ.id)||[];return {...organ,ratingAverage:values.length?values.reduce((n,x)=>n+x,0)/values.length:0,ratingCount:values.length};}));
+    }).catch(()=>{if(!cancelled)setNotice(initialOrgans.length?"Showing the last loaded directory while updates are unavailable.":"The directory is temporarily unavailable.");}).finally(()=>{if(!cancelled)setLoading(false);});
+    return ()=>{cancelled=true;};
+  },[]);
+  const filtered=useMemo(()=>organs.filter(o=>[o.name,o.organizationName,o.builder,o.location?.city,o.location?.formattedAddress].join(" ").toLowerCase().includes(search.trim().toLowerCase())).map(o=>({...o,...ranking.routes[o.id]})).sort((a,b)=>{
+    if(sort==="distance"&&ranking.ready)return (a.routeDistanceMeters??Infinity)-(b.routeDistanceMeters??Infinity)||a.name.localeCompare(b.name);
+    if(sort==="rating")return (b.ratingAverage||0)-(a.ratingAverage||0)||a.name.localeCompare(b.name);
+    if(sort==="newest")return (toDate(b.createdAt)?.getTime()||0)-(toDate(a.createdAt)?.getTime()||0);
+    return a.name.localeCompare(b.name);
+  }),[organs,search,sort,ranking.routes,ranking.ready]);
+  useEffect(()=>{if(ranking.ready)setSort("distance");},[ranking.ready,ranking.origin]);
+  const displayed=limit==="all"?filtered:filtered.slice(0,Number(limit));
+  const mapped=useMemo(()=>filtered.filter(o=>coordinates(o.location)),[filtered]);
+  const selectFromMap=useCallback(id=>{setSelectedId(id);setLimit("all");setView("list");requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById(`organ-card-${id}`)?.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"})));},[]);
+  return <div className="search-layout">
+    <section className={`search-list-panel ${view==="map"?"mobile-hidden":""}`}>
+      <header className="page-header compact directory-heading"><span className="eyebrow">Organ directory</span><h1>Find organs</h1><p>Browse church instruments and practice availability.</p></header>
+      <div className="mobile-view-toggle"><button className="button" aria-pressed={view==="list"} onClick={()=>setView("list")}>List</button><button className="button-secondary" aria-pressed={view==="map"} onClick={()=>setView("map")}>Map</button></div>
+      <div className="search-toolbar search-toolbar-extended"><input type="search" aria-label="Search organs" placeholder="Church, city, address, or builder" value={search} onChange={e=>setSearch(e.target.value)}/><select aria-label="Order organs" value={sort} onChange={e=>setSort(e.target.value)}><option value="name">Church name</option><option value="distance" disabled={!ranking.ready}>Nearest by driving route</option><option value="rating">Highest rated</option><option value="newest">Newest listing</option></select><select aria-label="Number of list results" value={limit} onChange={e=>setLimit(e.target.value==="all"?"all":Number(e.target.value))}>{[20,50,100].map(n=><option key={n} value={n}>List {n}</option>)}<option value="all">List all</option></select></div>
+      <RouteSearch ranking={ranking}/>
+      <p className="small directory-results-count" role="status">{filtered.length} matching organs · {mapped.length} on map · {displayed.length} shown in list</p>
+      {notice&&<div className="message warning" role="status">{notice}</div>}
+      {loading?<div className="stack"><div className="skeleton"/><div className="skeleton"/></div>:displayed.length?<div className="stack search-results">{displayed.map(organ=><OrganCard key={organ.id} organ={organ} selected={selectedId===organ.id} onHover={setSelectedId}/>)}</div>:<div className="empty-state"><h2>No organs found</h2><p>Try another church, place, or builder.</p><button className="button-secondary" onClick={()=>setSearch("")}>Clear search</button></div>}
+      {displayed.length<filtered.length&&<button className="button-secondary load-results" onClick={()=>setLimit(limit==="all"?"all":Number(limit)+50)}>Show more results</button>}
+    </section>
+    <aside className={`search-map-panel ${view==="list"?"mobile-hidden":""}`}><div className="mobile-view-toggle"><button className="button-secondary" onClick={()=>setView("list")}>List</button><button className="button" onClick={()=>setView("map")}>Map</button></div><SearchMap organs={mapped} selectedId={selectedId} onSelect={selectFromMap} userLocation={ranking.origin?{lat:ranking.origin.latitude,lng:ranking.origin.longitude}:null}/></aside>
+  </div>;
 }

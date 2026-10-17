@@ -1,116 +1,36 @@
 "use client";
-
-import { useEffect, useRef, useState } from "react";
-import { loadGoogleMaps } from "@/lib/google-maps-client";
-import { toUserMessage } from "@/lib/user-error";
-
-const CENTER = { lat: 42.3601, lng: -71.0589 };
-
-export default function SearchMap({ organs, selectedId, onSelect, userLocation }) {
-  const node = useRef(null);
-  const mapRef = useRef(null);
-  const markersRef = useRef([]);
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function render() {
-      try {
-        const maps = await loadGoogleMaps();
-        const [{ Map }, { AdvancedMarkerElement }] = await Promise.all([
-          maps.importLibrary("maps"),
-          maps.importLibrary("marker")
-        ]);
-        if (cancelled || !node.current) return;
-
-        if (!mapRef.current) {
-          mapRef.current = new Map(node.current, {
-            center: CENTER,
-            zoom: 10,
-            mapId: process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID || "DEMO_MAP_ID",
-            mapTypeControl: false,
-            streetViewControl: false,
-            fullscreenControl: false
-          });
-        }
-
-        markersRef.current.forEach((marker) => { marker.map = null; });
-        markersRef.current = [];
-
-        const bounds = new maps.LatLngBounds();
-        let count = 0;
-
-        if (userLocation && Number.isFinite(userLocation.lat) && Number.isFinite(userLocation.lng)) {
-          const content = document.createElement("div");
-          content.className = "map-user-marker";
-          content.innerHTML = '<span class="map-user-marker-core"></span>';
-          content.setAttribute("aria-label", "Your current location");
-
-          const marker = new AdvancedMarkerElement({
-            map: mapRef.current,
-            position: userLocation,
-            title: "Your current location",
-            content
-          });
-          markersRef.current.push(marker);
-          bounds.extend(userLocation);
-          count += 1;
-        }
-
-        for (const organ of organs) {
-          const lat = Number(organ.location?.latitude);
-          const lng = Number(organ.location?.longitude);
-          if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
-
-          const content = document.createElement("button");
-          content.type = "button";
-          content.className = [
-            "map-marker",
-            organ.listingOwnership === "unclaimed" ? "unclaimed" : "",
-            selectedId === organ.id ? "selected" : ""
-          ].filter(Boolean).join(" ");
-          content.textContent = organ.ratingCount ? `${Number(organ.ratingAverage || 0).toFixed(1)}/5` : "Organ";
-          content.setAttribute("aria-label", `Select ${organ.organizationName || organ.name}`);
-          content.addEventListener("click", () => onSelect(organ.id));
-
-          const position = { lat, lng };
-          const marker = new AdvancedMarkerElement({
-            map: mapRef.current,
-            position,
-            title: organ.organizationName || organ.name,
-            content
-          });
-          markersRef.current.push(marker);
-          bounds.extend(position);
-          count += 1;
-        }
-
-        if (count === 1) {
-          mapRef.current.setCenter(bounds.getCenter());
-          mapRef.current.setZoom(14);
-        } else if (count > 1) {
-          mapRef.current.fitBounds(bounds, 58);
-        }
-        setMessage("");
-      } catch (error) {
-        if (!cancelled) {
-          setMessage(toUserMessage(error, "The map is temporarily unavailable. The organ list still works."));
-        }
-      }
-    }
-
-    render();
-    return () => {
-      cancelled = true;
-      markersRef.current.forEach((marker) => { marker.map = null; });
-      markersRef.current = [];
-    };
-  }, [organs, selectedId, onSelect, userLocation]);
-
-  if (message) {
-    return <div className="map-fallback"><p>{message}</p></div>;
+import {useEffect,useMemo,useRef,useState} from "react";
+import {loadGoogleMaps} from "@/lib/google-maps-client";
+import {coordinates,geographicGroups} from "@/lib/directory-core.mjs";
+export default function SearchMap({organs,selectedId,onSelect,userLocation}) {
+  const node=useRef(null),map=useRef(null),mapsRef=useRef(null),markers=useRef([]),callback=useRef(onSelect),data=useRef(organs),previousScope=useRef("");
+  const [ready,setReady]=useState(false),[zoom,setZoom]=useState(10),[error,setError]=useState("");
+  callback.current=onSelect;data.current=organs;
+  const scope=useMemo(()=>organs.map(o=>`${o.id}:${o.location.latitude},${o.location.longitude}`).sort().join("|"),[organs]);
+  useEffect(()=>{
+    let cancelled=false,listener,resize;let wasHidden=true;
+    (async()=>{try{const maps=await loadGoogleMaps();await Promise.all([maps.importLibrary("maps"),maps.importLibrary("marker")]);if(cancelled)return;mapsRef.current=maps;map.current=new maps.Map(node.current,{center:{lat:42.3601,lng:-71.0589},zoom:10,mapId:process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID||"DEMO_MAP_ID",mapTypeControl:false,streetViewControl:false,fullscreenControl:true,gestureHandling:"cooperative"});listener=map.current.addListener("idle",()=>setZoom(Math.floor(map.current.getZoom() || 10)));resize=new ResizeObserver(()=>{const visible=node.current?.getBoundingClientRect().width>0;if(visible){maps.event.trigger(map.current,"resize");if(wasHidden)fitAll();}wasHidden=!visible;});resize.observe(node.current);setReady(true);}catch{if(!cancelled)setError("The map is unavailable; the full directory is still shown in the list.");}})();
+    return ()=>{cancelled=true;listener?.remove();resize?.disconnect();markers.current.forEach(({marker})=>{marker.map=null;});markers.current=[];};
+  },[]);
+  function fitAll() {
+    if(!map.current||!node.current?.getBoundingClientRect().width)return;const bounds=new mapsRef.current.LatLngBounds();data.current.forEach(o=>{const p=coordinates(o.location);if(p)bounds.extend(p);});
+    if(data.current.length>1)map.current.fitBounds(bounds,52);else if(data.current.length===1){map.current.setCenter(coordinates(data.current[0].location));map.current.setZoom(15);}
   }
-
-  return <div className="search-map" ref={node} aria-label="Map of church organ listings" />;
+  useEffect(()=>{if(ready&&scope!==previousScope.current){previousScope.current=scope;fitAll();}},[ready,scope]);
+  useEffect(()=>{
+    if(!ready)return;
+    const maps=mapsRef.current;markers.current.forEach(({marker})=>{marker.map=null;});markers.current=[];
+    for(const group of geographicGroups(data.current,zoom)) {
+      const points=group.map(o=>coordinates(o.location)),position={lat:points.reduce((n,p)=>n+p.lat,0)/points.length,lng:points.reduce((n,p)=>n+p.lng,0)/points.length};
+      const button=document.createElement("button");button.type="button";button.className=`map-marker ${group.length>1?"map-cluster":"map-organ-pin"}`;
+      button.textContent=group.length>1?String(group.length):"";button.setAttribute("aria-label",group.length>1?`Zoom to ${group.length} organs`:`Select ${group[0].organizationName || group[0].name}`);
+      if(group.length===1){const icon=document.createElement("span");icon.className="marker-pipes";icon.setAttribute("aria-hidden","true");for(let i=0;i<3;i++)icon.appendChild(document.createElement("i"));button.appendChild(icon);}
+      button.addEventListener("click",()=>{if(group.length===1)callback.current(group[0].id);else{const bounds=new maps.LatLngBounds();points.forEach(p=>bounds.extend(p));map.current.fitBounds(bounds,70);}});
+      const marker=new maps.marker.AdvancedMarkerElement({map:map.current,position,content:button,title:group.length>1?`${group.length} church organs`:group[0].name});markers.current.push({marker,button,ids:group.map(o=>o.id)});
+    }
+    if(userLocation){const button=document.createElement("span");button.className="map-origin-pin";button.textContent="Start";const marker=new maps.marker.AdvancedMarkerElement({map:map.current,position:userLocation,content:button,title:"Route starting place"});markers.current.push({marker,button,ids:[]});}
+    return ()=>{markers.current.forEach(({marker})=>{marker.map=null;});markers.current=[];};
+  },[ready,scope,zoom,userLocation?.lat,userLocation?.lng]);
+  useEffect(()=>{markers.current.forEach(({button,ids})=>button.classList.toggle("selected",ids.includes(selectedId)));},[selectedId,ready,scope,zoom,userLocation?.lat,userLocation?.lng]);
+  return <div className="map-container"><div className="map-toolbar"><span>{organs.length} organs on map</span><button className="button-secondary" onClick={fitAll} disabled={!ready}>Fit all results</button></div>{error?<div className="map-fallback" role="status"><p>{error}</p></div>:<div ref={node} className="search-map" aria-label="Map of all matching church organs"/>}<div className="map-legend"><span className="legend-pipe" aria-hidden="true"/>Church organ<span className="legend-cluster">12</span>Zoom to expand a group</div></div>;
 }

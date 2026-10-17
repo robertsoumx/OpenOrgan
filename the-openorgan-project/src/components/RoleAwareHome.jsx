@@ -1,5 +1,6 @@
 "use client";
 
+import OrganShowcase, { PipeMark, KeyboardRule } from "@/components/OrganShowcase";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthProvider";
 
@@ -26,14 +27,10 @@ export default function RoleAwareHome() {
   const key = !user || loading || !account?.role ? "visitor" : account.role === "organization" ? "organization" : "organist";
   const view = views[key];
   return <section className="hero"><div className="container hero-grid">
-    <div className="hero-copy"><h1>{view.title}</h1><p className="lead">{view.description}</p>
+    <div className="hero-copy"><span className="hero-brand-note"><PipeMark/>The OpenOrgan Project</span><h1>{view.title}</h1><p className="lead">{view.description}</p>
       <div className="hero-actions"><Link className="button" href={view.primary[0]}>{view.primary[1]}</Link><Link className="button-secondary" href={view.secondary[0]}>{view.secondary[1]}</Link></div>
       <p className="hero-note">Practice requests are available only on listings that accept bookings.</p>
     </div>
-    <aside className="home-start card" aria-labelledby="home-start-title"><h2 id="home-start-title">Using OpenOrgan</h2>
-      <Link href="/search"><strong>Organ directory</strong><span>View instruments and practice availability</span></Link>
-      <Link href="/events"><strong>Events</strong><span>See upcoming recitals and organizer details</span></Link>
-      <Link href={user ? "/guide" : "/register"}><strong>{user ? "User guide" : "Create an account"}</strong><span>{user ? "Find help for each feature" : "Join as an organist or institution"}</span></Link>
-    </aside>
-  </div></section>;
+    <OrganShowcase />
+  </div><KeyboardRule/></section>;
 }

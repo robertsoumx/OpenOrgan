@@ -1,4 +1,4 @@
-import { getActivePublicDocuments } from "@/lib/server-data";
+import { getOrganDirectory } from "@/lib/directory-server";
 import { siteUrl } from "@/lib/config";
 import { getEventFeed } from "@/lib/events-server";
 
@@ -22,7 +22,7 @@ function publicEntry(path, item, priority, frequency = "weekly") {
 
 export default async function sitemap() {
   const [organs, events] = await Promise.all([
-    getActivePublicDocuments("organs", 5000),
+    getOrganDirectory(),
     getEventFeed().then(feed => feed.events)
   ]);
 
