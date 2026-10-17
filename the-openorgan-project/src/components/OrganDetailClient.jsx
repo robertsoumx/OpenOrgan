@@ -123,7 +123,7 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
             <article className="unclaimed-notice">
               <h2>Public reference listing</h2>
               <p>
-                This reference listing becomes available for practice requests after the institution verifies ownership.
+                Practice requests are unavailable unless the institution claims this listing and enables access.
               </p>
               {(organ.sourceUrl || organ.source?.instrumentUrl || organ.source?.url) && (
                 <p className="small">
@@ -144,6 +144,7 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
               <div className="pricing-banner">
                 <strong>{formatPricing(organ.pricing)}</strong>
                 {organ.pricing?.instructions && <span>{organ.pricing.instructions}</span>}
+                {organ.pricing?.model && organ.pricing.model !== "free" && <span>Arrange any payment directly with the institution.</span>}
               </div>
             )}
           </article>
@@ -198,8 +199,8 @@ export default function OrganDetailClient({ id, initialOrgan = null }) {
             <article className="card stack">
               <span className="eyebrow">Your listing</span>
               <h2>Manage this organ</h2>
-              <p className="muted">Edit details and review requests from your organization dashboard.</p>
-              <Link className="button" href="/organization">Open Management</Link>
+              <p className="muted">Set practice costs, manage access, and review requests in Manage listings.</p>
+              <Link className="button" href="/organization">Manage listings</Link>
             </article>
           )}
 

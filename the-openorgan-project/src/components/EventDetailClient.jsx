@@ -145,8 +145,8 @@ export default function EventDetailClient({ id, initialEvent = null }) {
             <article className="card stack">
               <span className="eyebrow">Your event</span>
               <h2>Manage this event</h2>
-              <p className="muted">Edit details and review signups from your organization dashboard.</p>
-              <Link className="button" href="/organization">Open Management</Link>
+              <p className="muted">Update your published event and review signups in Manage listings.</p>
+              <Link className="button" href="/organization">Manage listings</Link>
             </article>
           )}
         </aside>

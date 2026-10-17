@@ -32,6 +32,9 @@ export default function OpenGraphImage() {
           <div style={{ fontSize: 74, fontWeight: 800, lineHeight: 1.02, maxWidth: 820 }}>
             Find organs and events
           </div>
+          <div style={{ fontSize: 25, marginTop: 24, color: "#604f57" }}>
+            Offer practice access and publish events
+          </div>
           <div style={{ fontSize: 28, marginTop: 30, color: "#604f57" }}>
             openorgan.org
           </div>

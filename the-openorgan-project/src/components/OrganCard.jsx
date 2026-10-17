@@ -52,7 +52,7 @@ export default function OrganCard({ organ, selected, onHover }) {
         </div>
         <p className="muted">
           {unclaimed
-            ? "Practice requests open only after the institution claims this reference listing."
+            ? "Reference listing; practice requests are not available."
             : organ.description?.slice(0, 130)}
         </p>
         {organ.importMeta?.verifiedAt && <p className="organ-source muted">Source checked {new Date(organ.importMeta.verifiedAt).toLocaleDateString("en-US", { timeZone: "America/New_York" })}</p>}

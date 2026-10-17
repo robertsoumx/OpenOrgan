@@ -1064,6 +1064,10 @@ button:disabled { opacity:1; color:#58434e; background:#e5dce0; border-color:#9c
 .hero-copy .lead { font-size:1.1rem; line-height:1.7; max-width:580px; }
 .hero-copy .hero-note { max-width:580px; font-size:.87rem; padding-left:14px; border-left:2px solid #9a682f; margin:28px 0 0; }
 .hero-copy { animation:hero-arrive 650ms ease-out both; }
+.hero-publishing { display:flex; align-items:center; justify-content:space-between; gap:24px; max-width:940px; margin-top:36px; padding-top:24px; border-top:1px solid #d9c5c7; }
+.hero-publishing h2 { margin:0 0 6px; font-size:1.1rem; letter-spacing:-.02em; }
+.hero-publishing p { margin:0; max-width:650px; font-size:.94rem; }
+.hero-publishing > a { flex-shrink:0; }
 .keyboard-rule { display:flex; position:relative; height:20px; border-top:1px solid #aa8d86; border-bottom:1px solid #aa8d86; background:#fffdf9; overflow:hidden; }
 .keyboard-rule > span { position:relative; flex:1; border-right:1px solid #c5b3aa; }
 .keyboard-rule .has-sharp::after { content:""; position:absolute; z-index:1; right:-21%; width:42%; height:62%; background:var(--wine-dark); border-radius:0 0 1px 1px; }
@@ -1100,7 +1104,7 @@ button:disabled { opacity:1; color:#58434e; background:#e5dce0; border-color:#9c
 @keyframes hero-arrive { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
 @keyframes section-arrive { from { opacity:.35; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 @media(max-width:820px) { .hero-pattern { width:420px; right:-130px; opacity:.09; } .hero-copy h1 { max-width:660px; } }
-@media(max-width:620px) { .hero { padding:40px 0 44px; } .hero-copy h1 { font-size:clamp(2.7rem,10vw,3.8rem); } .hero-pattern { width:340px; right:-220px; opacity:.08; } .home-events { padding-top:40px; } }
+@media(max-width:620px) { .hero { padding:40px 0 44px; } .hero-copy h1 { font-size:clamp(2.7rem,10vw,3.8rem); } .hero-pattern { width:340px; right:-220px; opacity:.08; } .hero-publishing { flex-direction:column; align-items:flex-start; gap:16px; } .home-events { padding-top:40px; } }
 @media(prefers-reduced-motion:reduce) { .hero-copy,.arrive { animation:none; transform:none; } .event-card:hover,.organ-card:hover,.button:hover { transform:none; } }
 
 /* Shared route controls and stable directory map. */

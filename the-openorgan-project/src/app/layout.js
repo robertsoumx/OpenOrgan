@@ -15,7 +15,7 @@ export const metadata = {
     template: "%s | The OpenOrgan Project"
   },
   description:
-    "Find pipe organs, practice-access opportunities, organ events, and participating churches through The OpenOrgan Project.",
+    "Find organs and events, offer free or paid practice access, and publish upcoming events on OpenOrgan.",
   applicationName: "The OpenOrgan Project",
   creator: "The OpenOrgan Project",
   publisher: "The OpenOrgan Project",
@@ -54,7 +54,7 @@ export const metadata = {
     siteName: "The OpenOrgan Project",
     title: "The OpenOrgan Project | Pipe Organ Access & Events",
     description:
-      "Discover pipe organs, practice access, and organ events.",
+      "Find organs and events, offer free or paid practice access, and publish upcoming events on OpenOrgan.",
     images: [
       {
         url: "/opengraph-image",
@@ -67,7 +67,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "The OpenOrgan Project | Pipe Organ Access & Events",
-    description: "Discover pipe organs, practice access, and organ events.",
+    description: "Find organs and events, offer free or paid practice access, and publish upcoming events on OpenOrgan.",
     images: ["/opengraph-image"]
   },
   verification: {
@@ -87,7 +87,7 @@ function StructuredSiteData() {
         url: siteUrl,
         logo: `${siteUrl}/openorgan-logo.svg`,
         description:
-          "An open-source mission connecting organists with churches, schools, and organizations that promote events and provide practice access to pipe organs."
+          "An open-source platform to find pipe organs and events, offer free or paid practice access, and publish upcoming events."
       },
       {
         "@type": "WebSite",

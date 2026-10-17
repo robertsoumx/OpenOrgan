@@ -10,24 +10,24 @@ import { useAuth } from "@/components/AuthProvider";
 import Logo from "@/components/Logo";
 
 const publicLinks = [
-  ["/search", "Organ Directory"],
-  ["/events", "Events"],
+  ["/search", "Find organs"],
+  ["/events", "Find events"],
   ["/about", "About"],
   ["/guide", "Guide"]
 ];
 
 const organistLinks = [
-  ["/search", "Find Organs"],
-  ["/events", "Events"],
-  ["/dashboard", "My Dashboard"],
+  ["/search", "Find organs"],
+  ["/events", "Find events"],
+  ["/dashboard", "My dashboard"],
   ["/profile", "My profile"],
   ["/guide", "Guide"]
 ];
 
 const organizationLinks = [
-  ["/organization", "Manage"],
-  ["/search", "Organ Directory"],
-  ["/events", "Events"],
+  ["/organization", "Manage listings"],
+  ["/search", "Find organs"],
+  ["/events", "Find events"],
   ["/verification", "Verification"],
   ["/profile", "Institution profile"],
   ["/guide", "Guide"]
@@ -36,8 +36,8 @@ const organizationLinks = [
 const adminLinks = [
   ["/admin/verifications", "Verifications"],
   ["/admin/claims", "Claims"],
-  ["/search", "Organ Directory"],
-  ["/events", "Events"],
+  ["/search", "Find organs"],
+  ["/events", "Find events"],
   ["/profile", "Profile"]
 ];
 
@@ -117,12 +117,12 @@ export default function SiteNavbar() {
 
           {!loading && user ? (
             <button className="nav-button" onClick={() => signOut(auth)}>
-              Sign Out
+              Sign out
             </button>
           ) : !loading ? (
             <>
-              <Link href="/login">Sign In</Link>
-              <Link className="nav-cta" href="/register">Join</Link>
+              <Link href="/login">Sign in</Link>
+              <Link className="nav-cta" href="/register">Create account</Link>
             </>
           ) : null}
         </nav>
