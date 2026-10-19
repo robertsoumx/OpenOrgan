@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-17T06:44:09.579Z",
+  "checkedAt": "2026-10-19T11:09:50.251Z",
   "scope": "Churches in 47 municipalities",
   "sourceLocations": 1192,
   "municipalities": 47,
@@ -40,7 +40,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Calvary%20Methodist%20Church%2C%20300%20Massachusetts%20Ave.%2C%20Arlington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -48,7 +48,7 @@
       }
     },
     {
-      "id": "ohs-location-8974",
+      "id": "ohs-location-8975",
       "name": "First Baptist Church",
       "organizationName": "First Baptist Church",
       "ownerId": "",
@@ -58,32 +58,32 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Morel Organ Co.",
-      "year": 1964,
+      "builder": "Bishop Organ Co.",
+      "year": 1992,
       "opus": "",
       "manuals": "",
       "stops": "",
-      "ranks": 49,
+      "ranks": 48,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "8974",
-      "sourceInstrumentId": "9750",
+      "sourceLocationId": "8975",
+      "sourceInstrumentId": "9751",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/9750",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/8974",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/9751",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/8975",
       "location": {
         "name": "First Baptist Church",
-        "formattedAddress": "819 Massachusetts Ave., Arlington, MA",
+        "formattedAddress": "819 Massachusetts Avenue, Arlington, MA",
         "city": "Arlington",
         "region": "MA",
         "country": "US",
         "latitude": 42.4170441,
         "longitude": -71.1595658,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%20819%20Massachusetts%20Ave.%2C%20Arlington%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%20819%20Massachusetts%20Avenue%2C%20Arlington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -126,7 +126,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Unitarian-Universalist%20Church%2C%20630%20Massachusetts%20Avenue%2C%20Arlington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -169,7 +169,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Universalist%20Church%2C%20735%20Massachusetts%20Avenue%2C%20Arlington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -212,7 +212,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Pleasant%20Street%20Congregational%20Church%20%2F%20Boston%20Church%20of%20Christ%2C%2075%20Pleasant%20St.%2C%20Arlington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -255,7 +255,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Camillus%20Roman%20Catholic%20Church%2C%201175%20Concord%20Turnpike%2C%20Arlington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -298,7 +298,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Camillus%20Roman%20Catholic%20Church%2C%201185%20Concord%20Turnpike%2C%20Arlington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -341,7 +341,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20John's%20Episcopal%20Church%2C%2074%20Pleasant%20St.%2C%20Arlington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -384,7 +384,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=All%20Saints'%20Episcopal%20Church%2C%2017%20Clark%20Street%2C%20Belmont%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -427,7 +427,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Christ%20Evangelical%20Lutheran%20Church%2C%20597%20Belmont%20Street%2C%20Belmont%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -470,7 +470,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Church%20of%20Jesus%20Christ%20of%20Latter-day%20Saints%20-%20Ward%20Chapel%2C%2015%20Ledgewood%20Place%2C%20Belmont%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -513,7 +513,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%2C%20Unitarian%20Universalist%2C%20304%20Concord%20Avenue%2C%20Belmont%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -556,7 +556,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Payson%20Park%20Congregational%20Church%2C%20365%20Belmont%20Street%2C%20Belmont%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -599,7 +599,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Plymouth%20Congregational%20Church%2C%20582%20Pleasant%20St.%2C%20Belmont%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -642,7 +642,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Joseph%20Catholic%20Church%2C%20130%20Common%20St.%2C%20Belmont%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -685,7 +685,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Luke%20Catholic%20Church%2C%20132%20Lexington%20St.%2C%20Belmont%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -728,7 +728,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=All%20Saints%20Episcopal%20Church%2C%20Ashmont%2C%20210%20Ashmont%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -736,9 +736,9 @@
       }
     },
     {
-      "id": "ohs-location-4566",
-      "name": "Arlington Street Church, Unitarian",
-      "organizationName": "Arlington Street Church, Unitarian",
+      "id": "ohs-location-8251",
+      "name": "Arlington Street Church, Unitarian Universalist",
+      "organizationName": "Arlington Street Church, Unitarian Universalist",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -746,21 +746,21 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Estey Organ Co.",
-      "year": 1929,
-      "opus": 2827,
+      "builder": "Aeolian-Skinner Organ Co.",
+      "year": 1955,
+      "opus": 1307,
       "manuals": "",
       "stops": "",
-      "ranks": "",
+      "ranks": 63,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "4566",
-      "sourceInstrumentId": "30314",
+      "sourceLocationId": "8251",
+      "sourceInstrumentId": "8872",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/30314",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/4566",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/8872",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/8251",
       "location": {
-        "name": "Arlington Street Church, Unitarian",
+        "name": "Arlington Street Church, Unitarian Universalist",
         "formattedAddress": "351 Boylston Street, Boston, MA",
         "city": "Boston",
         "region": "MA",
@@ -768,10 +768,10 @@
         "latitude": 42.3520452,
         "longitude": -71.0711798,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Arlington%20Street%20Church%2C%20Unitarian%2C%20351%20Boylston%20Street%2C%20Boston%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Arlington%20Street%20Church%2C%20Unitarian%20Universalist%2C%20351%20Boylston%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -814,50 +814,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Baptist%20Church%2C%2052%20Cummins%20Highway%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
-        "sourceExtant": true,
-        "sourcePlayable": true,
-        "addressVerification": "reported_by_pipe_organ_database",
-        "canonicalSelection": "one_current_playable_instrument_per_physical_church"
-      }
-    },
-    {
-      "id": "ohs-location-13265",
-      "name": "Brattle Square Society / First Baptist Church",
-      "organizationName": "Brattle Square Society / First Baptist Church",
-      "ownerId": "",
-      "status": "active",
-      "listingOwnership": "unclaimed",
-      "claimStatus": "available",
-      "bookingEnabled": false,
-      "directoryReference": true,
-      "verificationStatus": "source_imported",
-      "builder": "E. & G.G. Hook & Hastings",
-      "year": 1873,
-      "opus": 727,
-      "manuals": "",
-      "stops": "",
-      "ranks": "",
-      "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "13265",
-      "sourceInstrumentId": "14503",
-      "sourceType": "pipe_organ_database",
-      "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/14503",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/13265",
-      "location": {
-        "name": "Brattle Square Society / First Baptist Church",
-        "formattedAddress": "110 Commonwealth Avenue, Boston, MA",
-        "city": "Boston",
-        "region": "MA",
-        "country": "US",
-        "latitude": 42.35190679999999,
-        "longitude": -71.0762403,
-        "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Brattle%20Square%20Society%20%2F%20First%20Baptist%20Church%2C%20110%20Commonwealth%20Avenue%2C%20Boston%2C%20MA"
-      },
-      "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -900,7 +857,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Cathedral%20of%20the%20Holy%20Cross%20(1875)%20%2C%201400%20Washington%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -943,7 +900,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Christ%20Church%2C%20Episcopal%20(Old%20North)%2C%20193%20Salem%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -986,7 +943,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Church%20of%20the%20Advent%2C%20Episcopal%20(1875%20%26%201888)%2C%2030%20Brimmer%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1029,7 +986,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Church%20of%20the%20Covenant%2C%2067%20Newbury%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1072,7 +1029,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Columbus%20Ave.%20A.M.E.%20Zion%20Church%2C%20600%20Columbus%20Avenue%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1115,7 +1072,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Emmanuel%20Church%2C%20Episcopal%2C%2015%20Newbury%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1123,9 +1080,52 @@
       }
     },
     {
-      "id": "ohs-location-4819",
-      "name": "First Church of Christ, Scientist - Extension",
-      "organizationName": "First Church of Christ, Scientist - Extension",
+      "id": "ohs-location-36166",
+      "name": "First Baptist Church",
+      "organizationName": "First Baptist Church",
+      "ownerId": "",
+      "status": "active",
+      "listingOwnership": "unclaimed",
+      "claimStatus": "available",
+      "bookingEnabled": false,
+      "directoryReference": true,
+      "verificationStatus": "source_imported",
+      "builder": "William W. Laws",
+      "year": 1927,
+      "opus": "",
+      "manuals": "",
+      "stops": "",
+      "ranks": 56,
+      "description": "Pipe Organ Database reference for this church's current playable instrument.",
+      "sourceLocationId": "36166",
+      "sourceInstrumentId": "41012",
+      "sourceType": "pipe_organ_database",
+      "sourceName": "Pipe Organ Database",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/41012",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/36166",
+      "location": {
+        "name": "First Baptist Church",
+        "formattedAddress": "110  Commonwealth Avenue, Boston, MA",
+        "city": "Boston",
+        "region": "MA",
+        "country": "US",
+        "latitude": 42.35190679999999,
+        "longitude": -71.0762403,
+        "placeId": "",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%20110%20%20Commonwealth%20Avenue%2C%20Boston%2C%20MA"
+      },
+      "importMeta": {
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
+        "sourceExtant": true,
+        "sourcePlayable": true,
+        "addressVerification": "reported_by_pipe_organ_database",
+        "canonicalSelection": "one_current_playable_instrument_per_physical_church"
+      }
+    },
+    {
+      "id": "ohs-location-13280",
+      "name": "First Church of Christ, Scientist - Original Edifice",
+      "organizationName": "First Church of Christ, Scientist - Original Edifice",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -1138,16 +1138,16 @@
       "opus": "",
       "manuals": "",
       "stops": "",
-      "ranks": 233,
+      "ranks": 46,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "4819",
-      "sourceInstrumentId": "9754",
+      "sourceLocationId": "13280",
+      "sourceInstrumentId": "35337",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/9754",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/4819",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/35337",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/13280",
       "location": {
-        "name": "First Church of Christ, Scientist - Extension",
+        "name": "First Church of Christ, Scientist - Original Edifice",
         "formattedAddress": "210 Massachusetts Avenue, Boston, MA",
         "city": "Boston",
         "region": "MA",
@@ -1155,10 +1155,10 @@
         "latitude": 42.3451886,
         "longitude": -71.08594049999999,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%20of%20Christ%2C%20Scientist%20-%20Extension%2C%20210%20Massachusetts%20Avenue%2C%20Boston%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%20of%20Christ%2C%20Scientist%20-%20Original%20Edifice%2C%20210%20Massachusetts%20Avenue%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1201,7 +1201,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%20of%20Christ%2C%20Scientist%20-%20Original%20Edifice%2C%20250%20Massachusetts%20Avenue%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1209,9 +1209,9 @@
       }
     },
     {
-      "id": "ohs-location-5885",
-      "name": "First Church, Unitarian",
-      "organizationName": "First Church, Unitarian",
+      "id": "ohs-location-20738",
+      "name": "First Church, Unitarian Universalist",
+      "organizationName": "First Church, Unitarian Universalist",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -1221,19 +1221,19 @@
       "verificationStatus": "source_imported",
       "builder": "Casavant Frères Ltée.",
       "year": 1972,
-      "opus": 3129,
+      "opus": 3140,
       "manuals": "",
       "stops": "",
-      "ranks": 8,
+      "ranks": 64,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "5885",
-      "sourceInstrumentId": "6200",
+      "sourceLocationId": "20738",
+      "sourceInstrumentId": "23124",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/6200",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/5885",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/23124",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/20738",
       "location": {
-        "name": "First Church, Unitarian",
+        "name": "First Church, Unitarian Universalist",
         "formattedAddress": "66 Marlborough Street, Boston, MA",
         "city": "Boston",
         "region": "MA",
@@ -1241,10 +1241,10 @@
         "latitude": 42.3536148,
         "longitude": -71.075132,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%2C%20Unitarian%2C%2066%20Marlborough%20Street%2C%20Boston%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%2C%20Unitarian%20Universalist%2C%2066%20Marlborough%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1287,7 +1287,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Lutheran%20Church%2C%20299%20Berkeley%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1330,7 +1330,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Presbyterian%20Church%20%5B1870%5D%2C%20130%20London%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1373,7 +1373,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Gate%20of%20Heaven%20Catholic%20Church%20(1896-1912)%2C%20615%20East%204th%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1416,7 +1416,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Grace%20Episcopal%20Church%2C%20315%20Dorchester%2C%20South%20Boston%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1459,7 +1459,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Grant%20AME%20Church%2C%201906%20Washington%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1502,7 +1502,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Immaculate%20Conception%20Roman%20Catholic%20Church%20%2F%20Jesuit%20Urban%20Center%2C%20775%20Harrison%20Avenue%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1545,7 +1545,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=King's%20Chapel%2C%2058%20Tremont%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1588,7 +1588,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=King's%20Chapel%20Parish%20House%2C%2064%20Beacon%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1631,7 +1631,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Messiah%20Lutheran%20Church%2C%2039%20Albano%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1674,7 +1674,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=New%20Old%20South%20Church%2C%20645%20Boylston%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1717,7 +1717,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=New%20Old%20South%20Church%2C%20645%20Boyleston%20St.%20(Copley%20Sq.)%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1760,7 +1760,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Old%20West%20Church%2C%20131%20Cambridge%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1803,7 +1803,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Our%20Lady%20of%20Perpetual%20Help%20Roman%20Catholic%20Basilica%20%5BMission%20Church%5D%2C%201545%20Tremont%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1846,7 +1846,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Park%20Street%20Church%2C%20Congregational%2C%201%20Park%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1889,7 +1889,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Sacred%20Heart%20Convent%2C%2017%20Union%20Park%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1932,7 +1932,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Saint%20Clement%20Eucharistic%20Shrine%2C%201105%20Boylston%20St.%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -1975,7 +1975,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Second%20Church%2C%20Unitarian%20%2F%20Ruggles%20Baptist%20Church%2C%20874%20Beacon%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2018,7 +2018,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Cecilia%20Catholic%20Church%2C%2018%20Belvidere%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2061,7 +2061,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Francis%20de%20Sales%20Catholic%20Church%2C%20313%20Bunker%20Hill%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2104,7 +2104,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Leonard%20of%20Port%20Maurice%2C%20320%20Hanover%20St.%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2147,7 +2147,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Margaret's%20Convent%2C%20Episcopal%2C%2017%20Louisburg%20Square%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2190,7 +2190,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul's%20Episcopal%20Cathedral%2C%20138%20Tremont%20St.%20(Park%20Square)%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2233,7 +2233,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Stephen's%20Roman%20Catholic%20Church%2C%2024%20Clark%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2276,7 +2276,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Thomas%20Aquinas%20Roman%20Catholic%20Church%2C%2095%20South%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2319,7 +2319,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Vincent%20de%20Paul%20Roman%20Catholic%20Church%2C%20360%20E%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2362,7 +2362,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Church%2C%20Episcopal%20(between%201872%20and%201877)%2C%20206%20Clarendon%20Street%2C%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2405,7 +2405,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Congregational%20Church%2C%2035%20Quint%20Street%2C%20Allston%2C%20Boston%20(Allston)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2448,7 +2448,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Anthony's%20Roman%20Catholic%20Church%2C%2043%20Holton%20Street%2C%20Boston%20(Allston)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2491,7 +2491,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Community%20United%20Methodist%20Church%20%2F%20Oak%20Square%20Methodist%2C%20519%20Washington%20Street%2C%20Brighton%2C%20Boston%20(Brighton)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2534,7 +2534,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Columbkille%20Roman%20Catholic%20Church%2C%20321%20Market%20St.%2C%20Boston%20(Brighton)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2577,7 +2577,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20John's%20Episcopal%20Church%2C%2027%20Devens%20Street%2C%20Boston%20(Charlestown)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2620,7 +2620,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary%20Roman%20Catholic%20Church%2C%2055%20Warren%20Street%2C%20Boston%20(Charlestown)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2663,7 +2663,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20James%20the%20Greater%20Catholic%20Church%20%2C%20130%20Harrison%20Ave.%2C%20Boston%20(Chinatown)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2706,7 +2706,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20James%20the%20Greater%20Roman%20Catholic%20Church%2C%20125%20Harrison%20Ave.%2C%20Boston%20(Chinatown)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2749,7 +2749,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Dorchester%20--%20Unitarian%20Universalist%2C%2010%20Parish%20Street%2C%20Boston%20(Dorchester)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2792,7 +2792,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Parkman%20Methodist%20Church%2C%2029%20Parkman%20Street%2C%20Boston%20(Dorchester)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2835,7 +2835,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Seventh-day%20Adventist%20Church%2C%205%20Dix%20Street%2C%20Boston%20(Dorchester)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2878,7 +2878,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mark's%20Episcopal%20Church%2C%2073%20Columbia%20Rd.%2C%20Boston%20(Dorchester)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2921,7 +2921,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mark's%20Roman%20Catholic%20Church%2C%201725%20Dorchester%20Ave%2C%20Boston%20(Dorchester)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -2964,7 +2964,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary's%20Episcopal%20Church%2C%2014%20Cushing%20Ave.%2C%20Boston%20(Dorchester)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3007,7 +3007,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Village%20Congregational%2C%2043%20River%20St.%2C%20Boston%20(Dorchester)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3050,7 +3050,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Christ%20Episcopal%20Church%2C%201220%20River%20Street%2C%20Boston%20(Hyde%20Park)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3093,7 +3093,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Third%20Church%20of%20Christ%2C%20Scientist%2C%20126%20Arlington%20Street%2C%20Hyde%20Park%2C%20Boston%20(Hyde%20Park)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3136,7 +3136,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Angela%20Roman%20Catholic%20Church%2C%201530%20Blue%20Hill%20Avenue%2C%20Boston%20(Mattapan)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3179,7 +3179,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Congregational%20Church%2C%2025%20Cummins%20Highway%2C%20Boston%20(Roslindale)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3222,7 +3222,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Annunciation%20Greek%20Orthodox%20Cathedral%2C%20514%20Parker%20Street%2C%20Boston%20(Roxbury%20Crossing)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3265,7 +3265,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Bethel%20Baptist%20Church%2C%2018%20St.%20James%20Street%2C%20Boston%20(Roxbury)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3308,7 +3308,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Highland%20Congregational%20Church%2C%20738%20Parker%20Street%2C%20Boston%20(Roxbury)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3351,7 +3351,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Patrick%20Roman%20Catholic%20Church%2C%20400%20Dudley%20Street%2C%20Boston%20(Roxbury)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3394,7 +3394,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Swedenborgian%20Church%20%2F%20Baptist%20Church%2C%203%20Regent%20Street%2C%20Boston%20(Roxbury)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3437,7 +3437,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Unitarian%20Church%2C%201326%20Washington%20Street%2C%20Boston%20(West%20Newton)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3480,7 +3480,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Theresa%20of%20Avila%20Roman%20Catholic%20Church%2C%202078%20Centre%20Street%2C%20Boston%20(West%20Roxbury)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3523,7 +3523,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Most%20Holy%20Redeemer%20Roman%20Catholic%20Church%2C%2072%20Maverick%20Street%2C%20Boston%3A%20East%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3566,7 +3566,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St%20Lazarus%20Roman%20Catholic%20Church%20%2F%20Saint%20Joseph-Saint%20Lazarus%20Catholic%20Church)%2C%2059%20Ashley%20Street%2C%20Boston%3A%20East%20Boston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3609,7 +3609,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Most%20Precious%20Blood%20Roman%20Catholic%20Church%2C%2043%20Maple%20Street%2C%20Boston%3A%20Hyde%20Park%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3652,7 +3652,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Central%20Congregational%20Church%2C%2085%20Seaverns%20Avenue%2C%20Boston%3A%20Jamaica%20Plain%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3695,7 +3695,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Unitarian%2C%20785%20Center%20Street%2C%20Boston%3A%20Jamaica%20Plain%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3738,7 +3738,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%20594%20Washington%20Street%2C%20Braintree%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3781,7 +3781,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=All%20Saints%20Episcopal%20Church%2C%201773%20Beacon%20Street%2C%20Brookline%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3824,7 +3824,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Unitarian%2C%20382%20Walnut%20Street%2C%20Brookline%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3867,7 +3867,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard%20Congregational%20Church%20%2F%20United%20Parish%20Church%2C%20210%20Harvard%20Street%2C%20Brookline%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3910,7 +3910,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Our%20Saviour%20Episcopal%20Church%2C%20Longwood%2C%2025%20Monmouth%20Street%2C%20Brookline%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3953,7 +3953,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Sears%20Chapel%20(1860)%20%2F%20Christ's%20Church%2C%2070%20Colchester%20Street%2C%20Brookline%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -3996,7 +3996,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Augustana%2FFaith%20Lutheran%20Church%2C%20311%20Broadway%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4039,7 +4039,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%205%20Magazine%20St.%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4082,7 +4082,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%20of%20Christ%2C%20Scientist%2C%2013%20Waterhouse%20Street%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4125,7 +4125,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%2C%20Congregational%2C%2011%20Garden%20Street%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4168,7 +4168,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Evangelical%20Congregational%20Church%20%2F%20Christ%20the%20King%20Presbyterian%20Church%2C%2099%20Prospect%20Street%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4176,9 +4176,9 @@
       }
     },
     {
-      "id": "ohs-location-11501",
-      "name": "First Parish Church",
-      "organizationName": "First Parish Church",
+      "id": "ohs-location-59610",
+      "name": "First Parish Unitarian Church",
+      "organizationName": "First Parish Unitarian Church",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -4186,32 +4186,32 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Austin Organ Co.",
-      "year": 1916,
-      "opus": 622,
+      "builder": "Wicks Organ Co.",
+      "year": 1978,
+      "opus": 4679,
       "manuals": "",
       "stops": "",
-      "ranks": 33,
+      "ranks": 8,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "11501",
-      "sourceInstrumentId": "12583",
+      "sourceLocationId": "59610",
+      "sourceInstrumentId": "68864",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/12583",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/11501",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/68864",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/59610",
       "location": {
-        "name": "First Parish Church",
-        "formattedAddress": "3 Church Street, Cambridge, MA",
+        "name": "First Parish Unitarian Church",
+        "formattedAddress": "3 Church Street , Cambridge, MA",
         "city": "Cambridge",
         "region": "MA",
         "country": "US",
         "latitude": 42.374467,
         "longitude": -71.119534,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Church%2C%203%20Church%20Street%2C%20Cambridge%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Unitarian%20Church%2C%203%20Church%20Street%20%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4254,7 +4254,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20United%20Presbyterian%20Church%2C%201418%20Cambridge%20Street%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4297,7 +4297,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Grace%20Methodist%20Church%20%2F%20Pentecostal%20Tabernacle%2C%2056%20Magazine%20Street%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4340,7 +4340,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Harvard-Epworth%20United%20Methodist%20Church%2C%201555%20Massachusetts%20Avenue%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4383,50 +4383,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=New%20Jerusalem%20Church%20%2F%20Swedenborg%20Chapel%20%5B1901%5D%2C%2050%20Quincy%20St.%20%5BCorner%20Kirkland%20%26%20Quincy%5D%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
-        "sourceExtant": true,
-        "sourcePlayable": true,
-        "addressVerification": "reported_by_pipe_organ_database",
-        "canonicalSelection": "one_current_playable_instrument_per_physical_church"
-      }
-    },
-    {
-      "id": "ohs-location-3310",
-      "name": "Notre Dame de Pitie Roman Catholic Church",
-      "organizationName": "Notre Dame de Pitie Roman Catholic Church",
-      "ownerId": "",
-      "status": "active",
-      "listingOwnership": "unclaimed",
-      "claimStatus": "available",
-      "bookingEnabled": false,
-      "directoryReference": true,
-      "verificationStatus": "source_imported",
-      "builder": "Geo. H. Ryder",
-      "year": 1880,
-      "opus": "",
-      "manuals": "",
-      "stops": "",
-      "ranks": "",
-      "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "3310",
-      "sourceInstrumentId": "3478",
-      "sourceType": "pipe_organ_database",
-      "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/3478",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/3310",
-      "location": {
-        "name": "Notre Dame de Pitie Roman Catholic Church",
-        "formattedAddress": "15 Notre Dame Avenue, Cambridge, MA",
-        "city": "Cambridge",
-        "region": "MA",
-        "country": "US",
-        "latitude": 42.3919323,
-        "longitude": -71.1314366,
-        "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Notre%20Dame%20de%20Pitie%20Roman%20Catholic%20Church%2C%2015%20Notre%20Dame%20Avenue%2C%20Cambridge%2C%20MA"
-      },
-      "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4469,7 +4426,50 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Old%20Cambridge%20Baptist%20Church%2C%201151%20Massachusetts%20Ave%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
+        "sourceExtant": true,
+        "sourcePlayable": true,
+        "addressVerification": "reported_by_pipe_organ_database",
+        "canonicalSelection": "one_current_playable_instrument_per_physical_church"
+      }
+    },
+    {
+      "id": "ohs-location-41988",
+      "name": "Our Lady of Pity Roman Catholic Church / Reservoir Church",
+      "organizationName": "Our Lady of Pity Roman Catholic Church / Reservoir Church",
+      "ownerId": "",
+      "status": "active",
+      "listingOwnership": "unclaimed",
+      "claimStatus": "available",
+      "bookingEnabled": false,
+      "directoryReference": true,
+      "verificationStatus": "source_imported",
+      "builder": "Casavant Frères Ltée.",
+      "year": 1923,
+      "opus": 993,
+      "manuals": "",
+      "stops": "",
+      "ranks": 34,
+      "description": "Pipe Organ Database reference for this church's current playable instrument.",
+      "sourceLocationId": "41988",
+      "sourceInstrumentId": "47667",
+      "sourceType": "pipe_organ_database",
+      "sourceName": "Pipe Organ Database",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/47667",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/41988",
+      "location": {
+        "name": "Our Lady of Pity Roman Catholic Church / Reservoir Church",
+        "formattedAddress": "15 Notre Dame Ave, Cambridge, MA",
+        "city": "Cambridge",
+        "region": "MA",
+        "country": "US",
+        "latitude": 42.3919323,
+        "longitude": -71.1314366,
+        "placeId": "",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Our%20Lady%20of%20Pity%20Roman%20Catholic%20Church%20%2F%20Reservoir%20Church%2C%2015%20Notre%20Dame%20Ave%2C%20Cambridge%2C%20MA"
+      },
+      "importMeta": {
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4512,7 +4512,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Pilgrim%20Congregational%20Church%20%2F%20First%20Korean%20Church%20of%20Cambridge%2C%2035%20Magazine%20Street%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4555,7 +4555,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Sacred%20Heart%20Roman%20Catholic%20Church%2C%2047%20Sixth%20St.%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4598,7 +4598,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Francis%20of%20Assisi%20Catholic%20Parish%2C%20325%20Cambridge%20St.%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4641,7 +4641,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20John%20the%20Evangelist%20Catholic%20Church%2C%202270%20Massachusetts%20Avenue%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4684,7 +4684,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20John's%20Monastery%2C%20SSJE%20(Cowley%20Fathers)%2C%20980%20Memorial%20Drive%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4727,7 +4727,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary%20of%20the%20Annunciation%20Roman%20Catholic%20Church%2C%20134%20Norfolk%20Street%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4770,7 +4770,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul%20Catholic%20Church%2C%2019%20Mount%20Auburn%20Street%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4813,7 +4813,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul%20Catholic%20Church%20%7C%20Harvard%20Square%2C%2029%20Mount%20Auburn%20St.%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4856,7 +4856,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Peter%20Roman%20Catholic%20Church%2C%20100%20Concord%20Avenue%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4899,7 +4899,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Peter's%20Episcopal%20Church%2C%20838%20Massachusetts%20Avenue%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4942,7 +4942,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Union%20Baptist%20Church%2C%20874%20Main%20St.%2C%20Cambridge%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -4985,7 +4985,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20James%20Episcopal%20Church%2C%201991%20Massachusetts%20Ave.%2C%20Cambridge%20(North%20Cambridge)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5028,7 +5028,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Unitarian%20Universalist%20Church%2C%201508%20Washington%20St.%2C%20Canton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5071,7 +5071,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Gerard%20Majella%20Church%2C%201860%20Washington%20St.%2C%20Canton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5114,7 +5114,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Rose%20Roman%20Catholic%20Church%2C%20601%20Broadway%2C%20Chelsea%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5157,7 +5157,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Stanislaus%20Roman%20Catholic%20Church%2C%20117%20Chestnut%20St.%2C%20Chelsea%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5200,7 +5200,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Church%2C%20Unitarian-Universalist%2C%2020%20Lexington%20Road%2C%20Concord%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5243,7 +5243,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinitarian%20Congregational%20Church%2C%2054%20Walden%20Street%2C%20Concord%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5286,7 +5286,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Episcopal%20Church%2C%2081%20Elm%20Street%2C%20Concord%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5329,7 +5329,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=West%20Concord%20Union%20Church%2C%201317%20Main%20Street%2C%20Concord%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5372,7 +5372,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Maple%20Street%20Congregational%20Church%2C%2090%20Maple%20St.%2C%20Danvers%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5415,7 +5415,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Allin%20Congregational%2C%20683%20High%20Street%2C%20Dedham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5458,7 +5458,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Dr.%20Lamson's%20Unitarian%20%2F%20First%20Church%20and%20Parish%20in%20Dedham%2C%20670%20High%20Street%2C%20Dedham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5501,7 +5501,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary's%20of%20the%20Assumption%20Catholic%20Church%2C%20420%20High%20Street%2C%20Dedham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5544,7 +5544,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul's%20Episcopal%20Church%2C%2059%20Court%20Street%2C%20Dedham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5587,7 +5587,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Dunstan's%20Episcopal%20Church%2C%2018%20Springdale%20Avenue%2C%20Dover%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5630,7 +5630,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Congregational%20Church%2C%20460%20Broadway%2C%20Everett%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5673,7 +5673,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Immaculate%20Conception%20Catholic%20Church%2C%20489%20Broadway%2C%20Everett%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5716,7 +5716,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Anthony%20of%20Padua%20Roman%20Catholic%20Church%2C%2038%20Oakes%20Street%2C%20Everett%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5759,7 +5759,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%2085%20Main%20Street%2C%20Hingham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5803,7 +5803,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%2C%20Unitarian%20(Old%20Ship%20Church)%2C%20107%20Main%20Street%2C%20Hingham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5847,7 +5847,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20John%20the%20Evangelist%20Episcopal%20Church%2C%20172%20Main%20Street%2C%20Hingham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5890,7 +5890,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul's%20Roman%20Catholic%20Church%2C%20147%20North%20Street%2C%20Hingham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5934,7 +5934,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Unitarian%2C%207%20Harrington%20Road%2C%20Lexington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -5977,7 +5977,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20United%20Methodist%20Church%2C%20310%20South%20Main%20Street%2C%20Lexington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6020,7 +6020,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Follen%20Community%2C%20Unitarian%20Universalist%2C%20755%20Massachusetts%20Avenue%2C%20Lexington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6063,7 +6063,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Pilgrim%20Congregational%20Church%2C%20UCC%2C%2055%20Coolidge%20Ave.%2C%20Lexington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6071,9 +6071,9 @@
       }
     },
     {
-      "id": "ohs-location-13463",
-      "name": "St. Bridgid Roman Catholic",
-      "organizationName": "St. Bridgid Roman Catholic",
+      "id": "ohs-location-21269",
+      "name": "St. Bridgid Roman Catholic Church",
+      "organizationName": "St. Bridgid Roman Catholic Church",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -6081,32 +6081,32 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Hook & Hastings",
-      "year": 1909,
-      "opus": 2219,
+      "builder": "Williams Organ Service",
+      "year": 1958,
+      "opus": "",
       "manuals": "",
       "stops": "",
-      "ranks": 30,
+      "ranks": "",
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "13463",
-      "sourceInstrumentId": "23883",
+      "sourceLocationId": "21269",
+      "sourceInstrumentId": "23882",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/23883",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/13463",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/23882",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/21269",
       "location": {
-        "name": "St. Bridgid Roman Catholic",
-        "formattedAddress": "2001 Mass Ave., Lexington, MA",
+        "name": "St. Bridgid Roman Catholic Church",
+        "formattedAddress": "2001 Mass Avenue, Lexington, MA",
         "city": "Lexington",
         "region": "MA",
         "country": "US",
         "latitude": 42.4496893,
         "longitude": -71.23530939999999,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Bridgid%20Roman%20Catholic%2C%202001%20Mass%20Ave.%2C%20Lexington%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Bridgid%20Roman%20Catholic%20Church%2C%202001%20Mass%20Avenue%2C%20Lexington%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6114,9 +6114,9 @@
       }
     },
     {
-      "id": "ohs-location-38803",
-      "name": "St. Anne's in-the-Fields Episcopal Church",
-      "organizationName": "St. Anne's in-the-Fields Episcopal Church",
+      "id": "ohs-location-41787",
+      "name": "St. Anne's-in-the-Fields Episcopal Church",
+      "organizationName": "St. Anne's-in-the-Fields Episcopal Church",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -6124,21 +6124,21 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Casavant Frères Ltée.",
-      "year": 1983,
+      "builder": "Casavant Frères",
+      "year": 2005,
       "opus": 3523,
       "manuals": "",
       "stops": "",
-      "ranks": 15,
+      "ranks": 18,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "38803",
-      "sourceInstrumentId": "44008",
+      "sourceLocationId": "41787",
+      "sourceInstrumentId": "47420",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/44008",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/38803",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/47420",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/41787",
       "location": {
-        "name": "St. Anne's in-the-Fields Episcopal Church",
+        "name": "St. Anne's-in-the-Fields Episcopal Church",
         "formattedAddress": "147 Concord Road, Lincoln, MA",
         "city": "Lincoln",
         "region": "MA",
@@ -6146,10 +6146,10 @@
         "latitude": 42.4206085,
         "longitude": -71.3382262,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Anne's%20in-the-Fields%20Episcopal%20Church%2C%20147%20Concord%20Road%2C%20Lincoln%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Anne's-in-the-Fields%20Episcopal%20Church%2C%20147%20Concord%20Road%2C%20Lincoln%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6192,7 +6192,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Central%20Congregational%20Church%2C%2097%20Broad%20Street%2C%20Lynn%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6235,7 +6235,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%20of%20Christ%2C%20Congregational%20%2C%20678%20Lynnfield%20Street%2C%20Lynn%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6278,7 +6278,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%20Of%20Christ%2C%20Scientist%2C%20153%20Lynn%20Shore%20Drive%2C%20Lynn%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6321,7 +6321,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Holy%20Family%20Roman%20Catholic%20Church%2C%2026%20Bessom%20Street%2C%20Lynn%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6364,7 +6364,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Sacred%20Heart%20Roman%20Catholic%20Church%2C%20571%20Boston%20Street%2C%20Lynn%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6407,7 +6407,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Joseph's%20Catholic%20Church%2C%20115%20Union%20Street%2C%20Lynn%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6450,7 +6450,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary's%20Roman%20Catholic%20Church%2C%208%20S.%20Common%20Street%2C%20Lynn%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6493,7 +6493,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Washington%20Street%20Baptist%20Church%2C%20256%20Washington%20Street%2C%20Lynn%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6501,7 +6501,7 @@
       }
     },
     {
-      "id": "ohs-location-17404",
+      "id": "ohs-location-28807",
       "name": "First Baptist Church",
       "organizationName": "First Baptist Church",
       "ownerId": "",
@@ -6511,32 +6511,32 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Ernest M. Skinner Company",
-      "year": 1915,
-      "opus": 235,
+      "builder": "Jason McKown",
+      "year": 1990,
+      "opus": "",
       "manuals": "",
       "stops": "",
-      "ranks": 40,
+      "ranks": 46,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "17404",
-      "sourceInstrumentId": "19203",
+      "sourceLocationId": "28807",
+      "sourceInstrumentId": "32504",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/19203",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/17404",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/32504",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/28807",
       "location": {
         "name": "First Baptist Church",
         "formattedAddress": "493 Main Street, Malden, MA",
         "city": "Malden",
         "region": "MA",
         "country": "US",
-        "latitude": 42.4279394,
-        "longitude": -71.06681569999999,
+        "latitude": 42.4279888,
+        "longitude": -71.0667795,
         "placeId": "",
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%20493%20Main%20Street%2C%20Malden%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6579,7 +6579,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%2C%20Congregational%2C%20184%20Pleasant%20Street%2C%20Malden%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6622,7 +6622,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Immaculate%20Conception%20Roman%20Catholic%20Church%2C%2010%20Fellsway%20East%2C%20Malden%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6665,7 +6665,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Maplewood%20Baptist%20Church%2C%20729%20Salem%20Street%2C%20Malden%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6708,7 +6708,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Universalist%20Church%2C%202%20Elm%20Street%2C%20Malden%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6751,7 +6751,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Clifton%20Lutheran%20Church%2C%20150%20Humphrey%20Street%2C%20Marblehead%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6794,7 +6794,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Church%20of%20Christ%20(Old%20North)%2C%2036%20Washington%20Street%2C%20Marblehead%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6837,7 +6837,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Our%20Lady%20of%20the%20Sea%20Roman%20Catholic%20Church%2C%2085%20Atlantic%20Ave.%2C%20Marblehead%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6880,7 +6880,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Andrew's%20Episcopal%20Church%2C%20135%20Lafayette%20St.%2C%20Marblehead%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6923,7 +6923,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Michael's%20Episcopal%20Church%2C%2026%20Pleasant%20Street%2C%20Marblehead%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -6966,7 +6966,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Joseph%20Roman%20Catholic%20Church%20%2C%20118%20High%20St.%2C%20Medford%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7009,7 +7009,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Unitarian%20Universalist%20(formerly%2C%20First%20Parish%20Unitarian)%2C%20147%20High%20St.%2C%20Medford%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7052,7 +7052,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Methodist%20Church%2C%20645%20Main%20Street%2C%20Melrose%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7060,9 +7060,9 @@
       }
     },
     {
-      "id": "ohs-location-31435",
-      "name": "Melrose Highlands Congregational Church",
-      "organizationName": "Melrose Highlands Congregational Church",
+      "id": "ohs-location-31436",
+      "name": "Melrose Highlands Congregational Church, UCC",
+      "organizationName": "Melrose Highlands Congregational Church, UCC",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -7071,20 +7071,20 @@
       "directoryReference": true,
       "verificationStatus": "source_imported",
       "builder": "Aeolian-Skinner Organ Co.",
-      "year": 1955,
+      "year": 1966,
       "opus": 1319,
       "manuals": "",
       "stops": "",
-      "ranks": 13,
+      "ranks": 25,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "31435",
-      "sourceInstrumentId": "35557",
+      "sourceLocationId": "31436",
+      "sourceInstrumentId": "35558",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/35557",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/31435",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/35558",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/31436",
       "location": {
-        "name": "Melrose Highlands Congregational Church",
+        "name": "Melrose Highlands Congregational Church, UCC",
         "formattedAddress": "355 Franklin Street, Melrose, MA",
         "city": "Melrose",
         "region": "MA",
@@ -7092,10 +7092,10 @@
         "latitude": 42.46871,
         "longitude": -71.0664443,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Melrose%20Highlands%20Congregational%20Church%2C%20355%20Franklin%20Street%2C%20Melrose%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Melrose%20Highlands%20Congregational%20Church%2C%20UCC%2C%20355%20Franklin%20Street%2C%20Melrose%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7138,7 +7138,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary's%20Roman%20Catholic%20Church%2C%2046%20Myrtle%20Street%2C%20Melrose%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7181,7 +7181,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Episcopal%20Church%2C%20131%20West%20Emerson%20Street%2C%20Melrose%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7224,7 +7224,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Church%20of%20Our%20Savior%2C%20453%20Adams%20St%2C%20Milton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7267,7 +7267,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=East%20Congregational%20Church%2C%20UCC%2C%20610%20Adams%20St.%2C%20Milton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7310,7 +7310,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Church%2C%20535%20Canton%20Ave.%2C%20Milton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7353,7 +7353,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Agatha's%20Roman%20Catholic%20Church%2C%20432%20Adams%20St.%2C%20Milton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7396,7 +7396,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary%20of%20the%20Hills%20Roman%20Catholic%20Church%2C%2029%20St.%20Mary's%20Road%2C%20Milton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7439,7 +7439,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Michael's%20Episcopal%20Church%2C%20112%20Randolph%20Avenue%2C%20Milton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7482,7 +7482,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Village%20Church%20U.C.C.%2C%2027%20Cliff%20Street%2C%20Nahant%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7525,7 +7525,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Christ%20Lutheran%2C%20113%20Union%20St.%2C%20Natick%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7568,7 +7568,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Congregational%20Church%2C%202%20East%20Central%20Street%2C%20Natick%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7611,7 +7611,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Patrick's%20R.%20C.%2C%2044%20E.%20Central%20St.%2C%20Natick%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7654,7 +7654,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul's%20Episcopal%20Church%2C%2039%20E.%20Central%20St.%2C%20Natick%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7697,7 +7697,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Carter%20Memorial%20Methodist%20Church%2C%20800%20Highland%20Ave.%2C%20Needham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7740,7 +7740,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Congregational%20Church%20of%20Needham%2C%201154%20Great%20Plain%20Avenue%2C%20Needham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7783,7 +7783,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20in%20Needham%20Unitarian-Universalist%2C%2023%20Dedham%20Street%2C%20Needham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7826,7 +7826,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Joseph%20Roman%20Catholic%20Church%2C%201360%20Highland%20Ave.%2C%20Needham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7869,7 +7869,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Eliot%20Congregational%20UCC%2C%20474%20Centre%20Street%2C%20Newton%20Corner%2C%20Newton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7912,7 +7912,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Grace%20Episcopal%20Church%2C%2076%20Eldredge%20Street%2C%20Newton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7955,7 +7955,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Immanuel%20Baptist%20Church%2C%20187%20Church%20Street%2C%20Newton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -7998,7 +7998,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Our%20Lady%20Help%20of%20Christians%20Roman%20Catholic%20Church%2C%20573%20Washington%20Street%2C%20Newton%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8041,7 +8041,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%20848%20Beacon%20Street%2C%20Newton%20Centre%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8084,7 +8084,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Sacred%20Heart%20Roman%20Catholic%20Church%2C%201321%20Centre%20Street%2C%20Newton%20Centre%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8127,7 +8127,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Trinity%20Episcopal%20Church%2C%2011%20Homer%20Street%2C%20Newton%20Centre%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8170,7 +8170,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Newton%20Highlands%20Congregational%20Church%2C%2054%20Lincoln%20Street%2C%20Newton%20Highlands%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8213,7 +8213,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul%20Episcopal%20Church%2C%201135%20Walnut%20Street%2C%20Newton%20Highlands%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8256,7 +8256,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary's%20Roman%20Catholic%20Church%20%2F%20Mary%20Immaculate%20of%20Lourdes%20Roman%20Catholic%20Church%2C%20270%20Elliot%20Street%2C%20Newton%20Upper%20Falls%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8299,7 +8299,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Grace%20Episcopal%2C%20150%20Chapel%20St.%2C%20Norwood%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8342,7 +8342,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul's%20Episcopal%20Church%2C%2012%20Washington%20St.%2C%20Peabody%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8385,7 +8385,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Faith%20Lutheran%20Church%2C%20201%20Granite%20St.%2C%20Quincy%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8428,7 +8428,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Fort%20Square%20Presbyterian%20Church%2C%2016%20Pleasant%20St.%2C%20Quincy%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8471,7 +8471,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20John%20the%20Baptist%20Roman%20Catholic%20Church%2C%2044%20School%20Street%2C%20Quincy%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8479,7 +8479,7 @@
       }
     },
     {
-      "id": "ohs-location-13554",
+      "id": "ohs-location-58618",
       "name": "United First Parish Church",
       "organizationName": "United First Parish Church",
       "ownerId": "",
@@ -8489,32 +8489,32 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Hook & Hastings",
-      "year": 1908,
-      "opus": 2195,
+      "builder": "Morel Organ Co.",
+      "year": 1971,
+      "opus": "",
       "manuals": "",
       "stops": "",
-      "ranks": "",
+      "ranks": 24,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "13554",
-      "sourceInstrumentId": "14851",
+      "sourceLocationId": "58618",
+      "sourceInstrumentId": "67584",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/14851",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/13554",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/67584",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/58618",
       "location": {
         "name": "United First Parish Church",
-        "formattedAddress": "1306 Hancock Street, Quincy, MA",
+        "formattedAddress": "1306 Hancock St., Quincy, MA",
         "city": "Quincy",
         "region": "MA",
         "country": "US",
         "latitude": 42.2512047,
         "longitude": -71.00292759999999,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=United%20First%20Parish%20Church%2C%201306%20Hancock%20Street%2C%20Quincy%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=United%20First%20Parish%20Church%2C%201306%20Hancock%20St.%2C%20Quincy%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8557,7 +8557,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Ann%20Parish%20Roman%20Catholic%20Church%2C%20757%20Hancock%20St.%2C%20Quincy%20(Wollaston)%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8600,7 +8600,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%2C%20209%20Beach%20St.%2C%20Revere%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8643,7 +8643,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%2056%20Federal%20Street%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8686,7 +8686,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Congregational%20Church%2C%20316%20Essex%20Street%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8729,7 +8729,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Universalist%20Society%20of%20Salem%2C%20211%20Bridge%20Street%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8772,7 +8772,50 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Grace%20Episcopal%20Church%2C%20385%20Essex%20St.%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
+        "sourceExtant": true,
+        "sourcePlayable": true,
+        "addressVerification": "reported_by_pipe_organ_database",
+        "canonicalSelection": "one_current_playable_instrument_per_physical_church"
+      }
+    },
+    {
+      "id": "ohs-location-59109",
+      "name": "St James Church - Mary, Queen of the Apostles Parish",
+      "organizationName": "St James Church - Mary, Queen of the Apostles Parish",
+      "ownerId": "",
+      "status": "active",
+      "listingOwnership": "unclaimed",
+      "claimStatus": "available",
+      "bookingEnabled": false,
+      "directoryReference": true,
+      "verificationStatus": "source_imported",
+      "builder": "William W. Laws",
+      "year": 1927,
+      "opus": "",
+      "manuals": "",
+      "stops": "",
+      "ranks": "",
+      "description": "Pipe Organ Database reference for this church's current playable instrument.",
+      "sourceLocationId": "59109",
+      "sourceInstrumentId": "68218",
+      "sourceType": "pipe_organ_database",
+      "sourceName": "Pipe Organ Database",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/68218",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/59109",
+      "location": {
+        "name": "St James Church - Mary, Queen of the Apostles Parish",
+        "formattedAddress": "160 Federal St., Salem, MA",
+        "city": "Salem",
+        "region": "MA",
+        "country": "US",
+        "latitude": 42.5201622,
+        "longitude": -70.90567109999999,
+        "placeId": "",
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St%20James%20Church%20-%20Mary%2C%20Queen%20of%20the%20Apostles%20Parish%2C%20160%20Federal%20St.%2C%20Salem%2C%20MA"
+      },
+      "importMeta": {
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8815,50 +8858,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Anne's%20Roman%20Catholic%20Church%2C%20292%20Jefferson%20Avenue%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
-        "sourceExtant": true,
-        "sourcePlayable": true,
-        "addressVerification": "reported_by_pipe_organ_database",
-        "canonicalSelection": "one_current_playable_instrument_per_physical_church"
-      }
-    },
-    {
-      "id": "ohs-location-59108",
-      "name": "St. James Roman Catholic Church",
-      "organizationName": "St. James Roman Catholic Church",
-      "ownerId": "",
-      "status": "active",
-      "listingOwnership": "unclaimed",
-      "claimStatus": "available",
-      "bookingEnabled": false,
-      "directoryReference": true,
-      "verificationStatus": "source_imported",
-      "builder": "Unknown Builder",
-      "year": "",
-      "opus": "",
-      "manuals": "",
-      "stops": "",
-      "ranks": "",
-      "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "59108",
-      "sourceInstrumentId": "68217",
-      "sourceType": "pipe_organ_database",
-      "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/68217",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/59108",
-      "location": {
-        "name": "St. James Roman Catholic Church",
-        "formattedAddress": "160 Federal St., Salem, MA",
-        "city": "Salem",
-        "region": "MA",
-        "country": "US",
-        "latitude": 42.5201622,
-        "longitude": -70.90567109999999,
-        "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20James%20Roman%20Catholic%20Church%2C%20160%20Federal%20St.%2C%20Salem%2C%20MA"
-      },
-      "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8901,7 +8901,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20John%20the%20Baptist%20(St.%20John%20Paul%20II%20Shrine%20of%20Divine%20Mercy)%20Roman%20Catholic%20Church%2C%2028%20St.%20Peter%20St.%20%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8944,7 +8944,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Peter's%20Episcopal%20Church%2C%2024%20St.%20Peter%20Street%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -8987,7 +8987,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Thomas%20the%20Apostle%20Catholic%20Church%2C%20290%20North%20Street%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9030,7 +9030,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Tabernacle%20Congregational%20Church%2C%2050%20Washington%20Street%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9073,7 +9073,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Wesley%20Methodist%20Episcopal%20Church%2C%208%20North%20Street%2C%20Salem%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9116,7 +9116,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%2C%20Universalist%2C%2031%20Main%20St.%2C%20Saugus%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9124,9 +9124,9 @@
       }
     },
     {
-      "id": "ohs-location-4664",
-      "name": "Grace Baptist Church / Perkins St. Baptist / Seventh-day Adventist",
-      "organizationName": "Grace Baptist Church / Perkins St. Baptist / Seventh-day Adventist",
+      "id": "ohs-location-52693",
+      "name": "Perkins Street Baptist Church",
+      "organizationName": "Perkins Street Baptist Church",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -9135,20 +9135,20 @@
       "directoryReference": true,
       "verificationStatus": "source_imported",
       "builder": "Woodberry & Harris",
-      "year": 1891,
-      "opus": 104,
+      "year": 1892,
+      "opus": "",
       "manuals": "",
       "stops": "",
-      "ranks": 22,
+      "ranks": 19,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "4664",
-      "sourceInstrumentId": "4916",
+      "sourceLocationId": "52693",
+      "sourceInstrumentId": "60549",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/4916",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/4664",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/60549",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/52693",
       "location": {
-        "name": "Grace Baptist Church / Perkins St. Baptist / Seventh-day Adventist",
+        "name": "Perkins Street Baptist Church",
         "formattedAddress": "59 Cross Street, Somerville, MA",
         "city": "Somerville",
         "region": "MA",
@@ -9156,10 +9156,10 @@
         "latitude": 42.3861773,
         "longitude": -71.0880786,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Grace%20Baptist%20Church%20%2F%20Perkins%20St.%20Baptist%20%2F%20Seventh-day%20Adventist%2C%2059%20Cross%20Street%2C%20Somerville%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Perkins%20Street%20Baptist%20Church%2C%2059%20Cross%20Street%2C%20Somerville%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9202,7 +9202,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Benedict's%20Roman%20Catholic%20Church%2C%2025%20Arlington%20Street%2C%20Somerville%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9245,7 +9245,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Catherine%20of%20Genoa%20RC%20Church%20%2F%20Sts.%20Louis%20%26%20Zelie%20Martin%20Parish%2C%20185%20Summer%20Street%2C%20Somerville%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9288,7 +9288,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Joseph's%20Roman%20Catholic%20Church%20(now%20part%20of%20Sts.%20Louis%20%26%20Zelie%20Martin%20Parish)%2C%20179%20Summer%20St.%2C%20Somerville%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9331,7 +9331,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%20457%20Main%20St.%2C%20Stoneham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9374,7 +9374,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Congregational%20Church%2C%201%20Church%20St.%2C%20Stoneham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9382,7 +9382,7 @@
       }
     },
     {
-      "id": "ohs-location-20359",
+      "id": "ohs-location-40282",
       "name": "Church of the Holy Name, Episcopal",
       "organizationName": "Church of the Holy Name, Episcopal",
       "ownerId": "",
@@ -9392,32 +9392,32 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Skinner Organ Co.",
-      "year": 1922,
-      "opus": 368,
+      "builder": "Spencer Organ Co., Inc.",
+      "year": 2004,
+      "opus": "",
       "manuals": "",
       "stops": "",
-      "ranks": 16,
+      "ranks": 18,
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "20359",
-      "sourceInstrumentId": "22626",
+      "sourceLocationId": "40282",
+      "sourceInstrumentId": "45642",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/22626",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/20359",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/45642",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/40282",
       "location": {
         "name": "Church of the Holy Name, Episcopal",
-        "formattedAddress": "60 Monument Ave, Swampscott, MA",
+        "formattedAddress": "60 Monument Ave., Swampscott, MA",
         "city": "Swampscott",
         "region": "MA",
         "country": "US",
         "latitude": 42.4709513,
         "longitude": -70.917318,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Church%20of%20the%20Holy%20Name%2C%20Episcopal%2C%2060%20Monument%20Ave%2C%20Swampscott%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Church%20of%20the%20Holy%20Name%2C%20Episcopal%2C%2060%20Monument%20Ave.%2C%20Swampscott%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9460,7 +9460,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Saint%20John%20the%20Evangelist%20Roman%20Catholic%2C%20174%20Humphrey%20Street%2C%20Swampscott%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9503,7 +9503,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Unitarian%20Universalist%20Church%20of%20Greater%20Lynn%2C%20101%20Forest%20Ave.%2C%20Swampscott%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9546,7 +9546,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Emmanuel%20Episcopal%20Church%2C%205%20Bryant%20Street%2C%20Wakefield%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9589,7 +9589,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%2C%20Congregational%2C%201%20Church%20Street%2C%20Wakefield%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9632,7 +9632,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Beth%20Eden%20Baptist%20Church%2C%2084%20Maple%20St.%2C%20Waltham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9675,7 +9675,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Covenant%20Congregational%20Church%2C%20375%20Lexington%20Street%2C%20Waltham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9683,9 +9683,9 @@
       }
     },
     {
-      "id": "ohs-location-13618",
-      "name": "Immanuel Methodist Episcopal Church",
-      "organizationName": "Immanuel Methodist Episcopal Church",
+      "id": "ohs-location-55900",
+      "name": "Immanuel Methodist Church / Grace United Methodist [now Grace Vision Korean United Methodist Church]",
+      "organizationName": "Immanuel Methodist Church / Grace United Methodist [now Grace Vision Korean United Methodist Church]",
       "ownerId": "",
       "status": "active",
       "listingOwnership": "unclaimed",
@@ -9693,32 +9693,32 @@
       "bookingEnabled": false,
       "directoryReference": true,
       "verificationStatus": "source_imported",
-      "builder": "Hook & Hastings",
-      "year": 1892,
-      "opus": 1521,
+      "builder": "Kilgen Organ Co.",
+      "year": 1953,
+      "opus": "",
       "manuals": "",
       "stops": "",
       "ranks": "",
       "description": "Pipe Organ Database reference for this church's current playable instrument.",
-      "sourceLocationId": "13618",
-      "sourceInstrumentId": "14926",
+      "sourceLocationId": "55900",
+      "sourceInstrumentId": "64401",
       "sourceType": "pipe_organ_database",
       "sourceName": "Pipe Organ Database",
-      "sourceUrl": "https://pipeorgandatabase.org/instruments/14926",
-      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/13618",
+      "sourceUrl": "https://pipeorgandatabase.org/instruments/64401",
+      "sourceLocationUrl": "https://pipeorgandatabase.org/locations/55900",
       "location": {
-        "name": "Immanuel Methodist Episcopal Church",
+        "name": "Immanuel Methodist Church / Grace United Methodist [now Grace Vision Korean United Methodist Church]",
         "formattedAddress": "545 Moody Street, Waltham, MA",
         "city": "Waltham",
         "region": "MA",
         "country": "US",
-        "latitude": 42.3670058,
-        "longitude": -71.2379358,
+        "latitude": 42.3668977,
+        "longitude": -71.2380958,
         "placeId": "",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Immanuel%20Methodist%20Episcopal%20Church%2C%20545%20Moody%20Street%2C%20Waltham%2C%20MA"
+        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Immanuel%20Methodist%20Church%20%2F%20Grace%20United%20Methodist%20%5Bnow%20Grace%20Vision%20Korean%20United%20Methodist%20Church%5D%2C%20545%20Moody%20Street%2C%20Waltham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9761,7 +9761,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Lakeview%20Congregational%20Church%2C%20285%20Lake%20Street%2C%20Waltham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9804,7 +9804,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Mary's%20Roman%20Catholic%20Church%2C%20133%20School%20Street%2C%20Waltham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9847,7 +9847,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Swedish%20Lutheran%20Church%2FFirst%20Lutheran%20Church%2C%206%20Eddy%20Street%2C%20Waltham%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9890,7 +9890,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Phillips%20Congregational%20Church%20%2F%20Redeemer%20Fellowship%20(Baptist)%2C%20111%20Mt.%20Auburn%20St.%2C%20Watertown%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9933,7 +9933,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Patrick%20Catholic%20Church%2C%2026R%20Chestnut%20Street%2C%20Watertown%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -9976,7 +9976,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Patrick%20Catholic%20Church%2C%20212%20Main%20St.%2C%20Watertown%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10019,7 +10019,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Christ%20United%20Methodist%20Church%2C%202%20Brook%20Street%2C%20Wellesley%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10062,7 +10062,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Andrew's%20Episcopal%20Church%2C%2079%20Denton%20Road%2C%20Wellesley%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10105,7 +10105,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Paul%20Catholic%20Church%2C%20502%20Washington%20St.%2C%20Wellesley%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10148,7 +10148,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Wellesley%20Congregational%20Church%2C%202%20Central%20Street%2C%20Wellesley%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10191,7 +10191,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Unitarian%20Society%2C%20309%20Washington%20Street%2C%20Wellesley%20Hills%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10234,7 +10234,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Wellesley%20Hills%20Congregational%20Church%2C%20207%20Washington%20Street%2C%20Wellesley%20Hills%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10277,7 +10277,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Parish%20Church%2C%20349%20Boston%20Post%20Road%2C%20Weston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10320,7 +10320,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=LDS%20Chapel%2C%20150%20Brown%20St%2C%20Weston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10363,7 +10363,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=St.%20Peter's%20Episcopal%20Church%2C%20320%20Boston%20Post%20Rd.%2C%20Weston%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10406,7 +10406,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Immaculate%20Conception%20Catholic%20Church%2C%20720%20Broad%20Street%2C%20Weymouth%2C%20Weymouth%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10449,7 +10449,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=First%20Baptist%20Church%2C%2090%20Mount%20Vernon%20St.%2C%20Winchester%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10492,7 +10492,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Parish%20of%20the%20Epiphany%2C%20Episcopal%2C%2070%20Church%20Street%2C%20Winchester%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10535,7 +10535,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Second%20Congregational%20Church%20of%20Winchester%2C%20485%20Washington%20St.%2C%20Winchester%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
@@ -10578,7 +10578,7 @@
         "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=Unitarian%20Church%2C%20478%20Main%20St.%2C%20Winchester%2C%20MA"
       },
       "importMeta": {
-        "verifiedAt": "2026-10-17T06:44:09.579Z",
+        "verifiedAt": "2026-10-19T11:09:50.251Z",
         "sourceExtant": true,
         "sourcePlayable": true,
         "addressVerification": "reported_by_pipe_organ_database",
