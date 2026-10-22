@@ -4,6 +4,7 @@ import Link from "next/link";
 import { formatPricing } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-client";
 import { cleanText } from "@/lib/events-core.mjs";
+import TaskGlyph from "@/components/TaskGlyph";
 
 export default function OrganCard({ organ, selected, onHover }) {
   const unclaimed = organ.listingOwnership === "unclaimed";
@@ -16,7 +17,7 @@ export default function OrganCard({ organ, selected, onHover }) {
     onMouseEnter={() => onHover?.(organ.id)} onFocus={() => onHover?.(organ.id)} onClick={recordOpen}>
     {organ.imageUrl && <div className="organ-card-image"><img src={organ.imageUrl} alt="" loading="lazy" width="160" height="160"/></div>}
     <div className="organ-card-body">
-      <h2>{cleanText(organ.name)}</h2>
+      <div className="organ-card-heading"><TaskGlyph/><h2>{cleanText(organ.name)}</h2><svg className="organ-card-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5"/></svg></div>
       <p className="organ-place">{organ.location?.city || organ.location?.formattedAddress || "Location unavailable"}</p>
       {specs.length > 0 && <p className="organ-specs">{specs.join(" · ")}</p>}
       <div className="organ-facts">
