@@ -1,5 +1,4 @@
 # The OpenOrgan Project
+Hi everyone, I'm Robert! I'm a student from Middlesex School in Concord, MA. I'm also an organist.
 
-As an organist, I created OpenOrgan to make it easier to find pipe organs, request practice time, and discover events. I also wanted to help institutions share their instruments through free or paid practice access and publicize their events.
-
-See [setup instructions](the-openorgan-project/README.md).
+I started OpenOrgan because of two problems: first, it's nearly impossible to find an pipe organ to play on as a student, since it is practically the most immobile instrument (and churches are typically exclusively for church organists). Most of the time, the organs just sit there while a beginner could benefit from practice. Also, I've been to churches struggling with promoting their events or organ series to the public and where turnout/contributions remain low. So, to make it easier to find pipe organs and help make good events more known, I started this project. I hope that both the individual and the institutional users can have a good experience with OpenOrgan. I also wish that one day the bigger problem of declining number of organists will be solved, and by chance this project may be a small part of it.
