@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "About",
-  description: "Find organs and events, offer free or paid practice access, and publish upcoming events on OpenOrgan.",
+  description: "Find organs and events, offer free or paid practice access, and publish upcoming events on OpenOrgan. Developed by Robert Sou.",
   alternates: { canonical: "/about" }
 };
 
