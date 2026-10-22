@@ -21,6 +21,18 @@ export default function SearchExperience({ initialOrgans = [] }) {
   const ranking = useRouteRanking("organs", organs);
 
   useEffect(() => {
+    const readQuery = () => { setSearch(new URLSearchParams(window.location.search).get("q") || ""); setLimit(PAGE_SIZE); };
+    readQuery(); window.addEventListener("popstate", readQuery);
+    return () => window.removeEventListener("popstate", readQuery);
+  }, []);
+  function updateSearch(value) {
+    setSearch(value); setLimit(PAGE_SIZE);
+    const url = new URL(window.location.href);
+    if (value) url.searchParams.set("q", value); else url.searchParams.delete("q");
+    window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
+  }
+
+  useEffect(() => {
     const screen = window.matchMedia("(min-width: 1041px)");
     const enable = () => { if (screen.matches) setMapEnabled(true); };
     enable(); screen.addEventListener("change", enable);
@@ -70,13 +82,13 @@ export default function SearchExperience({ initialOrgans = [] }) {
     setView(next); if (next === "map") setMapEnabled(true);
     requestAnimationFrame(() => (next === "map" ? mapPanel : listPanel).current?.focus({ preventScroll: true }));
   }
-  function clear() { setSearch(""); setRequestsOnly(false); setLimit(PAGE_SIZE); setSelectedId(""); }
+  function clear() { updateSearch(""); setRequestsOnly(false); setSelectedId(""); }
 
   return <div className="search-layout">
     <section className="search-list-panel">
       <header className="page-header compact directory-heading"><h1>Find organs</h1><p>Compare instruments, locations, practice costs, and availability.</p></header>
       <div className="search-toolbar">
-        <input type="search" aria-label="Search organs" placeholder="Church, city, address, or builder" value={search} onChange={event => { setSearch(event.target.value); setLimit(PAGE_SIZE); }}/>
+        <input type="search" aria-label="Search organs" placeholder="Church, city, address, or builder" value={search} onChange={event => updateSearch(event.target.value)}/>
         <select aria-label="Order organs" value={sort} onChange={event => setSort(event.target.value)}><option value="name">Church name</option><option value="distance" disabled={!ranking.ready}>Nearest by driving route</option><option value="rating">Highest rated</option><option value="newest">Newest listing</option></select>
       </div>
       <div className="browse-tools"><label className="checkbox-row access-filter"><input type="checkbox" checked={requestsOnly} onChange={event => { setRequestsOnly(event.target.checked); setLimit(PAGE_SIZE); }}/>Accepts practice requests</label><RouteSearch ranking={ranking}/></div>
