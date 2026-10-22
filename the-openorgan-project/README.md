@@ -1,7 +1,5 @@
 # The OpenOrgan Project
 
-A Next.js and Firebase application for church organ discovery, public recitals, and host-approved practice access.
-
-Read [README_UPDATE.md](README_UPDATE.md) for the current update, validated behavior, deployment steps, source audit, and production limitations.
+As an organist, I created OpenOrgan to make it easier to find pipe organs, request practice time, and discover events. I also wanted to help institutions share their instruments through free or paid practice access and publicize their events.
 
 Install with `npm ci`, start locally with `npm run dev`, and validate with `npm run test:content`, `npm run check`, `npm run build`, and `npm run check:seo`.
