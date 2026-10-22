@@ -22,15 +22,15 @@ export default function SearchMap({organs,selectedId,onSelect,userLocation}) {
     const maps=mapsRef.current;markers.current.forEach(({marker})=>{marker.map=null;});markers.current=[];
     for(const group of geographicGroups(data.current,zoom)) {
       const points=group.map(o=>coordinates(o.location)),position={lat:points.reduce((n,p)=>n+p.lat,0)/points.length,lng:points.reduce((n,p)=>n+p.lng,0)/points.length};
-      const button=document.createElement("button");button.type="button";button.className=`map-marker ${group.length>1?"map-cluster":"map-organ-pin"}`;
+      const button=document.createElement("div");button.className=`map-marker ${group.length>1?"map-cluster":"map-organ-pin"}`;
       button.textContent=group.length>1?String(group.length):"";button.setAttribute("aria-label",group.length>1?`Zoom to ${group.length} organs`:`Select ${group[0].organizationName || group[0].name}`);
       if(group.length===1){const icon=document.createElement("span");icon.className="marker-pipes";icon.setAttribute("aria-hidden","true");for(let i=0;i<3;i++)icon.appendChild(document.createElement("i"));button.appendChild(icon);}
-      button.addEventListener("click",()=>{if(group.length===1)callback.current(group[0].id);else{const bounds=new maps.LatLngBounds();points.forEach(p=>bounds.extend(p));map.current.fitBounds(bounds,70);}});
-      const marker=new maps.marker.AdvancedMarkerElement({map:map.current,position,content:button,title:group.length>1?`${group.length} church organs`:group[0].name});markers.current.push({marker,button,ids:group.map(o=>o.id)});
+      const activate=()=>{if(group.length===1)callback.current(group[0].id);else{const bounds=new maps.LatLngBounds();points.forEach(p=>bounds.extend(p));map.current.fitBounds(bounds,70);}};
+      const marker=new maps.marker.AdvancedMarkerElement({map:map.current,position,content:button,gmpClickable:true,title:group.length>1?`${group.length} organs; zoom to expand`:[group[0].name,group[0].location?.city].filter(Boolean).join(", ")});marker.addEventListener("gmp-click",activate);markers.current.push({marker,button,ids:group.map(o=>o.id)});
     }
     if(userLocation){const button=document.createElement("span");button.className="map-origin-pin";button.textContent="Start";const marker=new maps.marker.AdvancedMarkerElement({map:map.current,position:userLocation,content:button,title:"Route starting place"});markers.current.push({marker,button,ids:[]});}
     return ()=>{markers.current.forEach(({marker})=>{marker.map=null;});markers.current=[];};
   },[ready,scope,zoom,userLocation?.lat,userLocation?.lng]);
   useEffect(()=>{markers.current.forEach(({button,ids})=>button.classList.toggle("selected",ids.includes(selectedId)));},[selectedId,ready,scope,zoom,userLocation?.lat,userLocation?.lng]);
-  return <div className="map-container"><div className="map-toolbar"><span>{organs.length} organs on map</span><button className="button-secondary" onClick={fitAll} disabled={!ready}>Fit all results</button></div>{error?<div className="map-fallback" role="status"><p>{error}</p></div>:<div ref={node} className="search-map" aria-label="Map of all matching church organs"/>}<div className="map-legend"><span className="legend-pipe" aria-hidden="true"/>Church organ<span className="legend-cluster">12</span>Zoom to expand a group</div></div>;
+  return <div className="map-container"><div className="map-toolbar"><span>{organs.length} organs on map</span><button className="button-secondary" onClick={fitAll} disabled={!ready}>Fit all results</button></div>{error?<div className="map-fallback" role="status"><p>{error}</p></div>:<div ref={node} className="search-map" aria-label="Map of all matching organs"/>}<div className="map-legend"><span className="legend-pipe" aria-hidden="true"/>Organ<span className="legend-group-note">Numbers group nearby organs</span></div></div>;
 }

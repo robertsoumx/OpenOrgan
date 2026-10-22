@@ -1,6 +1,6 @@
 "use client";
 
-import { HeroPattern, PipeMark } from "@/components/OrganMotifs";
+import { HeroPattern } from "@/components/OrganMotifs";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthProvider";
 
@@ -30,7 +30,7 @@ export default function RoleAwareHome() {
   const key = !user || loading || !account?.role ? "visitor" : account.role === "organization" ? "organization" : "organist";
   const view = views[key];
   return <section className="hero"><HeroPattern/><div className="container hero-content">
-    <div className="hero-copy"><span className="hero-brand-note"><PipeMark/>The OpenOrgan Project</span><h1>{view.title}</h1><p className="lead">{view.description}</p>
+    <div className="hero-copy"><h1>{view.title}</h1><p className="lead">{view.description}</p>
       <div className="hero-actions"><Link className="button" href={view.primary[0]}>{view.primary[1]}</Link><Link className="button-secondary" href={view.secondary[0]}>{view.secondary[1]}</Link></div>
       <p className="hero-note">{view.note}</p>
     </div>
