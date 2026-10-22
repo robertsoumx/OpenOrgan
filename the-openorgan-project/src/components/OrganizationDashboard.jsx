@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   collection,
@@ -23,6 +23,11 @@ import ReservationCard from "@/components/ReservationCard";
 import { formatDateTime } from "@/lib/format";
 import { toUserMessage } from "@/lib/user-error";
 
+const sections = { organs: "organs", events: "events", reservations: "reservations", questions: "questions", signups: "event signups", claims: "claim requests" };
+function initialLoadState() {
+  return Object.fromEntries(Object.keys(sections).map((key) => [key, { loaded: false, error: "" }]));
+}
+
 function Console() {
   const { user, account, profile } = useAuth();
   const [tab, setTab] = useState("overview");
@@ -38,11 +43,24 @@ function Console() {
   const [creatingEvent, setCreatingEvent] = useState(false);
   const [answers, setAnswers] = useState({});
   const [notice, setNotice] = useState({ type: "", text: "" });
+  const [loadState, setLoadState] = useState(initialLoadState);
+  const [refreshing, setRefreshing] = useState(true);
+  const [publishingAnswer, setPublishingAnswer] = useState("");
+  const mounted = useRef(false), request = useRef(0), currentUser = useRef(user?.uid), feedback = useRef(null);
+  currentUser.current = user?.uid;
 
   async function load() {
-    if (!db || !user) return;
+    const uid = user?.uid, version = ++request.current;
+    const isCurrent = () => mounted.current && currentUser.current === uid && request.current === version;
+    if (!uid || !isCurrent()) return;
+    setRefreshing(true);
+    if (!db) {
+      setLoadState((current) => Object.fromEntries(Object.entries(current).map(([key, state]) => [key, { ...state, error: "Your dashboard is unavailable. Try again." }])));
+      setRefreshing(false);
+      return;
+    }
 
-    const [organSnapshot, eventSnapshot, reservationSnapshot, questionSnapshot, signupSnapshot, claimSnapshot] = await Promise.all([
+    const results = await Promise.allSettled([
       getDocs(query(collection(db, "organs"), where("ownerId", "==", user.uid))),
       getDocs(query(collection(db, "events"), where("ownerId", "==", user.uid))),
       getDocs(query(collection(db, "reservations"), where("organizationOwnerId", "==", user.uid))),
@@ -50,52 +68,55 @@ function Console() {
       getDocs(query(collection(db, "eventSignups"), where("eventOwnerId", "==", user.uid))),
       getDocs(query(collection(db, "claimRequests"), where("organizationId", "==", user.uid)))
     ]);
-
-    const organItems = organSnapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
-    const eventItems = eventSnapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    if (!isCurrent()) return;
+    const rows = (snapshot) => snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    const newestFirst = (snapshot) => rows(snapshot).sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    const setters = [setOrgans, setEvents, setReservations, setQuestions, null, setClaims];
+    results.forEach((result, index) => {
+      if (result.status === "fulfilled" && setters[index]) setters[index]([2, 3].includes(index) ? newestFirst(result.value) : rows(result.value));
+    });
+    const nextState = Object.fromEntries(Object.keys(sections).map((key, index) => [key, results[index].status === "fulfilled"
+      ? { loaded: true, error: "" }
+      : { error: toUserMessage(results[index].reason, `We could not load your ${sections[key]}. Try again.`) }]));
+    setLoadState((current) => Object.fromEntries(Object.keys(sections).map((key) => [key, { ...current[key], ...nextState[key] }])));
+    const eventItems = results[1].status === "fulfilled" ? rows(results[1].value) : events;
     const eventMap = new Map(eventItems.map((item) => [item.id, item]));
-    const signupItems = signupSnapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
-
-    const contactMap = new Map();
-    await Promise.all([...new Set(signupItems.map((item) => item.userId))].map(async (uid) => {
-      const contactSnapshot = await getDoc(doc(db, "publicContacts", uid)).catch(() => null);
-      if (contactSnapshot?.exists() && contactSnapshot.data().visible) {
-        contactMap.set(uid, contactSnapshot.data().email);
-      }
-    }));
-
-    setOrgans(organItems);
-    setEvents(eventItems);
-    setReservations(
-      reservationSnapshot.docs
-        .map((item) => ({ id: item.id, ...item.data() }))
-        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
-    );
-    setQuestions(
-      questionSnapshot.docs
-        .map((item) => ({ id: item.id, ...item.data() }))
-        .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
-    );
-    setClaims(claimSnapshot.docs.map((item) => ({ id: item.id, ...item.data() })));
-    setSignups(signupItems.map((item) => ({
-      ...item,
-      event: eventMap.get(item.eventId) || null,
-      contactEmail: contactMap.get(item.userId) || ""
-    })));
+    if (results[4].status === "fulfilled") {
+      const signupItems = rows(results[4].value);
+      setSignups(signupItems.map((item) => ({ ...item, event: eventMap.get(item.eventId) || null, contactEmail: "" })));
+      const contacts = await Promise.allSettled([...new Set(signupItems.map((item) => item.userId))].map(async (id) => ({ id, snapshot: await getDoc(doc(db, "publicContacts", id)) })));
+      if (!isCurrent()) return;
+      const contactMap = new Map();
+      contacts.forEach((result) => {
+        if (result.status !== "fulfilled") return;
+        const { id, snapshot } = result.value;
+        if (snapshot.exists() && snapshot.data().visible) contactMap.set(id, snapshot.data().email);
+      });
+      setSignups(signupItems.map((item) => ({ ...item, event: eventMap.get(item.eventId) || null, contactEmail: contactMap.get(item.userId) || "" })));
+      if (contacts.some((result) => result.status === "rejected" && !["permission-denied", "firestore/permission-denied"].includes(result.reason?.code))) nextState.signups.error = "Some attendee contact details could not be loaded. Try again.";
+    } else if (results[1].status === "fulfilled") {
+      setSignups((current) => current.map((item) => ({ ...item, event: eventMap.get(item.eventId) || null })));
+    }
+    setLoadState((current) => Object.fromEntries(Object.keys(sections).map((key) => [key, { ...current[key], ...nextState[key] }])));
+    setRefreshing(false);
   }
 
   useEffect(() => {
-    load().catch((error) => {
-      setNotice({
-        type: "error",
-        text: toUserMessage(error, "We could not load the organization dashboard. Try again.")
-      });
-    });
+    mounted.current = true;
+    setOrgans([]); setEvents([]); setReservations([]); setQuestions([]); setSignups([]); setClaims([]);
+    setNotice({ type: "", text: "" }); setAnswers({}); setPublishingAnswer("");
+    setCreatingOrgan(false); setCreatingEvent(false); setEditingOrgan(null); setEditingEvent(null);
+    setLoadState(initialLoadState());
+    load();
+    return () => { mounted.current = false; request.current += 1; };
   }, [user?.uid]);
+  useEffect(() => { if (notice.text) feedback.current?.focus(); }, [notice]);
 
   async function answer(question) {
     const value = answers[question.id]?.trim();
     if (!value) return;
+    const uid = user.uid;
+    setPublishingAnswer(question.id);
 
     try {
       await updateDoc(doc(db, "questions", question.id), {
@@ -105,19 +126,24 @@ function Console() {
         answeredAt: serverTimestamp(),
         updatedAt: serverTimestamp()
       });
+      if (!mounted.current || currentUser.current !== uid) return;
       setAnswers((current) => ({ ...current, [question.id]: "" }));
       setNotice({ type: "success", text: "Answer published. The user has a dashboard notification." });
       await load();
     } catch (error) {
+      if (!mounted.current || currentUser.current !== uid) return;
       setNotice({
         type: "error",
         text: toUserMessage(error, "We could not publish the answer. Try again.")
       });
+    } finally {
+      if (mounted.current && currentUser.current === uid) setPublishingAnswer("");
     }
   }
 
   async function removeDocument(collectionName, id, label) {
     if (!window.confirm(`Delete this ${label}?`)) return;
+    const uid = user.uid;
 
     try {
       if (collectionName === "organs") {
@@ -130,9 +156,11 @@ function Console() {
       } else {
         await deleteDoc(doc(db, collectionName, id));
       }
+      if (!mounted.current || currentUser.current !== uid) return;
       setNotice({ type: "success", text: `${label} deleted.` });
       await load();
     } catch (error) {
+      if (!mounted.current || currentUser.current !== uid) return;
       setNotice({
         type: "error",
         text: toUserMessage(error, `We could not delete this ${label}.`)
@@ -150,29 +178,28 @@ function Console() {
 
   const tabs = [
     ["overview", "Overview"],
-    ["organs", `Organs (${organs.length})`],
-    ["events", `Events (${events.length})`],
-    ["reservations", `Reservations (${reservations.length})`],
-    ["questions", `Questions (${questions.filter((item) => item.status === "open").length})`],
-    ["signups", `Event Signups (${signups.length})`],
-    ["claims", `Claims (${claims.length})`]
+    ["organs", `Organs${loadState.organs.loaded ? ` (${organs.length})` : ""}`],
+    ["events", `Events${loadState.events.loaded ? ` (${events.length})` : ""}`],
+    ["reservations", `Reservations${loadState.reservations.loaded ? ` (${reservations.length})` : ""}`],
+    ["questions", `Questions${loadState.questions.loaded ? ` (${questions.filter((item) => item.status === "open").length})` : ""}`],
+    ["signups", `Event Signups${loadState.signups.loaded ? ` (${signups.length})` : ""}`],
+    ["claims", `Claims${loadState.claims.loaded ? ` (${claims.length})` : ""}`]
   ];
 
   return (
     <section className="section">
       <div className="container">
         <div className="page-header">
-          <span className="eyebrow">Manage listings</span>
           <h1>{profile?.organizationName || "Your institution"}</h1>
           <p>Offer free or paid practice access, review requests, and publish events.</p>
           <div className="form-actions"><Link className="button-secondary" href="/guide">User guide</Link>
             <Link className="button-secondary" href="/profile">Edit institution profile</Link>
+            <button className="button-secondary" disabled={refreshing} onClick={load}>{refreshing ? "Refreshing…" : "Refresh dashboard"}</button>
           </div>
         </div>
 
-        <div className={`message ${account?.verificationStatus === "verified" ? "success" : "warning"}`}>
-          <strong>Verification: {account?.verificationStatus?.replaceAll("_", " ")}</strong>
-          <div>{verificationText}</div>
+        <div className={account?.verificationStatus === "verified" ? "verification-status" : "message warning"}>
+          {account?.verificationStatus === "verified" ? <p>Institution verified · Publishing enabled</p> : <><strong>Verification: {account?.verificationStatus?.replaceAll("_", " ")}</strong><div>{verificationText}</div></>}
           {account?.verificationNote && (
             <div><strong>Administrator note:</strong> {account.verificationNote}</div>
           )}
@@ -192,16 +219,19 @@ function Console() {
         </div>
 
         {notice.text && (
-          <div className={`message ${notice.type}`} role={notice.type === "error" ? "alert" : "status"}>
+          <div className={`message ${notice.type}`} role={notice.type === "error" ? "alert" : "status"} ref={feedback} tabIndex={-1}>
             {notice.text}
           </div>
         )}
 
+        {refreshing && <p className="dashboard-loading" role="status">{Object.values(loadState).some((state) => state.loaded) ? "Updating your dashboard…" : "Loading your dashboard…"}</p>}
+        {(tab === "overview" ? Object.keys(sections) : [tab]).filter((key) => loadState[key].error).map((key) => <div className="dashboard-retry" role="alert" key={key}><p>{loadState[key].error}{loadState[key].loaded ? " Showing previously loaded information." : ""}</p><button className="button-secondary" disabled={refreshing} onClick={load}>Retry {sections[key]}</button></div>)}
+
         {tab === "overview" && (
-          <div className="grid-3 dashboard-shortcuts">
-            <button className="card" onClick={() => setTab("organs")}><strong>{organs.length}</strong><p>Offer practice access</p></button>
-            <button className="card" onClick={() => setTab("reservations")}><strong>{reservations.filter((item) => item.status === "pending").length}</strong><p>Review pending requests</p></button>
-            <button className="card" onClick={() => setTab("events")}><strong>{events.length}</strong><p>Publish events</p></button>
+          <div className="dashboard-shortcuts">
+            <button className="dashboard-action" onClick={() => setTab("organs")}><strong>Offer practice access</strong><span>{loadState.organs.loaded ? `${organs.length} organ${organs.length === 1 ? "" : "s"}` : loadState.organs.error ? "Listings unavailable · Retry" : "Loading listings…"}</span></button>
+            <button className="dashboard-action" onClick={() => setTab("reservations")}><strong>Review practice requests</strong><span>{loadState.reservations.loaded ? `${reservations.filter((item) => item.status === "pending").length} pending` : loadState.reservations.error ? "Requests unavailable · Retry" : "Loading requests…"}</span></button>
+            <button className="dashboard-action" onClick={() => setTab("events")}><strong>Publish events</strong><span>{loadState.events.loaded ? `${events.length} event${events.length === 1 ? "" : "s"}` : loadState.events.error ? "Events unavailable · Retry" : "Loading events…"}</span></button>
           </div>
         )}
 
@@ -221,6 +251,7 @@ function Console() {
                 onSaved={async () => {
                   setCreatingOrgan(false);
                   setEditingOrgan(null);
+                  setNotice({ type: "success", text: "Organ saved." });
                   await load();
                 }}
                 onCancel={() => { setCreatingOrgan(false); setEditingOrgan(null); }}
@@ -228,7 +259,7 @@ function Console() {
             )}
 
             <div className="stack">
-              {organs.length ? organs.map((organ) => (
+              {loadState.organs.loaded && (organs.length ? organs.map((organ) => (
                 <article className="card flex-between" key={organ.id}>
                   <div>
                     {organ.listingOwnership === "unclaimed" && <strong className="unclaimed-badge">UNCLAIMED LISTING</strong>}
@@ -241,13 +272,13 @@ function Console() {
                     <button className="button-danger" onClick={() => removeDocument("organs", organ.id, "organ")}>Delete</button>
                   </div>
                 </article>
-              )) : !creatingOrgan ? (
+              )) : !creatingOrgan && !loadState.organs.error ? (
                 <div className="empty-state">
                   <h2>No organs yet</h2>
                   <p>List an organ and choose free access, a recommended donation, or a required fee.</p>
                   <button className="button" onClick={() => { setCreatingOrgan(true); setEditingOrgan(null); }}>Add Organ</button>
                 </div>
-              ) : null}
+              ) : null)}
             </div>
           </div>
         )}
@@ -268,6 +299,7 @@ function Console() {
                 onSaved={async () => {
                   setCreatingEvent(false);
                   setEditingEvent(null);
+                  setNotice({ type: "success", text: "Event saved." });
                   await load();
                 }}
                 onCancel={() => { setCreatingEvent(false); setEditingEvent(null); }}
@@ -275,7 +307,7 @@ function Console() {
             )}
 
             <div className="stack">
-              {events.length ? events.map((event) => (
+              {loadState.events.loaded && (events.length ? events.map((event) => (
                 <article className="card flex-between" key={event.id}>
                   <div>
                     <h3>{event.title}</h3>
@@ -287,18 +319,18 @@ function Console() {
                     <button className="button-danger" onClick={() => removeDocument("events", event.id, "event")}>Delete</button>
                   </div>
                 </article>
-              )) : !creatingEvent ? (
+              )) : !creatingEvent && !loadState.events.error ? (
                 <div className="empty-state">
                   <h2>No events yet</h2>
                   <p>Publish a concert, service, or workshop so people can find it in Find events.</p>
                   <button className="button" onClick={() => { setCreatingEvent(true); setEditingEvent(null); }}>Add Event</button>
                 </div>
-              ) : null}
+              ) : null)}
             </div>
           </div>
         )}
 
-        {tab === "reservations" && (
+        {tab === "reservations" && loadState.reservations.loaded && (
           <div className="stack">
             {reservations.length ? reservations.map((reservation) => (
               <ReservationCard
@@ -308,11 +340,11 @@ function Console() {
                 viewerId={user.uid}
                 onChanged={load}
               />
-            )) : <div className="empty-state"><h2>No reservation requests</h2></div>}
+            )) : !loadState.reservations.error && <div className="empty-state"><h2>No reservation requests</h2></div>}
           </div>
         )}
 
-        {tab === "questions" && (
+        {tab === "questions" && loadState.questions.loaded && (
           <div className="stack">
             {questions.length ? questions.map((question) => (
               <article className="card question-card" key={question.id}>
@@ -327,20 +359,20 @@ function Console() {
                 {question.answer && <div className="question-answer">{question.answer}</div>}
                 {question.status === "open" && (
                   <>
-                    <textarea
+                    <label>Answer for {question.askerName || "the organist"}<textarea
                       value={answers[question.id] || ""}
                       onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))}
                       placeholder="Write an answer"
-                    />
-                    <button className="button" onClick={() => answer(question)}>Publish Answer</button>
+                    /></label>
+                    <button className="button" disabled={publishingAnswer === question.id || !answers[question.id]?.trim()} onClick={() => answer(question)}>{publishingAnswer === question.id ? "Publishing…" : "Publish Answer"}</button>
                   </>
                 )}
               </article>
-            )) : <div className="empty-state"><h2>No questions</h2></div>}
+            )) : !loadState.questions.error && <div className="empty-state"><h2>No questions</h2></div>}
           </div>
         )}
 
-        {tab === "signups" && (
+        {tab === "signups" && loadState.signups.loaded && (
           <div className="stack">
             {signups.length ? signups.map((signup) => (
               <article className="card flex-between" key={signup.id}>
@@ -352,11 +384,11 @@ function Console() {
                 </div>
                 <span className="status-pill approved">signed up</span>
               </article>
-            )) : <div className="empty-state"><h2>No event signups</h2></div>}
+            )) : !loadState.signups.error && <div className="empty-state"><h2>No event signups</h2></div>}
           </div>
         )}
 
-        {tab === "claims" && (
+        {tab === "claims" && loadState.claims.loaded && (
           <div className="stack">
             {claims.length ? claims.map((claim) => (
               <article className="card" key={claim.id}>
@@ -367,7 +399,7 @@ function Console() {
                 <p>{claim.note}</p>
                 {claim.adminNote && <div className="message"><strong>Administrator note:</strong> {claim.adminNote}</div>}
               </article>
-            )) : (
+            )) : loadState.claims.error ? null : (
               <div className="empty-state">
                 <h2>No claim requests</h2>
                 <p>Open an unclaimed listing to request ownership.</p>
