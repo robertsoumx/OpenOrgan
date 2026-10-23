@@ -2,7 +2,6 @@
 
 import { HeroPattern } from "@/components/OrganMotifs";
 import HomeSearch from "@/components/HomeSearch";
-import KeyboardPlay from "@/components/KeyboardPlay";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthProvider";
 
@@ -32,11 +31,10 @@ export default function RoleAwareHome() {
   const key = !user || loading || !account?.role ? "visitor" : account.role === "organization" ? "organization" : "organist";
   const view = views[key];
   return <section className="hero"><HeroPattern/><div className="container hero-content">
-    <div className="hero-copy"><h1>{view.title} <em>{view.accent}</em></h1><p className="lead">{view.description}</p>
+    <div className="hero-copy"><h1>{view.title} <span className="hero-title-accent">{view.accent}</span></h1><p className="lead">{view.description}</p>
       {key === "visitor" || key === "organist" ? <HomeSearch secondary={view.secondary}/> : <div className="hero-actions"><Link className="button" href={view.primary[0]}>{view.primary[1]}</Link><Link className="button-secondary" href={view.secondary[0]}>{view.secondary[1]}</Link></div>}
       <p className="hero-note">{view.note}</p>
     </div>
     {key === "visitor" && <div className="hero-publishing"><div><h2>Offer access and publish events</h2><p>Offer practice time for free, by donation, or for a fee, and publicize your upcoming events.</p></div><Link className="button-on-dark" href="/register?role=organization">Get started<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5"/></svg></Link></div>}
-    <KeyboardPlay/>
   </div></section>;
 }

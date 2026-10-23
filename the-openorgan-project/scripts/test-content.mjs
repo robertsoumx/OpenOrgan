@@ -4,6 +4,46 @@ import fs from "node:fs";
 import { parseTrinity, curateEvents, localDateTime, cleanText, safeImage, EVENT_SOURCES, parseHarvard, parseJsonLd, parseAgo, mapUrl, diverseUpcoming } from "../src/lib/events-core.mjs";
 import { refreshCalendars, pullSource } from "../src/lib/events-refresh.mjs";
 import { sourceFlag, currentInstrument, selectInstrument, churchLocation, metric, discoverPodLocations, placeMatchesSource } from "../src/lib/organ-import-core.mjs";
+import { zonedDateTime } from "../src/lib/time-zones.mjs";
+import { dateInputValue, timeInputValue, formatDateTime } from "../src/lib/format.js";
+import { browseOrgans } from "../src/lib/organ-browse.mjs";
+import { privacyRequestBody } from "../src/lib/privacy-core.mjs";
+
+test("Venue scheduling preserves UTC instants across seasons and non-hour offsets", () => {
+  assert.equal(zonedDateTime("2026-10-24", "10:00", "America/New_York").toISOString(), "2026-10-24T14:00:00.000Z");
+  assert.equal(zonedDateTime("2026-12-24", "10:00", "America/New_York").toISOString(), "2026-12-24T15:00:00.000Z");
+  assert.equal(zonedDateTime("2026-10-24", "10:00", "Asia/Kathmandu").toISOString(), "2026-10-24T04:15:00.000Z");
+  assert.equal(dateInputValue("2027-01-02T02:15:00Z"), "2027-01-01");
+  assert.equal(timeInputValue("2027-01-02T02:15:00Z"), "21:15");
+  assert.match(formatDateTime("2026-10-24T14:00:00Z"), /10:00 AM EDT/);
+});
+
+test("Scheduling rejects invalid dates and skipped or repeated daylight-saving times", () => {
+  assert.throws(() => zonedDateTime("2027-02-30", "10:00"), /valid date/);
+  assert.throws(() => zonedDateTime("2026-11-01", "01:30"), /occurs twice/);
+  assert.throws(() => zonedDateTime("2027-03-14", "02:30"), /does not exist/);
+  assert.throws(() => zonedDateTime("2027-01-02", "10:00", "Invalid/Zone"), /valid venue/);
+  assert.equal(zonedDateTime("2027-03-14", "03:30").toISOString(), "2027-03-14T07:30:00.000Z");
+});
+
+test("Claimed organs lead the default list while explicit order and access filters stay accurate", () => {
+  const organs = [
+    { id: "reference", name: "A reference", listingOwnership: "unclaimed", bookingEnabled: true },
+    { id: "open", name: "Z claimed", listingOwnership: "claimed", bookingEnabled: true },
+    { id: "closed", name: "B claimed", listingOwnership: "claimed", bookingEnabled: false }
+  ];
+  assert.deepEqual(browseOrgans(organs).map(item => item.id), ["closed", "open", "reference"]);
+  assert.deepEqual(browseOrgans(organs, { availability: "accepting" }).map(item => item.id), ["open"]);
+  assert.deepEqual(browseOrgans(organs, { listingStatus: "claimed", availability: "unavailable" }).map(item => item.id), ["closed"]);
+  assert.equal(browseOrgans(organs, { sort: "name" })[0].id, "reference");
+  assert.equal(browseOrgans(organs, { sort: "distance", routeReady: true, routes: { reference: { routeDistanceMeters: 1 } } })[0].id, "reference");
+});
+
+test("Privacy request input accepts only supported purposes and ignores a forged account ID", () => {
+  assert.deepEqual(privacyRequestBody({ type: "deletion", details: "  Delete my account.  ", userId: "someone-else" }), { type: "deletion", details: "Delete my account." });
+  assert.throws(() => privacyRequestBody({ type: "__proto__", details: "Example request" }));
+  assert.throws(() => privacyRequestBody({ type: "access", details: "x".repeat(2001) }));
+});
 
 test("Published dates only; skip holidays and handle Eastern daylight saving", () => {
   const html = "<h2>Fall 2026 Recitals</h2><ul><li>Oct. 9 <strong>Stephen Kalnoske</strong></li><li>Nov. 6 <strong>Angela Kraft Cross</strong></li><li>Nov. 20 Example Organist <em>No Recital on Nov. 27</em></li><li>Nov. 27 No Recital</li></ul><h2>Spring 2027 Recitals</h2><ul><li>Mar. 26 No concert for Good Friday</li><li>Apr. 9 <strong>Mark Pacoe</strong></li></ul>";

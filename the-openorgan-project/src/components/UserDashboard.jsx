@@ -18,6 +18,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { db } from "@/lib/firebase-client";
 import ReservationCard from "@/components/ReservationCard";
 import { formatDateTime } from "@/lib/format";
+import { getTimeZone } from "@/lib/time-zones.mjs";
 import { toUserMessage } from "@/lib/user-error";
 
 const sections = { reservations: "reservations", questions: "questions", events: "event signups" };
@@ -224,7 +225,7 @@ function Dashboard() {
                 <article className="card flex-between" key={signup.id}>
                   <div>
                     <h3>{event?.title || "Event"}</h3>
-                    <p>{formatDateTime(event?.startDateTime)}</p>
+                    <p>{formatDateTime(event?.startDateTime, getTimeZone(event))}</p>
                     {event && <Link href={`/events/${event.id}`}>View event</Link>}
                   </div>
                   <button className="button-danger" onClick={() => cancelSignup(signup)}>Cancel Signup</button>
