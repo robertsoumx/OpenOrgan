@@ -1,6 +1,7 @@
 "use client";
 
 import { auth } from "@/lib/firebase-client";
+import { analyticsAllowed } from "@/lib/privacy-choice";
 
 const VISITOR_KEY = "openorgan_visitor_id";
 const SESSION_KEY = "openorgan_session";
@@ -90,13 +91,14 @@ function cleanProperties(input = {}) {
 
 export async function trackEvent(eventName, properties = {}) {
   if (typeof window === "undefined") return;
+  if (!analyticsAllowed()) return;
   if (!/^[a-z][a-z0-9_]{1,63}$/.test(String(eventName || ""))) return;
 
   const payload = {
     eventName,
     visitorId: getVisitorId(),
     sessionId: getSessionId(),
-    path: `${window.location.pathname}${window.location.search}`.slice(0, 500),
+    path: window.location.pathname.slice(0, 500),
     referrerHost: (() => {
       try { return document.referrer ? new URL(document.referrer).hostname : ""; } catch { return ""; }
     })(),
@@ -114,6 +116,7 @@ export async function trackEvent(eventName, properties = {}) {
       }
     }
 
+    if (!analyticsAllowed()) return;
     const response = await fetch("/api/analytics/event", {
       method: "POST",
       headers,

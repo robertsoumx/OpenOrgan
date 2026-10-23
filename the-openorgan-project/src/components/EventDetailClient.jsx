@@ -10,7 +10,7 @@ import LocationPanel from "@/components/LocationPanel";
 import QuestionsSection from "@/components/QuestionsSection";
 import ProfileSummary from "@/components/ProfileSummary";
 import { formatDateTime } from "@/lib/format";
-import { eventDate } from "@/lib/events-core.mjs";
+import { getTimeZone, timeZoneLabel } from "@/lib/time-zones.mjs";
 
 export default function EventDetailClient({ id, initialEvent = null }) {
   const { user, account, profile, loading: authLoading } = useAuth();
@@ -93,6 +93,7 @@ export default function EventDetailClient({ id, initialEvent = null }) {
     );
   }
 
+  const timeZone = getTimeZone(event);
   const policy = event.registrationPolicy || "none";
   const organizationAccount = account?.role === "organization";
   const organistAccount = account?.role === "organist";
@@ -112,7 +113,8 @@ export default function EventDetailClient({ id, initialEvent = null }) {
           </div>
 
           <article className="card stack">
-            <strong>{event.origin === "curated" ? `${eventDate(event.startDateTime, { weekday: "long", hour: "numeric", minute: "2-digit" })} ET` : formatDateTime(event.startDateTime)}</strong>
+            <strong>{formatDateTime(event.startDateTime, timeZone)}{event.endDateTime ? " – " + formatDateTime(event.endDateTime, timeZone) : ""}</strong>
+            <p className="time-zone-note">Venue time: {timeZoneLabel(timeZone)}</p>
             <p>{event.description}</p>
             {event.sourceUrl && <div className="source-panel"><strong>{event.admission || "Organizer details"}</strong><p className="small">{event.sourceName}{event.sourceCheckedAt ? ` · Schedule checked ${new Date(event.sourceCheckedAt).toLocaleDateString("en-US", { timeZone: "America/New_York" })}` : ""}</p><a className="button" href={event.sourceUrl} target="_blank" rel="noopener noreferrer">Visit official event page</a><p className="small muted">Confirm program details and schedule changes with the organizer.</p></div>}
             {policy === "required" && <div className="message warning">Signup is required for this event.</div>}

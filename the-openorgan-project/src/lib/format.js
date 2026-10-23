@@ -1,3 +1,5 @@
+import { DEFAULT_TIME_ZONE, zonedParts } from "./time-zones.mjs";
+
 export const PAYMENT_METHODS = [
   ["cash", "Cash"], ["check", "Check"], ["card", "Card"], ["venmo", "Venmo"],
   ["paypal", "PayPal"], ["online", "Online payment link"], ["other", "Other"]
@@ -37,21 +39,23 @@ export function toDate(value) {
   return null;
 }
 
-export function formatDateTime(value) {
+export function formatDateTime(value, timeZone = DEFAULT_TIME_ZONE) {
   const date = toDate(value);
-  return date ? date.toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) : "";
+  return date ? new Intl.DateTimeFormat("en-US", { timeZone, year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(date) : "";
 }
 
-export function dateInputValue(value) {
+export function dateInputValue(value, timeZone = DEFAULT_TIME_ZONE) {
   const date = toDate(value);
   if (!date) return "";
-  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-  return local.toISOString().slice(0, 10);
+  const parts = zonedParts(date, timeZone);
+  return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-export function timeInputValue(value) {
+export function timeInputValue(value, timeZone = DEFAULT_TIME_ZONE) {
   const date = toDate(value);
-  return date ? date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false }) : "";
+  if (!date) return "";
+  const parts = zonedParts(date, timeZone);
+  return `${parts.hour}:${parts.minute}`;
 }
 
 export function ratingSummary(reviews = []) {

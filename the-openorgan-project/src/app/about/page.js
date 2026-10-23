@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return <section className="section about-page"><div className="container about-shell">
-    <header className="page-header"><h1>About <em>OpenOrgan</em></h1><p className="lead">Find organs and events, offer practice access, and publish upcoming events.</p></header>
+    <header className="page-header"><h1>About OpenOrgan</h1><p className="lead">Find organs and events, offer practice access, and publish upcoming events.</p></header>
     <nav className="about-paths" aria-label="Explore OpenOrgan">
       {[
         ["/search", "organ", "Find organs", "Compare instruments, locations, and practice costs before requesting access."],

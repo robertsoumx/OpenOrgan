@@ -5,7 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase-client";
 import OrganCard from "@/components/OrganCard";
 import RouteSearch, { useRouteRanking } from "@/components/RouteSearch";
-import { toDate } from "@/lib/format";
+import { browseOrgans } from "@/lib/organ-browse.mjs";
 import { coordinates } from "@/lib/directory-core.mjs";
 
 const SearchMap = dynamic(() => import("@/components/SearchMap"), { ssr: false, loading: () => <div className="skeleton map-shell"/> });
@@ -13,22 +13,33 @@ const PAGE_SIZE = 20;
 
 export default function SearchExperience({ initialOrgans = [] }) {
   const [organs, setOrgans] = useState(initialOrgans), [loading, setLoading] = useState(!initialOrgans.length), [notice, setNotice] = useState("");
-  const [search, setSearch] = useState(""), [sort, setSort] = useState("name"), [limit, setLimit] = useState(PAGE_SIZE);
-  const [requestsOnly, setRequestsOnly] = useState(false), [selectedId, setSelectedId] = useState(""), [view, setView] = useState("list");
+  const [search, setSearch] = useState(""), [sort, setSort] = useState("claimed"), [limit, setLimit] = useState(PAGE_SIZE);
+  const [listingStatus, setListingStatus] = useState("all"), [availability, setAvailability] = useState("all"), [selectedId, setSelectedId] = useState(""), [view, setView] = useState("list");
   const [mapEnabled, setMapEnabled] = useState(false);
   const [reviews, setReviews] = useState({});
   const mapPanel = useRef(null), listPanel = useRef(null);
   const ranking = useRouteRanking("organs", organs);
 
   useEffect(() => {
-    const readQuery = () => { setSearch(new URLSearchParams(window.location.search).get("q") || ""); setLimit(PAGE_SIZE); };
+    const readQuery = () => {
+      const params = new URLSearchParams(window.location.search);
+      setSearch(params.get("q") || "");
+      setListingStatus(["claimed", "unclaimed", "pending"].includes(params.get("status")) ? params.get("status") : "all");
+      setAvailability(["accepting", "unavailable"].includes(params.get("access")) ? params.get("access") : "all");
+      setLimit(PAGE_SIZE);
+    };
     readQuery(); window.addEventListener("popstate", readQuery);
     return () => window.removeEventListener("popstate", readQuery);
   }, []);
-  function updateSearch(value) {
-    setSearch(value); setLimit(PAGE_SIZE);
+  function updateFilters(changes) {
+    if ("q" in changes) setSearch(changes.q);
+    if ("status" in changes) setListingStatus(changes.status);
+    if ("access" in changes) setAvailability(changes.access);
+    setLimit(PAGE_SIZE);
     const url = new URL(window.location.href);
-    if (value) url.searchParams.set("q", value); else url.searchParams.delete("q");
+    for (const [key, value] of Object.entries(changes)) {
+      if (value && value !== "all") url.searchParams.set(key, value); else url.searchParams.delete(key);
+    }
     window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
   }
 
@@ -55,16 +66,8 @@ export default function SearchExperience({ initialOrgans = [] }) {
     }).catch(() => {});
     return () => { cancelled = true; };
   }, []);
-  const filtered = useMemo(() => organs.filter(organ =>
-    (!requestsOnly || (organ.bookingEnabled && organ.listingOwnership === "claimed")) &&
-    [organ.name, organ.organizationName, organ.builder, organ.location?.city, organ.location?.formattedAddress].join(" ").toLowerCase().includes(search.trim().toLowerCase())
-  ).map(organ => ({ ...organ, ...reviews[organ.id], ...ranking.routes[organ.id] })).sort((a, b) => {
-    if (sort === "distance" && ranking.ready) return (a.routeDistanceMeters ?? Infinity) - (b.routeDistanceMeters ?? Infinity) || a.name.localeCompare(b.name);
-    if (sort === "rating") return (b.ratingAverage || 0) - (a.ratingAverage || 0) || a.name.localeCompare(b.name);
-    if (sort === "newest") return (toDate(b.createdAt)?.getTime() || 0) - (toDate(a.createdAt)?.getTime() || 0);
-    return a.name.localeCompare(b.name);
-  }), [organs, search, sort, requestsOnly, reviews, ranking.routes, ranking.ready]);
-  useEffect(() => { if (ranking.ready) setSort("distance"); else setSort(current => current === "distance" ? "name" : current); }, [ranking.ready, ranking.origin]);
+  const filtered = useMemo(() => browseOrgans(organs, { search, listingStatus, availability, sort, reviews, routes: ranking.routes, routeReady: ranking.ready }), [organs, search, listingStatus, availability, sort, reviews, ranking.routes, ranking.ready]);
+  useEffect(() => { if (ranking.ready) setSort("distance"); else setSort(current => current === "distance" ? "claimed" : current); }, [ranking.ready, ranking.origin]);
   const displayed = filtered.slice(0, limit);
   const mapped = useMemo(() => filtered.filter(organ => coordinates(organ.location)), [filtered]);
   const selectFromMap = useCallback(id => {
@@ -82,21 +85,22 @@ export default function SearchExperience({ initialOrgans = [] }) {
     setView(next); if (next === "map") setMapEnabled(true);
     requestAnimationFrame(() => (next === "map" ? mapPanel : listPanel).current?.focus({ preventScroll: true }));
   }
-  function clear() { updateSearch(""); setRequestsOnly(false); setSelectedId(""); }
+  function clear() { updateFilters({ q: "", status: "all", access: "all" }); setSelectedId(""); }
+  const hasFilters = Boolean(search || listingStatus !== "all" || availability !== "all");
 
   return <div className="search-layout">
     <section className="search-list-panel">
       <header className="page-header compact directory-heading"><h1>Find organs</h1><p>Compare instruments, locations, practice costs, and availability.</p></header>
       <div className="search-toolbar">
-        <input type="search" aria-label="Search organs" placeholder="Church, city, address, or builder" value={search} onChange={event => updateSearch(event.target.value)}/>
-        <select aria-label="Order organs" value={sort} onChange={event => setSort(event.target.value)}><option value="name">Church name</option><option value="distance" disabled={!ranking.ready}>Nearest by driving route</option><option value="rating">Highest rated</option><option value="newest">Newest listing</option></select>
+        <input type="search" aria-label="Search organs" placeholder="Church, city, address, or builder" value={search} onChange={event => updateFilters({ q: event.target.value })}/>
+        <select aria-label="Order organs" value={sort} onChange={event => setSort(event.target.value)}><option value="claimed">Claimed first</option><option value="name">Name</option><option value="distance" disabled={!ranking.ready}>Nearest by driving route</option><option value="rating">Highest rated</option><option value="newest">Newest listing</option></select>
       </div>
-      <div className="browse-tools"><label className="checkbox-row access-filter"><input type="checkbox" checked={requestsOnly} onChange={event => { setRequestsOnly(event.target.checked); setLimit(PAGE_SIZE); }}/>Accepts practice requests</label><RouteSearch ranking={ranking}/></div>
-      <div className="browse-results-header"><p role="status" aria-live="polite">{filtered.length} {filtered.length === 1 ? "organ" : "organs"}{displayed.length < filtered.length ? " · " + displayed.length + " shown" : ""}</p>{(search || requestsOnly) && <button type="button" className="button-ghost" onClick={clear}>Clear filters</button>}</div>
+      <div className="browse-status-filters"><label>Listing status<select value={listingStatus} onChange={event => updateFilters({ status: event.target.value })}><option value="all">All listings</option><option value="claimed">Claimed by institution</option><option value="unclaimed">Unclaimed reference</option><option value="pending">Claim pending</option></select></label><label>Practice access<select value={availability} onChange={event => updateFilters({ access: event.target.value })}><option value="all">Any availability</option><option value="accepting">Accepts requests</option><option value="unavailable">Requests unavailable</option></select></label></div><div className="browse-tools"><RouteSearch ranking={ranking}/></div>
+      <div className="browse-results-header"><p role="status" aria-live="polite">{filtered.length} {filtered.length === 1 ? "organ" : "organs"}{displayed.length < filtered.length ? " · " + displayed.length + " shown" : ""}</p>{hasFilters && <button type="button" className="button-ghost" onClick={clear}>Clear filters</button>}</div>
       <div className="mobile-view-toggle" aria-label="Directory view"><button className={view === "list" ? "button" : "button-secondary"} aria-pressed={view === "list"} onClick={() => switchView("list")}>List</button><button className={view === "map" ? "button" : "button-secondary"} aria-pressed={view === "map"} onClick={() => switchView("map")}>Map</button></div>
       {notice && <div className="message warning" role="status">{notice}</div>}
       <div ref={listPanel} role="region" tabIndex={-1} className={"directory-list-content " + (view === "map" ? "mobile-hidden" : "")} aria-label="Organ results" aria-busy={loading}>
-        {loading ? <div className="stack"><div className="skeleton"/><div className="skeleton"/></div> : displayed.length ? <div className="search-results">{displayed.map(organ => <OrganCard key={organ.id} organ={organ} selected={selectedId === organ.id} onHover={setSelectedId}/>)}</div> : <div className="empty-state"><h2>{requestsOnly ? "No matching organs accept practice requests" : "No organs found"}</h2><p>{requestsOnly ? "Browse reference listings or check back for participating institutions." : "Try another church, place, or builder."}</p><button className="button-secondary" onClick={clear}>Clear filters</button></div>}
+        {loading ? <div className="stack"><div className="skeleton"/><div className="skeleton"/></div> : displayed.length ? <div className="search-results">{displayed.map(organ => <OrganCard key={organ.id} organ={organ} selected={selectedId === organ.id} onHover={setSelectedId}/>)}</div> : <div className="empty-state"><h2>{availability === "accepting" ? "No matching organs accept practice requests" : "No organs found"}</h2><p>{"Try another place, listing status, or availability filter."}</p><button className="button-secondary" onClick={clear}>Clear filters</button></div>}
         {displayed.length < filtered.length && <button className="button-secondary load-results" onClick={() => setLimit(current => current + PAGE_SIZE)}>Show {Math.min(PAGE_SIZE, filtered.length - displayed.length)} more organs</button>}
       </div>
     </section>

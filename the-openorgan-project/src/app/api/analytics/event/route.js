@@ -106,7 +106,7 @@ export async function POST(request) {
       sessionId,
       userId: identity.userId,
       role: identity.role || cleanText(properties.role, 32) || "public",
-      path: cleanText(body?.path, 500),
+      path: cleanText(body?.path, 500).split(/[?#]/)[0],
       referrerHost: cleanText(body?.referrerHost, 160),
       properties,
       clientOccurredAt: cleanText(body?.clientOccurredAt, 64),

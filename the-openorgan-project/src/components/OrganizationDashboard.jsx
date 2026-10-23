@@ -21,6 +21,7 @@ import OrganEditor from "@/components/OrganEditor";
 import EventEditor from "@/components/EventEditor";
 import ReservationCard from "@/components/ReservationCard";
 import { formatDateTime } from "@/lib/format";
+import { getTimeZone } from "@/lib/time-zones.mjs";
 import { toUserMessage } from "@/lib/user-error";
 
 const sections = { organs: "organs", events: "events", reservations: "reservations", questions: "questions", signups: "event signups", claims: "claim requests" };
@@ -311,7 +312,7 @@ function Console() {
                 <article className="card flex-between" key={event.id}>
                   <div>
                     <h3>{event.title}</h3>
-                    <p className="muted">{formatDateTime(event.startDateTime)} · {event.status}</p>
+                    <p className="muted">{formatDateTime(event.startDateTime, getTimeZone(event))} · {event.status}</p>
                     <Link href={`/events/${event.id}`}>View public page</Link>
                   </div>
                   <div className="form-actions">

@@ -39,7 +39,7 @@ export default function SiteNavbar() {
   }, [account?.role, isAdmin, user?.uid]);
   const signedIn = Boolean(user && account?.role);
   const dashboard = account?.role === "organization" ? "/organization" : "/dashboard";
-  const links = isAdmin && signedIn ? [["/admin/verifications", "Verifications"], ["/admin/claims", "Claims"], ...discoveryLinks]
+  const links = isAdmin && signedIn ? [["/admin/verifications", "Verifications"], ["/admin/claims", "Claims"], ["/admin/privacy", "Privacy requests"], ...discoveryLinks]
     : signedIn ? [...discoveryLinks, [dashboard, account.role === "organization" ? "Manage listings" : "My dashboard"]]
     : [...discoveryLinks, ["/about", "About"]];
   async function logout() {
