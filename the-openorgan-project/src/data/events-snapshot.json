@@ -1,35 +1,6 @@
 {
-  "checkedAt": "2026-11-16T06:45:31.654Z",
+  "checkedAt": "2026-11-16T22:17:36.227Z",
   "events": [
-    {
-      "type": "Organ workshop",
-      "status": "active",
-      "origin": "curated",
-      "registrationPolicy": "none",
-      "timeZone": "America/New_York",
-      "sourceId": "boston-ago",
-      "sourceName": "Boston Chapter, American Guild of Organists",
-      "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
-      "organizationName": "All Saints Episcopal Church",
-      "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/fdf49442-cdd9-46f7-b0e8-78828ac88ebe/IMG_3741.JPG",
-      "imageCredit": "Boston Chapter, American Guild of Organists",
-      "location": {
-        "name": "All Saints Episcopal Church",
-        "formattedAddress": "10 Billerica Rd, Chelmsford, MA",
-        "city": "Chelmsford",
-        "region": "MA",
-        "country": "US",
-        "googleMapsUri": "https://www.google.com/maps/search/?api=1&query=All%20Saints%20Episcopal%20Church%2C%2010%20Billerica%20Rd%2C%20Chelmsford%2C%20MA"
-      },
-      "id": "curated-boston-ago-2026-10-17",
-      "title": "Merrimack Valley Mini-Convention",
-      "startDateTime": "2026-10-17T12:30:00.000Z",
-      "endDateTime": "2026-10-17T17:30:00.000Z",
-      "description": "MERRIMACK VALLEY MINI-CONVENTION Cosponsored by the Boston Chapter",
-      "admission": "Fee: $45 with lunch, $35 without Students: Free, $15 for lunch",
-      "imageAlt": "All Saints Episcopal Church"
-    },
     {
       "id": "curated-trinity-boston-2026-10-23",
       "title": "Alessandro Bianchi · Friday organ recital",
@@ -48,7 +19,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -68,7 +39,7 @@
       "sourceId": "boston-ago",
       "sourceName": "Boston Chapter, American Guild of Organists",
       "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "Church of the Advent",
       "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/e23423a6-09d3-487f-8330-872899cf60a3/IMG_3616.JPG",
       "imageCredit": "Boston Chapter, American Guild of Organists",
@@ -106,7 +77,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -126,7 +97,7 @@
       "sourceId": "boston-ago",
       "sourceName": "Boston Chapter, American Guild of Organists",
       "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "Old South Church",
       "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/2c6e3f07-734a-405d-b395-79b04528e1cb/512px-Old_South_Church_%28interior%29%2C_Boston%2C_Massachusetts.JPG",
       "imageCredit": "Boston Chapter, American Guild of Organists",
@@ -164,7 +135,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -193,7 +164,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -213,7 +184,7 @@
       "sourceId": "boston-ago",
       "sourceName": "Boston Chapter, American Guild of Organists",
       "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "St. Mary Star of the Sea Catholic Church",
       "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/dbd76ce9-3cac-48de-befd-b0418f127c15/Wellness+AGO_NACCM_Nov+14_final2.png",
       "imageCredit": "Boston Chapter, American Guild of Organists",
@@ -251,7 +222,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -280,7 +251,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -300,7 +271,7 @@
       "sourceId": "methuen",
       "sourceName": "Methuen Memorial Music Hall",
       "sourceUrl": "https://mmmh.org/events/merrymusichallsatmat",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "Methuen Memorial Music Hall",
       "imageUrl": "https://mmmh.org/wp-content/uploads/2023/09/Holiday.jpg",
       "imageCredit": "Methuen Memorial Music Hall",
@@ -329,7 +300,7 @@
       "sourceId": "methuen",
       "sourceName": "Methuen Memorial Music Hall",
       "sourceUrl": "https://mmmh.org/events/merrymusichallsateve",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "Methuen Memorial Music Hall",
       "imageUrl": "https://mmmh.org/wp-content/uploads/2023/09/Holiday.jpg",
       "imageCredit": "Methuen Memorial Music Hall",
@@ -358,7 +329,7 @@
       "sourceId": "methuen",
       "sourceName": "Methuen Memorial Music Hall",
       "sourceUrl": "https://mmmh.org/events/merrymusichallsunday",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "Methuen Memorial Music Hall",
       "imageUrl": "https://mmmh.org/wp-content/uploads/2023/09/Holiday.jpg",
       "imageCredit": "Methuen Memorial Music Hall",
@@ -396,7 +367,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -425,7 +396,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -445,7 +416,7 @@
       "sourceId": "boston-ago",
       "sourceName": "Boston Chapter, American Guild of Organists",
       "sourceUrl": "https://www.bostonago.org/chapter-events-sep",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "The First Church of Christ, Scientist (Mother Church)",
       "imageUrl": "https://images.squarespace-cdn.com/content/v1/671baa66d8938c1eeb500578/f190a875-8335-4ca8-ba34-c994db8ada1d/Fireworks_-_20100724-_DSC9167_%284832590114%29.jpg",
       "imageCredit": "Boston Chapter, American Guild of Organists",
@@ -483,7 +454,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -512,7 +483,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -541,7 +512,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -570,7 +541,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -599,7 +570,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -628,7 +599,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -657,7 +628,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -686,7 +657,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -715,7 +686,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -744,7 +715,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -773,7 +744,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -793,7 +764,7 @@
       "sourceId": "methuen",
       "sourceName": "Methuen Memorial Music Hall",
       "sourceUrl": "https://mmmh.org/events/springuml/",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "Methuen Memorial Music Hall",
       "imageUrl": "/event-cover.svg",
       "imageCredit": "Methuen Memorial Music Hall",
@@ -822,7 +793,7 @@
       "sourceId": "methuen",
       "sourceName": "Methuen Memorial Music Hall",
       "sourceUrl": "https://mmmh.org/events/spring-concert-umass-lowell-university-orchestra-and-choirs/",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "organizationName": "Methuen Memorial Music Hall",
       "imageUrl": "/event-cover.svg",
       "imageCredit": "Methuen Memorial Music Hall",
@@ -860,7 +831,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -889,7 +860,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -918,7 +889,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -947,7 +918,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -976,7 +947,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -1005,7 +976,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -1034,7 +1005,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -1063,7 +1034,7 @@
       "sourceUrl": "https://trinitychurchboston.org/music/organ-recitals/",
       "sourceName": "Trinity Church Boston",
       "sourceId": "trinity-boston",
-      "sourceCheckedAt": "2026-11-16T06:45:31.654Z",
+      "sourceCheckedAt": "2026-11-16T22:17:36.227Z",
       "origin": "curated",
       "location": {
         "name": "Trinity Church Boston",
@@ -1081,8 +1052,8 @@
       "name": "Trinity Church Boston",
       "url": "https://trinitychurchboston.org/music/organ-recitals/",
       "ok": true,
-      "checkedAt": "2026-11-16T06:45:31.654Z",
-      "attemptedAt": "2026-11-16T06:45:31.654Z"
+      "checkedAt": "2026-11-16T22:17:36.227Z",
+      "attemptedAt": "2026-11-16T22:17:36.227Z"
     },
     {
       "sourceId": "harvard-memorial",
@@ -1090,7 +1061,7 @@
       "url": "https://memorialchurch.harvard.edu/calendar",
       "ok": false,
       "checkedAt": null,
-      "attemptedAt": "2026-11-16T06:45:31.654Z",
+      "attemptedAt": "2026-11-16T22:17:36.227Z",
       "error": "HTTP 403"
     },
     {
@@ -1098,16 +1069,16 @@
       "name": "Methuen Memorial Music Hall",
       "url": "https://mmmh.org/",
       "ok": true,
-      "checkedAt": "2026-11-16T06:45:31.654Z",
-      "attemptedAt": "2026-11-16T06:45:31.654Z"
+      "checkedAt": "2026-11-16T22:17:36.227Z",
+      "attemptedAt": "2026-11-16T22:17:36.227Z"
     },
     {
       "sourceId": "boston-ago",
       "name": "Boston Chapter, American Guild of Organists",
       "url": "https://www.bostonago.org/chapter-events-sep",
       "ok": true,
-      "checkedAt": "2026-11-16T06:45:31.654Z",
-      "attemptedAt": "2026-11-16T06:45:31.654Z"
+      "checkedAt": "2026-11-16T22:17:36.227Z",
+      "attemptedAt": "2026-11-16T22:17:36.227Z"
     }
   ]
 }
